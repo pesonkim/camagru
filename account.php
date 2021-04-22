@@ -19,8 +19,8 @@
                     </section>
                     <div class="flex items-center"><div>
                     <section class="flex items-center">
-                        <button class="mx-2">Login</button>
-                        <button class="mx-2">Register</button>
+                        <a href="#" class="mx-2 hover:opacity-70 no-underline">Login</a>
+                        <a href="#" class="mx-2 hover:opacity-70 no-underline">Register</a>
                     </section>
                 </section>
             </header>
@@ -30,12 +30,7 @@
                     if(!empty($_GET) && is_numeric($_GET["example"])){
                         for ($x = 0; $x <= $_GET["example"]; $x++) {
                             echo '
-                            <a class="flex flex-col my-2 p-4 cursor-pointer shadow bg-white">
-                            <img class="w-full" src="https://test-blog-lzycsjehg-pesonkim.vercel.app/images/first-post/cover-image.png">
-                            <span class="my-4">Example post</span><span class="text-sm text-gray-500">';
-                            echo $randomDate = date("d M Y", mt_rand(1, time()));
-                            echo '</span>
-                            </a>
+                            <a class="flex flex-col my-2 p-4 cursor-pointer shadow bg-white"><img class="w-full" src="https://test-blog-lzycsjehg-pesonkim.vercel.app/images/first-post/cover-image.png"><span class="my-4">Example post</span><span class="text-sm text-gray-500">February 25, 2021</span></a>
                             ';
                         }
                     }

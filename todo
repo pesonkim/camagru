@@ -1,0 +1,33 @@
+models
+db create
+user create, auth, login
+post create, comment, like
+gallery views
+img create
+
+views
+html/css page layouts
+header and footer
+stickers
+
+controllers
+user control
+upload control
+gallery control
+
+misc
+admin
+mail, acc verif
+camera access
+
+pages
+landing
+login
+logout
+register
+account
+upload/edit
+gallery
+likes
+comments
+stickers/templates
