@@ -23,6 +23,8 @@ require_once __DIR__ . '/app/views/components/header.php';
 
 //call to functions in controllers to generate correct view/page
 
+var_dump($_POST);
+
 //this is temp redirect
 if (isset($view)) {
     if ($view === "home") {

@@ -1,6 +1,6 @@
 <div class="w-full max-w-screen-lg grid lg:grid-cols-3 gap-7 md:grid-cols-2 mx-auto">
     <?php
-    for ($x = 0; $x < 18; $x++) {
+    for ($x = 0; $x < $_GET["example"]; $x++) {
         echo '
         <a class="flex flex-col my-2 p-4 shadow bg-white rounded">
         <img class="w-full" src="https://test-blog-lzycsjehg-pesonkim.vercel.app/images/first-post/cover-image.png">

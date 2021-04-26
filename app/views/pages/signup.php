@@ -1,12 +1,17 @@
+<?php
+$token = bin2hex(random_bytes(32));
+?>
+
 <div class="form-wrapper max-w-screen-sm mx-auto items-center justify-center">
     <div class="form-content flex flex-col justify-center my-2 p-4 px-6 shadow bg-white rounded">
         <h1 class="text-3xl text-center mb-4">Signup</h1>
-        <form class="text-center h-full">
+        <form class="text-center h-full" method="post">
             <input type="text" class="form-input rounded" placeholder="Username" name="username" value="" >
-            <input type="text" class="form-input rounded" placeholder="Email" name="username" value="" >
+            <input type="text" class="form-input rounded" placeholder="Email" name="email" value="" >
             <input type="password" class="form-input rounded" placeholder="Password" name="password" value="" >
             <input type="password" class="form-input rounded" placeholder="Confirm password" name="confirm" value="" >
             <button type="submit" class="form-button rounded" value="login">Create account</button>
+            <input type="hidden" name="token" value="<?=$token?>" >
         </form>
     </div>
 </div>
