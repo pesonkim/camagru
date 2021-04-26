@@ -2,27 +2,38 @@
 
 define('Restricted', TRUE);
 
-$title = 'Camagru';
+$title = "Camagru";
+$pages = array(
+    "home",
+    "gallery",
+    "login",
+    "signup"
+);
+
+if (isset($_GET["page"]) && in_array($_GET["page"], $pages)) {
+    $view = $_GET["page"];
+    $title .= " - " . ucfirst($view);
+}
+elseif (isset($_GET["page"]) && !in_array($_GET["page"], $pages)) {
+    $view = "404";
+    $title .= " - " . $view;
+}
 
 require_once __DIR__ . '/app/views/components/header.php';
 
-//require controllers
+//call to functions in controllers to generate correct view/page
 
-if (isset($_GET["page"])) {
-    if ($_GET["page"] === "gallery") {
+//this is temp redirect
+if (isset($view)) {
+    if ($view === "home") {
         require_once __DIR__ . '/app/views/pages/gallery.php';
-    }
-    else if ($_GET["page"] === "login") {
-        require_once __DIR__ . '/app/views/pages/login.php';
-    }
-    else if ($_GET["page"] === "signup") {
-        require_once __DIR__ . '/app/views/pages/signup.php';
     }
     else {
-        require_once __DIR__ . '/app/views/pages/gallery.php';
-    }
+        require_once __DIR__ . '/app/views/pages/' . $view . '.php';
+    }   
 }
-
-//call to functions in controllers to generate correct view/page
+else {
+    require_once __DIR__ . '/app/views/pages/gallery.php';
+}
 
 require_once __DIR__ . '/app/views/components/footer.php';

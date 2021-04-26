@@ -13,7 +13,6 @@ a {
 
 * {
   box-sizing: border-box;
-  outline: 1px solid black;
 }
 
 html {
@@ -251,6 +250,10 @@ img,video {
     display: flex
 }
 
+.block {
+    display: block;
+}
+
 .table {
     display: table
 }
@@ -352,6 +355,8 @@ img,video {
     font-size: 1.5rem;
     line-height: 2rem
 }
+
+.text-3xl{font-size:1.875rem;line-height:2.25rem}
 
 .text-4xl {
     font-size: 2.25rem;
@@ -455,6 +460,10 @@ img,video {
     max-width: 1024px
 }
 
+.max-w-screen-sm {
+    max-width: 640px
+}
+
 .min-h-screen {
     min-height: 100vh
 }
@@ -474,6 +483,10 @@ img,video {
 
 .hover\:opacity-70:hover {
     opacity: .7
+}
+
+.p-2 {
+    padding: .05rem
 }
 
 .p-4 {
@@ -954,10 +967,41 @@ img {
     box-shadow: rgb(0 0 0 / 15%) 0px 10px 20px 5px;
 }
 
+.rounded {
+    border-radius:.25rem
+}
+
 .form-wrapper {
 
 }
 
 .form-content {
     
+}
+
+.form-input {
+    display: block;
+    border-width: 1px;
+    border-color: #dae4e9;
+    width: 100%;
+    padding: .75rem;
+    margin-bottom: 1rem;
+}
+
+
+.form-button {
+    width: 100%;
+    color: #fff;
+    padding: .75rem;
+    margin-top: .25rem;
+    margin-bottom: 1rem;
+    background-color: #38c172;
+}
+
+.form-button:focus {
+    outline:2px solid transparent;
+}
+
+.form-button:hover {
+    background-color: #1f9d55;
 }

@@ -11,6 +11,9 @@ if(!defined('Restricted')) {
         <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
         <title><?=$title?></title>
         <link rel="stylesheet" href="public/css/style.css">
+        <!--
+        <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css">
+        -->
     </head>
     <body>
         <!--header/footer vertical placement-->
@@ -38,4 +41,4 @@ if(!defined('Restricted')) {
                 </section>
             </header>
             <!--margins for page view main content-->
-            <div class="mt-20 mb-4">
+            <main class="mt-20 mb-4">
