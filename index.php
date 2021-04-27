@@ -1,13 +1,12 @@
 <?php
 
-define('Restricted', TRUE);
-
 $title = "Camagru";
 $pages = array(
     "home",
     "gallery",
     "login",
-    "signup"
+    "signup",
+    "account"
 );
 
 if (isset($_GET["page"]) && in_array($_GET["page"], $pages)) {
@@ -21,21 +20,22 @@ elseif (isset($_GET["page"]) && !in_array($_GET["page"], $pages)) {
 
 require_once __DIR__ . '/app/views/components/header.php';
 
-//call to functions in controllers to generate correct view/page
+require_once __DIR__ . '/app/controllers/UserController.php';
 
-var_dump($_POST);
+var_dump($_SERVER);
 
-//this is temp redirect
-if (isset($view)) {
-    if ($view === "home") {
-        require_once __DIR__ . '/app/views/pages/gallery.php';
+//echo $requestUrl = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+//echo $requestString = substr($requestUrl, strlen($baseUrl));
+
+//print_r($urlParams = explode('/', $requestString));
+
+//switch case and controller method calls here
+
+switch ($page) {
+    case "asd": {
+        $controller;
+        break ;
     }
-    else {
-        require_once __DIR__ . '/app/views/pages/' . $view . '.php';
-    }   
-}
-else {
-    require_once __DIR__ . '/app/views/pages/gallery.php';
 }
 
 require_once __DIR__ . '/app/views/components/footer.php';

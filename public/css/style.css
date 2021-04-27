@@ -188,11 +188,6 @@ code,kbd,pre,samp {
     font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace
 }
 
-audio,canvas,embed,iframe,img,object,svg,video {
-    display: block;
-    vertical-align: middle
-}
-
 img,video {
     max-width: 100%;
     height: auto
@@ -882,12 +877,14 @@ img {
     animation-play-state: running
 }
 
-@media (min-width: 320px) {
-    
-}
-
 @media (min-width: 640px) {
+    .sm\:grid-cols-1 {
+        grid-template-columns:repeat(1,minmax(0,1fr))
+    }
     
+    .sm\:grid-cols-2 {
+        grid-template-columns:repeat(2,minmax(0,1fr))
+    }
 }
 
 @media (min-width: 768px) {
@@ -971,14 +968,6 @@ img {
     border-radius:.25rem
 }
 
-.form-wrapper {
-
-}
-
-.form-content {
-    
-}
-
 .form-input {
     display: block;
     border-width: 1px;
@@ -988,6 +977,22 @@ img {
     margin-bottom: 1rem;
 }
 
+.account-tab {
+    display: block;
+    width: 100%;
+    padding: .75rem;
+    border-radius:.25rem
+}
+
+.account-tab:hover {
+    background-color: #38c172;
+    color: #fff;
+}
+
+.account-tab:active {
+    background-color: #1f9d55;
+    color: #fff;
+}
 
 .form-button {
     width: 100%;
@@ -1004,4 +1009,8 @@ img {
 
 .form-button:hover {
     background-color: #1f9d55;
+}
+
+* {
+
 }

@@ -1,9 +1,10 @@
 <?php
 $token = bin2hex(random_bytes(32));
+$_SESSION["token"] = $token;
 ?>
 
-<div class="form-wrapper max-w-screen-sm mx-auto items-center justify-center">
-    <div class="form-content flex flex-col justify-center my-2 p-4 px-6 shadow bg-white rounded">
+<div class="max-w-screen-sm mx-auto items-center justify-center">
+    <div class="flex flex-col justify-center my-2 p-4 px-6 shadow bg-white rounded">
         <h1 class="text-3xl text-center mb-4">Login</h1>
         <form class="text-center h-full" method="post">
             <input type="text" class="form-input rounded" placeholder="Username" name="username" value="" >
@@ -18,7 +19,7 @@ $token = bin2hex(random_bytes(32));
 </div>
 <div class="max-w-screen-sm mx-auto">
     <div class="flex flex-col justify-center my-4 p-4 shadow bg-white rounded">
-        <div class="form-footer text-center">
+        <div class="text-center">
             Don't have an account? <a style="color: #3490dc;" href="index.php?page=signup">Signup</a>
         </div>  
     </div>

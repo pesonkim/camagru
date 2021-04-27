@@ -1,8 +1,7 @@
 <?php
-if(!defined('Restricted')) {
-    die('Direct access not permitted');
-}
+session_start();
 ?>
+
 <!DOCTYPE html>
 <html>
     <head>
