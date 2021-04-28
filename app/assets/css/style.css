@@ -1010,3 +1010,13 @@ img {
 .form-button:hover {
     background-color: #1f9d55;
 }
+
+.show-hide-button {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+
+.show-hide-button:focus {
+    outline: none;
+}

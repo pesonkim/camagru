@@ -19,6 +19,8 @@ switch ($page) {
             else
                 header("Location: index.php");
         }
+        else
+            header("Location: index.php");
         break ;
     }
     case "login": {

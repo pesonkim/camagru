@@ -1,12 +1,68 @@
+<?php
+echo "<script>
+    function toggle(e) {
+        x = document.getElementById('password').type;
+        if (x == 'password') {
+            e.innerHTML = 'Hide';
+            document.getElementById('password').type='text';
+        }
+        else {
+            e.innerHTML = 'Show'
+            document.getElementById('password').type='password';
+        }
+    }
+    </script>";
+?>
+
 <div class="max-w-screen-sm mx-auto items-center justify-center">
     <div class="flex flex-col justify-center my-2 p-4 px-6 shadow bg-white rounded">
         <h1 class="text-3xl text-center mb-4">Signup</h1>
-        <form class="text-center h-full" method="post">
-            <input type="text" class="form-input rounded" placeholder="Username" name="username">
-            <input type="text" class="form-input rounded" placeholder="Email" name="email">
-            <input type="password" class="form-input rounded" placeholder="Password" name="password">
-            <input type="password" class="form-input rounded" placeholder="Confirm password" name="confirm">
-            <button type="submit" class="form-button rounded" name="action" value="signup">Create account</button>
+        <form class="h-full" action="index.php?page=UserController&method=signup" method="POST">
+            <div id="username-div">
+                <label for="username">Username</label>
+                <input
+                    id="username"
+                    type="text"
+                    class="form-input rounded"
+                    name="username"
+                    value="<?=isset($_POST['username']) ? $_POST['username'] : '';?>"
+                >
+            </div>
+            <div id="email-div">
+                <label for="email">Email</label>
+                <input
+                    id="email"
+                    type="text"
+                    class="form-input rounded"
+                    name="email"
+                    value="<?=isset($_POST['email']) ? $_POST['email'] : '';?>"
+                >
+            </div>
+            <div id="password-div">
+                <label for="password">Password</label>
+                <div class="relative">                
+                    <input
+                        id="password"
+                        type="password"
+                        class="form-input rounded"
+                        name="password"
+                        value="<?=isset($_POST['password']) ? $_POST['password'] : '';?>"
+                    >
+                    <button
+                        onclick="toggle(this)"
+                        class="show-hide-button"
+                        type="button"
+                        >Show
+                    </button>
+                </div>
+            </div>
+            <button
+                type="submit"
+                class="form-button rounded"
+                name="action"
+                value="signup">
+                Create account
+            </button>
         </form>
     </div>
 </div>
@@ -17,3 +73,5 @@
         </div>  
     </div>
 </div>
+
+<script type="text/javascript" src="/camagru/app/assets/js/signup.js"></script>
