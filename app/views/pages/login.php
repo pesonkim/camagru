@@ -17,8 +17,8 @@ echo "<script>
 <div class="max-w-screen-sm mx-auto items-center justify-center">
     <div class="flex flex-col justify-center my-2 p-4 px-6 shadow bg-white rounded">
         <h1 class="text-3xl text-center mb-4">Login</h1>
-        <form class="h-full" action="index.php?page=UserController&method=login" method="POST">
-            <div id="username-div">
+        <form id="loginForm" class="h-full" method="POST">
+            <div>
                 <label for="username">Username</label>
                 <input
                     id="username"
@@ -27,8 +27,9 @@ echo "<script>
                     name="username"
                     value="<?=isset($_POST['username']) ? $_POST['username'] : '';?>"
                 >
+                <div class="form-error" id="usernameError"></div>
             </div>
-            <div id="password-div">
+            <div>
                 <label for="password">Password</label>
                 <div class="relative">                
                     <input
@@ -45,6 +46,7 @@ echo "<script>
                         >Show
                     </button>
                 </div>
+                <div class="form-error" id="passwordError"></div>
             </div>
             <button
                 type="submit"
@@ -66,3 +68,5 @@ echo "<script>
         </div>  
     </div>
 </div>
+
+<script type="text/javascript" src="/camagru/app/assets/js/login.js"></script>

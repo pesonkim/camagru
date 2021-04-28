@@ -17,9 +17,9 @@ echo "<script>
 <div class="max-w-screen-sm mx-auto items-center justify-center">
     <div class="flex flex-col justify-center my-2 p-4 px-6 shadow bg-white rounded">
         <h1 class="text-3xl text-center mb-4">Signup</h1>
-        <form class="h-full" action="index.php?page=UserController&method=signup" method="POST">
-            <div id="username-div">
-                <label for="username">Username</label>
+        <form id="signupForm" class="h-full" method="POST">
+            <div>
+                <label>Username</label>
                 <input
                     id="username"
                     type="text"
@@ -27,9 +27,10 @@ echo "<script>
                     name="username"
                     value="<?=isset($_POST['username']) ? $_POST['username'] : '';?>"
                 >
+                <div class="form-error" id="usernameError"></div>
             </div>
-            <div id="email-div">
-                <label for="email">Email</label>
+            <div>
+                <label>Email</label>
                 <input
                     id="email"
                     type="text"
@@ -37,9 +38,10 @@ echo "<script>
                     name="email"
                     value="<?=isset($_POST['email']) ? $_POST['email'] : '';?>"
                 >
+                <div class="form-error" id="emailError"></div>
             </div>
-            <div id="password-div">
-                <label for="password">Password</label>
+            <div>
+                <label>Password</label>
                 <div class="relative">                
                     <input
                         id="password"
@@ -55,8 +57,10 @@ echo "<script>
                         >Show
                     </button>
                 </div>
+                <div class="form-error" id="passwordError"></div>
             </div>
             <button
+                id="btn-signup";
                 type="submit"
                 class="form-button rounded"
                 name="action"

@@ -974,7 +974,6 @@ img {
     border-color: #dae4e9;
     width: 100%;
     padding: .75rem;
-    margin-bottom: 1rem;
 }
 
 .account-tab {
@@ -1011,7 +1010,13 @@ img {
     background-color: #1f9d55;
 }
 
+.form-error {
+    color: red;
+    margin-bottom: 1rem;
+}
+
 .show-hide-button {
+    color: dark;
     position: absolute;
     top: 15px;
     right: 15px;
