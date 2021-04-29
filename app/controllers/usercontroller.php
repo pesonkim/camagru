@@ -9,50 +9,63 @@ class UserController {
         $this->model = new UserModel();
     }
 
-    /*
-    public function signup() {
-        if(isset($_POST["action"]) && $_POST["action"] === "signup"
-        && isset($_POST["username"])
-        && isset($_POST["email"])
-        && isset($_POST["password"])) {
-            var_dump($_POST);
-        }
-        else
-            echo "nay";
-    }
-    */
-
     public function signup() {
         $errors = array();
         $data = array();
 
-        if (empty($_POST['username'])) {
+        if (empty($_POST['username']) && $_POST['username'] !== '0') {
             $errors['username'] = 'Username is required.';
         }
-        if (empty($_POST['email'])) {
+        if (empty($_POST['email']) && $_POST['email'] !== '0') {
             $errors['email'] = 'Email is required.';
         }
-        if (empty($_POST['password'])) {
+        if (empty($_POST['password']) && $_POST['password'] !== '0') {
             $errors['password'] = 'Password is required.';
         }
         if (!empty($errors)) {
-            $data['success'] = false;
+            $data['code'] = 400;
             $data['errors'] = $errors;
         }
+        else if (!isset($_POST["action"]) || $_POST["action"] !== "signup") {
+            $data['code'] = 401;
+            $data['message'] = 'Not authorized!';
+        }
         else {
-            $data['success'] = true;
-            $data['message'] = 'Success!';
+            $this->createUser();
         }
 
         echo json_encode($data);
-
-        if ($data['success']) {
-            $this->viewLogin();
-        }
-        else
-            $this->viewSignup();
+        exit ;
 
         //clear post data before redirect
+    }
+
+    public function createUser() {
+        $username = $_POST['username'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+        $errors = array();
+        $data = array();
+
+        if ($this->model->usernameExists($username)) {
+            $errors['username'] = 'Username is already taken.';
+        }
+        if ($this->model->emailExists($email)) {
+            $errors['email'] = 'Email is already used in an account.';
+        }
+        if (!empty($errors)) {
+            $data['code'] = 409;
+            $data['errors'] = $errors;
+        }
+        else {
+            $data['code'] = 200;
+            $data['message'] = 'Success!';
+        }
+
+        //insert user into model here
+
+        echo json_encode($data);
+        exit ;
     }
 
     public function login() {
@@ -84,16 +97,6 @@ class UserController {
 
     }
 
-
-    public function createUser() {
-
-    }
-
-    /*
-    public function login() {
-        $this->redirect('index.php?login=ok');
-    }
-    */
 
     public function viewLogin() {
         require_once __DIR__ . '/../views/pages/login.php';

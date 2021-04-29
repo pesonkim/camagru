@@ -9,4 +9,12 @@ class UserModel {
         $this->pdo = Database::getInstance();
     }
 
+    public function usernameExists($username) {
+        //return data if true, false otherwise
+        return true;
+    }
+
+    public function emailExists($email) {
+        return true;
+    }
 }

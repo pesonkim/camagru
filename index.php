@@ -2,27 +2,21 @@
 
 $title = "Camagru";
 
-require_once __DIR__ . '/app/views/layouts/header.php';
-
 require_once __DIR__ . '/app/controllers/UserController.php';
 
-//switch case and controller method calls here
+if (isset($_GET['UserController'])) {
+    if (isset($_GET['method'])) {
+        $ctrl = new UserController();
+        $method = $_GET['method'];
+        if (method_exists($ctrl, $method))
+            $ctrl->$method();
+    }
+}
+
+require_once __DIR__ . '/app/views/layouts/header.php';
 
 $page = $_GET['page'];
 switch ($page) {
-    case "UserController": {
-        if (isset($_GET['method'])) {
-            $ctrl = new UserController();
-            $method = $_GET['method'];
-            if (method_exists($ctrl, $method))
-                $ctrl->$method();
-            else
-                header("Location: index.php");
-        }
-        else
-            header("Location: index.php");
-        break ;
-    }
     case "login": {
         $ctrl = new UserController();
         $ctrl->viewLogin();
