@@ -43,6 +43,8 @@ class UserController {
         $errors = array();
         $data = array();
 
+        //$errors['password'] = 'Incorrect username or password.';
+
         if (!empty($errors)) {
             $data['code'] = 409;
             $data['errors'] = $errors;

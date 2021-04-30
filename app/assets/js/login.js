@@ -4,11 +4,14 @@ function noEnter() {
 
 document.getElementById('Username').addEventListener('keyup', function (event) {
     if (window.event.keyCode == 13)
-        document.getElementById('password').focus();
+        document.getElementById('Password').focus();
+});
+document.getElementById('Username').addEventListener('focusout', function () {
+    validateField(this.id, this.value);
 });
 document.getElementById('Password').addEventListener('keyup', function (event) {
     if (window.event.keyCode == 13)
-        document.getElementById('btn-signup').focus();
+        document.getElementById('btn-login').focus();
 });
 document.getElementById('Password').addEventListener('focusout', function () {
     validateField(this.id, this.value);
@@ -87,7 +90,10 @@ function validateForm() {
                     document.getElementById('PasswordError').innerHTML = json.errors.password;
                 else
                     document.getElementById('PasswordError').innerHTML = '';
-                drawError();
+                document.getElementById('Username').classList.remove('input-ok');
+                document.getElementById('Username').classList.add('input-error');
+                document.getElementById('Password').classList.remove('input-ok');
+                document.getElementById('Password').classList.add('input-error');
                 document.getElementById('loginWrapper').classList.add('apply-shake');
                 setTimeout(function() {document.getElementById('loginWrapper').classList.remove('apply-shake');}, 500);
             }
@@ -100,3 +106,24 @@ function validateForm() {
     request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     request.send(requestData);
 }
+
+
+var modal = document.getElementById('modal-container');
+
+var btn = document.getElementById('open-modal');
+
+var close = document.getElementById('close-modal');
+
+btn.addEventListener('click', function() {
+    modal.style.display = 'block';
+});
+
+close.addEventListener('click', function() {
+    modal.style.display = 'none';
+});
+
+window.addEventListener('click', function() {
+    if (event.target == modal) {
+        modal.style.display = 'none';
+    }
+});
