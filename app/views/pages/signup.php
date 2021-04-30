@@ -1,47 +1,47 @@
 <?php
 echo "<script>
     function toggle(e) {
-        x = document.getElementById('password').type;
+        x = document.getElementById('Password').type;
         if (x == 'password') {
             e.innerHTML = 'Hide';
-            document.getElementById('password').type='text';
+            document.getElementById('Password').type='text';
         }
         else {
             e.innerHTML = 'Show'
-            document.getElementById('password').type='password';
+            document.getElementById('Password').type='password';
         }
     }
     </script>";
 ?>
 
 <div class="max-w-screen-sm mx-auto items-center justify-center">
-    <div class="flex flex-col justify-center my-2 p-4 px-6 shadow bg-white rounded">
+    <div id="signupWrapper" class="flex flex-col justify-center my-2 p-4 px-6 shadow bg-white rounded">
         <h1 class="text-3xl text-center mb-4">Signup</h1>
         <form id="signupForm" class="h-full" method="POST">
             <label>Username</label>
             <input
-                id="username"
+                id="Username"
                 type="text"
                 class="form-input rounded"
                 name="username"
                 value="<?=isset($_POST['username']) ? $_POST['username'] : '';?>"
                 onkeypress="return noEnter()"
             >
-            <div class="form-error" id="usernameError"></div>
+            <div class="form-error" id="UsernameError"></div>
             <label>Email</label>
             <input
-                id="email"
+                id="Email"
                 type="text"
                 class="form-input rounded"
                 name="email"
                 value="<?=isset($_POST['email']) ? $_POST['email'] : '';?>"
                 onkeypress="return noEnter()"
             >
-            <div class="form-error" id="emailError"></div>
+            <div class="form-error" id="EmailError"></div>
             <label>Password</label>
             <div class="relative">                
                 <input
-                    id="password"
+                    id="Password"
                     type="password"
                     class="form-input rounded"
                     name="password"
@@ -55,7 +55,7 @@ echo "<script>
                     tabindex="-1"
                     >Show
                 </button>
-            <div class="form-error" id="passwordError"></div>
+            <div class="form-error" id="PasswordError"></div>
             </div>
             <button
                 id="btn-signup";

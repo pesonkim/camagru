@@ -15,29 +15,31 @@ echo "<script>
 ?>
 
 <div class="max-w-screen-sm mx-auto items-center justify-center">
-    <div class="flex flex-col justify-center my-2 p-4 px-6 shadow bg-white rounded">
+    <div id="loginWrapper" class="flex flex-col justify-center my-2 p-4 px-6 shadow bg-white rounded">
         <h1 class="text-3xl text-center mb-4">Login</h1>
         <form id="loginForm" class="h-full" method="POST">
             <div>
-                <label for="username">Username</label>
+                <label>Username</label>
                 <input
-                    id="username"
+                    id="Username"
                     type="text"
                     class="form-input rounded"
                     name="username"
                     value="<?=isset($_POST['username']) ? $_POST['username'] : '';?>"
+                    onkeypress="return noEnter()"
                 >
-                <div class="form-error" id="usernameError"></div>
+                <div class="form-error" id="UsernameError"></div>
             </div>
             <div>
-                <label for="password">Password</label>
+                <label>Password</label>
                 <div class="relative">                
                     <input
-                        id="password"
+                        id="Password"
                         type="password"
                         class="form-input rounded"
                         name="password"
                         value="<?=isset($_POST['password']) ? $_POST['password'] : '';?>"
+                        onkeypress="return noEnter()"
                     >
                     <button
                         onclick="toggle(this)"
@@ -46,9 +48,10 @@ echo "<script>
                         >Show
                     </button>
                 </div>
-                <div class="form-error" id="passwordError"></div>
+                <div class="form-error" id="PasswordError"></div>
             </div>
             <button
+                id="btn-login";
                 type="submit"
                 class="form-button rounded"
                 name="action"

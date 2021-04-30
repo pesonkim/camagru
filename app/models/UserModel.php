@@ -10,11 +10,18 @@ class UserModel {
     }
 
     public function usernameExists($username) {
+        $data = array();
+        $data[]= "asd";
         //return data if true, false otherwise
-        return true;
+
+        if (in_array($username, $data)) {
+            return $username;
+        }        
+        else
+            return false;
     }
 
     public function emailExists($email) {
-        return true;
+        return false;
     }
 }

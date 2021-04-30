@@ -9,15 +9,70 @@ class UserController {
         $this->model = new UserModel();
     }
 
-    public function signup() {
+    public function checkLogin() {
         $errors = array();
         $data = array();
 
         if (empty($_POST['username']) && $_POST['username'] !== '0') {
             $errors['username'] = 'Username is required.';
         }
+        if (empty($_POST['password']) && $_POST['password'] !== '0') {
+            $errors['password'] = 'Password is required.';
+        }
+        if (!empty($errors)) {
+            $data['code'] = 400;
+            $data['errors'] = $errors;
+        }
+        else if (!isset($_POST["action"]) || $_POST["action"] !== "login") {
+            $data['code'] = 401;
+            $data['message'] = 'Not authorized!';
+        }
+        else {
+            $this->loginUser();
+        }
+
+        echo json_encode($data);
+        exit ;
+
+        //clear post data before redirect
+    }
+
+    public function loginUser() {
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+        $errors = array();
+        $data = array();
+
+        if (!empty($errors)) {
+            $data['code'] = 409;
+            $data['errors'] = $errors;
+        }
+        else {
+            $data['code'] = 200;
+            $data['message'] = 'Success!';
+        }
+
+        //insert user into model here
+
+        echo json_encode($data);
+        exit ;
+    }
+
+    public function checkSignup() {
+        $errors = array();
+        $data = array();
+
+        if (empty($_POST['username']) && $_POST['username'] !== '0') {
+            $errors['username'] = 'Username is required.';
+        }
+        else if ($this->model->usernameExists($_POST['username'])) {
+            $errors['username'] = 'Username is already taken.';
+        }
         if (empty($_POST['email']) && $_POST['email'] !== '0') {
             $errors['email'] = 'Email is required.';
+        }
+        else if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+            $errors['email'] = 'Please enter a valid email.';
         }
         if (empty($_POST['password']) && $_POST['password'] !== '0') {
             $errors['password'] = 'Password is required.';
@@ -31,7 +86,7 @@ class UserController {
             $data['message'] = 'Not authorized!';
         }
         else {
-            $this->createUser();
+            $this->signupUser();
         }
 
         echo json_encode($data);
@@ -40,7 +95,7 @@ class UserController {
         //clear post data before redirect
     }
 
-    public function createUser() {
+    public function signupUser() {
         $username = $_POST['username'];
         $email = $_POST['email'];
         $password = $_POST['password'];
