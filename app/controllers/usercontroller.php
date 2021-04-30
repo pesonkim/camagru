@@ -50,6 +50,9 @@ class UserController {
         if ($this->model->usernameExists($username)) {
             $errors['username'] = 'Username is already taken.';
         }
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $errors['email'] = 'Please enter a valid email.';
+        }
         if ($this->model->emailExists($email)) {
             $errors['email'] = 'Email is already used in an account.';
         }
@@ -67,6 +70,10 @@ class UserController {
         echo json_encode($data);
         exit ;
     }
+
+
+
+
 
     public function login() {
         $errors = array();

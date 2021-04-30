@@ -1003,7 +1003,8 @@ img {
 }
 
 .form-button:focus {
-    outline:2px solid transparent;
+    outline: none;
+    background-color: #1f9d55;
 }
 
 .form-button:hover {

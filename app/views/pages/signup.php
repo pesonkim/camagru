@@ -18,46 +18,44 @@ echo "<script>
     <div class="flex flex-col justify-center my-2 p-4 px-6 shadow bg-white rounded">
         <h1 class="text-3xl text-center mb-4">Signup</h1>
         <form id="signupForm" class="h-full" method="POST">
-            <div>
-                <label>Username</label>
+            <label>Username</label>
+            <input
+                id="username"
+                type="text"
+                class="form-input rounded"
+                name="username"
+                value="<?=isset($_POST['username']) ? $_POST['username'] : '';?>"
+                onkeypress="return noEnter()"
+            >
+            <div class="form-error" id="usernameError"></div>
+            <label>Email</label>
+            <input
+                id="email"
+                type="text"
+                class="form-input rounded"
+                name="email"
+                value="<?=isset($_POST['email']) ? $_POST['email'] : '';?>"
+                onkeypress="return noEnter()"
+            >
+            <div class="form-error" id="emailError"></div>
+            <label>Password</label>
+            <div class="relative">                
                 <input
-                    id="username"
-                    type="text"
+                    id="password"
+                    type="password"
                     class="form-input rounded"
-                    name="username"
-                    value="<?=isset($_POST['username']) ? $_POST['username'] : '';?>"
+                    name="password"
+                    value="<?=isset($_POST['password']) ? $_POST['password'] : '';?>"
+                    onkeypress="return noEnter()"
                 >
-                <div class="form-error" id="usernameError"></div>
-            </div>
-            <div>
-                <label>Email</label>
-                <input
-                    id="email"
-                    type="text"
-                    class="form-input rounded"
-                    name="email"
-                    value="<?=isset($_POST['email']) ? $_POST['email'] : '';?>"
-                >
-                <div class="form-error" id="emailError"></div>
-            </div>
-            <div>
-                <label>Password</label>
-                <div class="relative">                
-                    <input
-                        id="password"
-                        type="password"
-                        class="form-input rounded"
-                        name="password"
-                        value="<?=isset($_POST['password']) ? $_POST['password'] : '';?>"
-                    >
-                    <button
-                        onclick="toggle(this)"
-                        class="show-hide-button"
-                        type="button"
-                        >Show
-                    </button>
-                </div>
-                <div class="form-error" id="passwordError"></div>
+                <button
+                    onclick="toggle(this)"
+                    class="show-hide-button"
+                    type="button"
+                    tabindex="-1"
+                    >Show
+                </button>
+            <div class="form-error" id="passwordError"></div>
             </div>
             <button
                 id="btn-signup";

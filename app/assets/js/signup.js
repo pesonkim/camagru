@@ -1,3 +1,33 @@
+function noEnter() {
+    return !(window.event && window.event.keyCode == 13);
+}
+
+document.getElementById('username').addEventListener('keyup', function (event) {
+    if (window.event.keyCode == 13) {
+        console.log(this);
+        document.getElementById('email').focus();
+    }
+});
+document.getElementById('email').addEventListener('keyup', function (event) {
+    if (window.event.keyCode == 13) {
+        console.log(this);
+        document.getElementById('password').focus();
+    }
+});
+document.getElementById('password').addEventListener('keyup', function (event) {
+    if (window.event.keyCode == 13) {
+        console.log(this);
+        document.getElementById('btn-signup').focus();
+    }
+});
+
+document.getElementById('btn-signup').addEventListener('click', validateForm);
+
+function validateForm() {
+    alert('check');
+}
+
+/*
 document.getElementById('btn-signup').addEventListener('click', validateForm);
 
 function validateForm() {
@@ -54,6 +84,7 @@ function validateForm() {
     request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     request.send(requestData);
 }
+ */
 
 /*
 function validateForm() {
