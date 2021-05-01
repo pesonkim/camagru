@@ -161,9 +161,46 @@ class UserController {
 
     }
 
+    public function forgotPassword() {
+        $errors = array();
+        $data = array();
+
+        if (empty($_POST['email']) && $_POST['email'] !== '0') {
+            $errors['email'] = 'Email is required.';
+        }
+        else if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+            $errors['email'] = 'Please enter a valid email.';
+        }
+        if (!empty($errors)) {
+            $data['code'] = 400;
+            $data['errors'] = $errors;
+        }
+        else if (!isset($_POST["action"]) || $_POST["action"] !== "sendResetemail") {
+            $data['code'] = 401;
+            $data['message'] = 'Not authorized!';
+        }
+        else if (!$this->model->emailExists($email)) {
+            $data['code'] = 409;
+            $errors['email'] = 'This email is not associated with any accounts.';
+            $data['errors'] = $errors;
+        }
+        else {
+            $data['code'] = 200;
+            $data['message'] = 'Success!';
+        }
+
+        echo json_encode($data);
+        exit ;
+    }
+
+
 
     public function viewLogin() {
         require_once __DIR__ . '/../views/pages/login.php';
+    }
+
+    public function viewForgotpassword() {
+        require_once __DIR__ . '/../views/pages/forgotpassword.php';
     }
 
     public function viewSignup() {
@@ -172,6 +209,10 @@ class UserController {
 
     public function viewAccount() {
         require_once __DIR__ . '/../views/pages/account.php';
+    }
+
+    public function viewModal() {
+        require_once __DIR__ . '/../views/pages/modal.php';
     }
 
     public function viewGallery() {

@@ -13,35 +13,6 @@ echo "<script>
     }
     </script>";
 ?>
-<button id="open-modal" >
-    click me
-</button>
-
-<div class="modal-container" id="modal-container">
-    <div class="modal-content">
-        <h1>This is a popup
-        </h1>
-        <p>Lorem Khaled Ipsum is a major key to success. Another one. Lion! Don’t ever play yourself. The key is to drink coconut, fresh coconut, trust me. I’m giving you cloth talk, cloth. Special cloth alert, cut from a special cloth. Fan luv. In life you have to take the trash out, if you have trash in your life, take it out, throw it away, get rid of it, major key. I’m up to something. The key to success is to keep your head above the water, never give up. Every chance I get, I water the plants, Lion! Fan luv.</p>
-        <button id="close-modal">close me</button>
-    </div>
-</div>
-
-<script>
-    var modal = document.getElementById('modal-container');
-
-    var btn = document.getElementById('open-modal');
-
-    btn.onclick = function() {
-        modal.style.display = 'block';
-    }
-
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = 'none';
-        }
-    }
-
-</script>
 
 <div class="max-w-screen-sm mx-auto items-center justify-center">
     <div id="loginWrapper" class="flex flex-col justify-center my-2 p-4 px-6 shadow bg-white rounded">
@@ -90,7 +61,7 @@ echo "<script>
             </button>
         </form>
         <div class="form-footer text-center">
-            <a style="color: #3490dc;" href="#">Forgot password?</a>
+            <a style="color: #3490dc;" href="index.php?page=forgotpassword">Forgot password?</a>
         </div>  
     </div>
 </div>
