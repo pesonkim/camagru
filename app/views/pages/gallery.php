@@ -1,19 +1,26 @@
-<div class="w-full max-w-screen-lg grid lg:grid-cols-3 gap-7 md:grid-cols-2 mx-auto">
+<?php
+?>
+
+<div id="postsContainer" class="w-full max-w-screen-lg grid lg:grid-cols-3 gap-7 md:grid-cols-2 mt-2 mx-auto">
+    
+    
     <?php
-    echo 'grid goes here';
     /*
-    for ($x = 0; $x < rand(1,20); $x++) {
+    $ctrl = new PostController();
+    $data = json_decode($ctrl->getPosts(), true);
+
+    for ($x = 0; $x < count($data); $x++) {
         echo '
-        <a class="flex flex-col my-2 p-4 shadow bg-white rounded">
-        <img class="w-full" src="https://source.unsplash.com/random">
-        <span class="my-4">Example post</span><span class="text-sm text-gray-500">';
-        echo $randomDate = date("d M Y", mt_rand(1, time()));
-        echo '</span>
+        <a class="flex flex-col p-4 shadow bg-white rounded slideUp">
+        <img class="w-full" src=' . $data[$x]['img'] . '>
+        <span class="my-4">' . $data[$x]['name'] . '</span>
+        <span class="text-sm text-gray-500">' . $data[$x]['date'] .'</span>
         </a>
         ';
     }
     */
     ?>
+    
 
 </div>
 

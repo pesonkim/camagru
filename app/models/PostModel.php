@@ -9,8 +9,14 @@ class PostModel {
         $this->pdo = Database::getInstance();
     }
 
-    public function getPosts() {
+    public static function getPost($i) {
+        $post = array();
         
+        $post['name'] = 'Example post #' . $i;
+        $post['img'] = 'https://source.unsplash.com/random/800x600?sig=' . $i;
+        $post['date'] = date("d M Y", mt_rand(1, time()));
+
+        return ($post);
     }
 
 }

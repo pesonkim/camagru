@@ -9,6 +9,18 @@ class PostController {
         $this->model = new PostModel();
     }
 
+    public function getPosts() {
+        $posts = array();
+        $index = $_POST['index'];
+        $limit = $_POST['limit'];
+
+        for ($x = 0; $x < $limit; $x++) {
+            $posts[$x] = $this->model->getPost(++$index);
+        }
+        echo json_encode($posts);
+        exit ;
+    }
+
     public function viewGallery() {
         require_once __DIR__ . '/../views/pages/gallery.php';
     }
