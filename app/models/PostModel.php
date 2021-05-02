@@ -13,7 +13,7 @@ class PostModel {
         $post = array();
         
         $post['name'] = 'Example post #' . $i;
-        $post['img'] = 'https://source.unsplash.com/random/800x600?sig=' . $i;
+        $post['img'] = 'https://source.unsplash.com/random/?sig=' . $i;
         $post['date'] = date("d M Y", mt_rand(1, time()));
 
         return ($post);

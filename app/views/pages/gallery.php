@@ -1,7 +1,11 @@
 <?php
 ?>
 
-<div id="postsContainer" class="w-full max-w-screen-lg grid lg:grid-cols-3 gap-7 md:grid-cols-2 mt-2 mx-auto">
+
+<!--
+    <div id="postsContainer" class="w-full max-w-screen-lg grid lg:grid-cols-3 gap-7 md:grid-cols-2 mt-2 mx-auto px-2">
+-->
+<div id="postsContainer" class="w-full max-w-screen-lg grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 mt-2 mx-auto px-2">
     
     
     <?php
@@ -20,7 +24,6 @@
     }
     */
     ?>
-    
 
 </div>
 

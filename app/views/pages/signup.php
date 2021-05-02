@@ -14,7 +14,7 @@ echo "<script>
     </script>";
 ?>
 
-<div class="max-w-screen-sm mx-auto items-center justify-center">
+<div class="max-w-screen-sm mx-auto items-center justify-center px-2">
     <div id="signupWrapper" class="flex flex-col justify-center my-2 p-4 px-6 shadow bg-white rounded">
         <h1 class="text-3xl text-center mb-4">Signup</h1>
         <form id="signupForm" class="h-full" method="POST">
@@ -68,7 +68,7 @@ echo "<script>
         </form>
     </div>
 </div>
-<div class="max-w-screen-sm mx-auto">
+<div class="max-w-screen-sm mx-auto px-2">
     <div class="flex flex-col justify-center my-4 p-4 shadow bg-white rounded">
         <div class="text-center">
             Have an account? <a style="color: #3490dc;" href="index.php?page=login">Login</a>

@@ -4,7 +4,7 @@ $_SESSION["token"] = $token;
 ?>
 
 
-<div class="grid lg:grid-cols-1 gap-7 md:grid-cols-2 mx-auto">
+<div class="grid lg:grid-cols-1 gap-7 md:grid-cols-2 mx-auto px-2">
     <div class="">
         <div class="flex flex-col justify-center my-2 p-4 px-6 shadow bg-white rounded">
             <div class="">
