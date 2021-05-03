@@ -38,7 +38,7 @@ function drawPost(postData) {
     var modalContainer = document.createElement('div');
     var modalContent = document.createElement('img');
 
-    newDiv.setAttribute('class', 'flex flex-col justify-center p-4 shadow bg-white rounded slideUp post');
+    newDiv.setAttribute('class', 'flex flex-col justify-center p-4 shadow bg-white lg:rounded md:rounded slideUp post');
     img.setAttribute('class', 'post-preview');
     img.setAttribute('src', postData.img);
     name.setAttribute('class', 'my-4');

@@ -40,16 +40,27 @@ var btn = document.getElementById('open-modal');
 var close = document.getElementById('close-modal');
 
 btn.addEventListener('click', function() {
+    if (modal.classList.contains('fadeOut')) {
+        modal.classList.remove('fadeOut');
+    }
     modal.style.display = 'block';
 });
 
 close.addEventListener('click', function() {
-    modal.style.display = 'none';
+    modal.classList.add('fadeOut');
+    setTimeout(function() {
+        modal.style.display = 'none';
+        modal.classList.remove('fadeOut');
+    }, 200)
 });
 
-window.addEventListener('click', function() {
+window.addEventListener('click', function(event) {
     if (event.target == modal) {
-        modal.style.display = 'none';
+        modal.classList.add('fadeOut');
+        setTimeout(function() {
+            modal.style.display = 'none';
+            modal.classList.remove('fadeOut');
+        }, 200)
     }
 });
 

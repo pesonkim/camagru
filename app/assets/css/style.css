@@ -260,7 +260,8 @@ img,video {
 }
 
 .hidden {
-    display: none
+    display: none;
+    opacity: 0;
 }
 
 .flex-row {
@@ -905,6 +906,9 @@ img {
     .sm\:grid-cols-1 {
         grid-template-columns: repeat(1,minmax(0,1fr));
     }
+    .sm\:gap {
+        gap: .75rem
+    }
     .post-preview {
         max-height: 560px;
         max-width: 100%;
@@ -923,6 +927,16 @@ img {
 @media screen and (min-width:768px) and (max-width:1023px) {
     .md\:grid-cols-2 {
         grid-template-columns: repeat(2,minmax(0,1fr))
+    }
+    .md\:gap {
+        gap: 1.25rem
+    }
+    .md\:px-2 {
+        padding-left: .5rem;
+        padding-right: .5rem
+    }
+    .md\:rounded {
+        border-radius:.25rem;
     }
     .post-preview {
         max-height: 360px;
@@ -946,6 +960,16 @@ img {
 @media screen and (min-width:1024px) {
     .lg\:grid-cols-3 {
         grid-template-columns: repeat(3,minmax(0,1fr))
+    }
+    .lg\:gap {
+        gap: 1.75rem
+    }
+    .lg\:px-2 {
+        padding-left: .5rem;
+        padding-right: .5rem
+    }
+    .lg\:rounded {
+        border-radius:.25rem;
     }
     .post-preview {
         max-height: 280px;
@@ -1049,8 +1073,60 @@ img {
     outline: none;
 }
 
+.fadeIn {
+    animation-name: fadeIn;
+    -webkit-animation-name: fadeIn;
+    animation-duration: 0.5s;
+    -webkit-animation-duration: 0.5s;
+    visibility: visible;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    } 
+    100% {
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    } 
+    100% {
+        opacity: 1;
+    }
+}
+
+.fadeOut {
+    animation-name: fadeOut;
+    -webkit-animation-name: fadeOut;
+    animation-duration: 0.2s;
+    -webkit-animation-duration: 0.2s;
+    visibility: visible;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    } 
+    100% {
+        opacity: 0;
+    }
+}
+
+@-webkit-keyframes fadeOut {
+    0% {
+        opacity: 1;
+    } 
+    100% {
+        opacity: 0;
+    }
+}
+
 .modal-container {
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.3);
     position: fixed;
     top: 0;
     left: 0;
@@ -1063,7 +1139,6 @@ img {
 
 .modal-content {
     max-width: 500px;
-    
 }
 
 .modal-message {
@@ -1071,7 +1146,6 @@ img {
     margin-top: .25rem;
     margin-bottom: 1rem;
 }
-
 
 #close-modal {
     width: 50%;
@@ -1094,7 +1168,7 @@ img {
     animation-duration: 1s;
     -webkit-animation-duration: 1s;
     visibility: visible;
-    }
+}
 
 @keyframes slideUp {
     0% {
@@ -1105,7 +1179,7 @@ img {
         opacity: 1;
         -webkit-transform: translateY(0%);
     }
-    }
+}
 
 @-webkit-keyframes slideUp {
     0% {
@@ -1121,10 +1195,10 @@ img {
 .slideDown {
     animation-name: slideDown;
     -webkit-animation-name: slideDown;
-    animation-duration: 1s;
-    -webkit-animation-duration: 1s;
+    animation-duration: 0.5s;
+    -webkit-animation-duration: 0.5s;
     visibility: visible;
-    }
+}
 
 @keyframes slideDown {
     0% {
@@ -1135,7 +1209,7 @@ img {
         opacity: 1;
         -webkit-transform: translateY(0%);
     }
-    }
+}
 
 @-webkit-keyframes slideDown {
     0% {

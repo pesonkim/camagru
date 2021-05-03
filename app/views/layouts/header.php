@@ -42,11 +42,11 @@ session_start();
                     </section>
                 </section>
             </header>
-            <div id="modal-container" class="modal-container">
-                <div class="modal-content flex flex-col justify-center mx-auto my-2 p-4 px-6 bg-white rounded shadow slideDown">
+            <div id="modal-container" class="modal-container fadeIn">
+                <div id="modal-content" class="modal-content flex flex-col justify-center mx-auto my-2 p-4 px-6 bg-white rounded shadow slideDown">
                     <h1 class="text-3xl text-center mb-4">This is a popup</h1>
                     <p class="modal-message text-center">Something just happened. Something just happened. Something just happened. </p>
-                    <button id="close-modal" class="mx-auto rounded">close</button>
+                    <button id="close-modal" class="mx-auto rounded">close me</button>
                 </div>
             </div>
             <script type="text/javascript" src="/camagru/app/assets/js/header.js"></script>
