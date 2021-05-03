@@ -909,11 +909,12 @@ img {
     .sm\:gap {
         gap: .75rem
     }
-    .post-preview {
+    .post-media {
         max-height: 560px;
         max-width: 100%;
         height: auto;
         width: auto;
+        padding: 10px 15px 0px 15px;
     }
     .post-expanded img {
         max-height: 560px;
@@ -938,11 +939,12 @@ img {
     .md\:rounded {
         border-radius:.25rem;
     }
-    .post-preview {
+    .post-media {
         max-height: 360px;
         max-width: 100%;
         height: auto;
         width: auto;
+        padding: 10px 15px 0px 15px;
     }
     .post-expanded {
         grid-column: span 2;
@@ -971,11 +973,12 @@ img {
     .lg\:rounded {
         border-radius:.25rem;
     }
-    .post-preview {
+    .post-media {
         max-height: 280px;
         max-width: 100%;
         height: auto;
         width: auto;
+        padding: 10px 15px 0px 15px;
     }
     .post-expanded {
         grid-column: span 3;
@@ -988,6 +991,30 @@ img {
         width: auto;
         cursor: zoom-in;
     }
+}
+
+.post-title {
+    line-height: 1.14;
+    font-size: 15px;
+    text-align: left;
+    max-height: 45px;
+    width: 100%;
+    overflow: hidden;
+    padding: 10px 15px 0px 15px;
+}
+
+.post-title span {
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.post-actions {
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 15px 5px 15px;
 }
 
 .blur {

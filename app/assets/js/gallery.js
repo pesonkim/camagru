@@ -33,18 +33,35 @@ function drawPost(postData) {
     
     var newDiv = document.createElement('div');
     var img = document.createElement('img');
+    var titleDiv = document.createElement('div');
     var name = document.createElement('span');
-    var date = document.createElement('span');
+    var actionDiv = document.createElement('div');
+    var likeDiv = document.createElement('div');
+    var likes = document.createElement('span');
+    var commentDiv = document.createElement('div');
+    var comments = document.createElement('span');
     var modalContainer = document.createElement('div');
     var modalContent = document.createElement('img');
 
-    newDiv.setAttribute('class', 'flex flex-col justify-center p-4 shadow bg-white lg:rounded md:rounded slideUp post');
-    img.setAttribute('class', 'post-preview');
+    newDiv.setAttribute('class', 'flex flex-col justify-center shadow bg-white lg:rounded md:rounded slideUp post');
+    img.setAttribute('class', 'post-media');
     img.setAttribute('src', postData.img);
-    name.setAttribute('class', 'my-4');
+    titleDiv.setAttribute('class', 'post-title');
     name.appendChild(document.createTextNode(postData.name));
-    date.setAttribute('class', 'text-sm text-gray-500');
-    date.appendChild(document.createTextNode(postData.date));
+    titleDiv.appendChild(name);
+    actionDiv.setAttribute('class', 'post-actions');
+    likeDiv.setAttribute('class', 'post-likes');
+    commentDiv.setAttribute('class', 'post-comments');
+    likes.setAttribute('class', 'text-pink-500');
+    likes.appendChild(document.createTextNode('❤ '))
+    likeDiv.appendChild(likes);
+    likeDiv.appendChild(document.createElement('span').appendChild(document.createTextNode(Math.floor(Math.random() * 1000))));
+    comments.setAttribute('class', 'text-pink-500');
+    comments.appendChild(document.createTextNode('❤ '))
+    commentDiv.appendChild(comments);
+    commentDiv.appendChild(document.createElement('span').appendChild(document.createTextNode(Math.floor(Math.random() * 1000))));
+    actionDiv.appendChild(likeDiv);
+    actionDiv.appendChild(commentDiv);
 
     modalContainer.setAttribute('class', 'post-modal-container');
     modalContainer.setAttribute('name', 'modal');
@@ -53,8 +70,8 @@ function drawPost(postData) {
     modalContainer.appendChild(modalContent);
 
     newDiv.appendChild(img);
-    newDiv.appendChild(name);
-    newDiv.appendChild(date);
+    newDiv.appendChild(titleDiv);
+    newDiv.appendChild(actionDiv);
     newDiv.appendChild(modalContainer);
 
     postsContainer.appendChild(newDiv);
