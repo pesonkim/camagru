@@ -181,7 +181,7 @@ class UserController {
         }
         else if (!$this->model->emailExists($email)) {
             $data['code'] = 409;
-            $errors['email'] = 'This email is not associated with any accounts.';
+            $errors['email'] = 'This email is not linked to any account.';
             $data['errors'] = $errors;
         }
         else {

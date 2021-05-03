@@ -18,7 +18,7 @@ session_start();
         <!--header/footer vertical placement-->
         <div class="flex flex-col justify-between min-h-screen w-full max-w-screen-lg mx-auto">
             <!--header spacing and styling-->
-            <header class="h-16 flex justify-center fixed top-0 left-0 right-0 z-50 blur shadow">
+            <header id="header" class="h-16 flex justify-center fixed top-0 left-0 right-0 z-50 blur shadow header-visible">
                 <section class="w-full max-w-screen-lg flex justify-between items-center mx-4">
                     <section class="flex items-center">
                         <a href="index.php" class="flex flex-row items-center text-gray-800 text-2xl">
@@ -27,6 +27,9 @@ session_start();
                         </a>
                     </section>
                     <section class="flex items-center">
+                        <a href="#">
+                            <button id="open-modal" class="mx-2 text-gray-800">Modal</button>
+                        </a>
                         <a href="index.php?page=gallery">
                             <button class="mx-2 text-gray-800">Gallery</button>
                         </a>
@@ -39,5 +42,13 @@ session_start();
                     </section>
                 </section>
             </header>
+            <div id="modal-container" class="modal-container">
+                <div class="modal-content flex flex-col justify-center mx-auto my-2 p-4 px-6 bg-white rounded shadow slideDown">
+                    <h1 class="text-3xl text-center mb-4">This is a popup</h1>
+                    <p class="modal-message text-center">Something just happened. Something just happened. Something just happened. </p>
+                    <button id="close-modal" class="mx-auto rounded">close</button>
+                </div>
+            </div>
+            <script type="text/javascript" src="/camagru/app/assets/js/header.js"></script>
             <!--margins for page view main content-->
             <main class="mt-20 mb-4">
