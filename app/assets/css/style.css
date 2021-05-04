@@ -1043,6 +1043,35 @@ img {
     padding-top: .5rem;
     display: flex;
     justify-content: space-between;
+    vertical-align: middle;
+}
+
+.post-likes {
+    background-image: url('../img/resources/likeheart.svg');
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+.post-heart {
+    background-image: url('../img/resources/likeheart2.svg');
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+.post-comments {
+    background-image: url('../img/resources/comment.svg');
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+.post-views {
+    background-image: url('../img/resources/view.svg');
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
 }
 
 .blur {

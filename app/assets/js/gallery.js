@@ -39,11 +39,11 @@ function drawPost(postData) {
     var name = document.createElement('span');
     var actionDiv = document.createElement('div');
     var likeDiv = document.createElement('div');
-    var likes = document.createElement('span');
+    var likes = document.createElement('div');
     var viewDiv = document.createElement('div');
-    var views = document.createElement('span');
+    var views = document.createElement('div');
     var commentDiv = document.createElement('div');
-    var comments = document.createElement('span');
+    var comments = document.createElement('div');
     var modalContainer = document.createElement('div');
     var modalContent = document.createElement('img');
 
@@ -52,29 +52,37 @@ function drawPost(postData) {
     img.setAttribute('class', 'post-img');
     img.setAttribute('src', postData.img);
     imgDiv.appendChild(img);
+    
     metaDiv.setAttribute('class', 'post-meta bg-white');
     titleDiv.setAttribute('class', 'post-title');
     name.appendChild(document.createTextNode(postData.name));
     titleDiv.appendChild(name);
     actionDiv.setAttribute('class', 'post-actions');
-    likeDiv.setAttribute('class', 'post-likes');
-    viewDiv.setAttribute('class', 'post-views');
-    commentDiv.setAttribute('class', 'post-comments');
-    likes.setAttribute('class', 'text-pink-500');
-    likes.appendChild(document.createTextNode('❤ '))
+    likeDiv.setAttribute('class', 'flex');
+    commentDiv.setAttribute('class', 'flex');
+    viewDiv.setAttribute('class', 'flex');
+
+    likes.setAttribute('class', 'post-likes');
     likeDiv.appendChild(likes);
-    likeDiv.appendChild(document.createElement('span').appendChild(document.createTextNode(Math.floor(Math.random() * 1000))));
-    views.setAttribute('class', 'text-pink-500');
-    views.appendChild(document.createTextNode('❤ '))
-    viewDiv.appendChild(views);
-    viewDiv.appendChild(document.createElement('span').appendChild(document.createTextNode(Math.floor(Math.random() * 1000))));
-    comments.setAttribute('class', 'text-pink-500');
-    comments.appendChild(document.createTextNode('❤ '))
+    likes = document.createElement('span');
+    likes.appendChild(document.createTextNode(Math.floor(Math.random() * 1000)));
+    likeDiv.appendChild(likes);
+    
+    comments.setAttribute('class', 'post-comments');
     commentDiv.appendChild(comments);
-    commentDiv.appendChild(document.createElement('span').appendChild(document.createTextNode(Math.floor(Math.random() * 1000))));
+    comments = document.createElement('span');
+    comments.appendChild(document.createTextNode(Math.floor(Math.random() * 1000)));
+    commentDiv.appendChild(comments);
+    
+    views.setAttribute('class', 'post-views');
+    viewDiv.appendChild(views);
+    views = document.createElement('span');
+    views.appendChild(document.createTextNode(Math.floor(Math.random() * 1000)));
+    viewDiv.appendChild(views);
+
     actionDiv.appendChild(likeDiv);
-    actionDiv.appendChild(viewDiv);
     actionDiv.appendChild(commentDiv);
+    actionDiv.appendChild(viewDiv);
     metaDiv.appendChild(titleDiv);
     metaDiv.appendChild(actionDiv);
 
@@ -93,6 +101,10 @@ function drawPost(postData) {
         if (event.target.classList.contains('post-modal-content')) {
             event.target.parentNode.style.display = 'none';
             document.getElementsByTagName("html")[0].style.overflow = 'scroll';
+        }
+        else if (event.target.classList.contains('post-likes') || event.target.classList.contains('post-heart')) {
+            event.target.classList.toggle('post-likes');
+            event.target.classList.toggle('post-heart');
         }
         else if (event.currentTarget.classList.contains('post-expanded')) {
             if (event.target.classList.contains('post-img')) {
