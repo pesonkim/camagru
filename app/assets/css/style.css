@@ -915,10 +915,6 @@ img {
     .post-media {
         height: 280px;
     }
-    .post-expanded {
-        grid-column: span 3;
-        grid-row: span 2;
-    }
     .post-expanded.post {
         height: 700px;
     }
@@ -998,7 +994,7 @@ img {
 }
 
 .post-media {
-    display: block;
+    background-color: rgba(248,247,251,255);
     width: 100%;
     overflow: hidden;
     text-align: center;
@@ -1025,8 +1021,6 @@ img {
     width: 100%;
     bottom: 0;
     left: 0;
-    
-    border-radius: .25rem;
 }
 
 .post-title {
@@ -1309,8 +1303,4 @@ img {
 .header-hidden {
     transition: all 0.3s ease 0s;
     transform: translate3d(0px, -64px, 0px);
-}
-
-* {
-    outline: 1px solid;
 }
