@@ -23,13 +23,10 @@ session_start();
                     <section class="flex items-center">
                         <a href="index.php" class="flex flex-row items-center text-gray-800 text-2xl">
                             <h3 class="m-0">Camagru</h3>
-                            <div class="animatedCursor"></div>
                         </a>
+                        <button id="open-modal" class="animatedCursor"></button>
                     </section>
                     <section class="flex items-center">
-                        <a href="#">
-                            <button id="open-modal" class="mx-2 text-gray-800">Modal</button>
-                        </a>
                         <a href="index.php?page=gallery">
                             <button class="mx-2 text-gray-800">Gallery</button>
                         </a>

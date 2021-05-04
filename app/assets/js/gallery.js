@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
 const postsContainer = document.getElementById('postsContainer');
 var index = 0;
-var limit = 10;
+var limit = 0;
 
 function loadPosts() {
     const request = new XMLHttpRequest();
@@ -31,6 +31,7 @@ function loadPosts() {
 
 function drawPost(postData) {
     
+    var newDiv = document.createElement('div');
     var newDiv = document.createElement('div');
     var img = document.createElement('img');
     var titleDiv = document.createElement('div');
@@ -94,8 +95,8 @@ window.onscroll = function() {
 
 
 postsContainer.addEventListener('click', function(event) {
-    if (event.target.classList.contains('post') || event.target.parentNode.classList.contains('post')) {
-        if (event.target.classList.contains('post-preview') && event.target.parentNode.classList.contains('post-expanded')) {
+    if (event.target.classList.contains('post') || event.target.parentNode.classList.contains('post') || event.target.parentNode.parentNodeclassList.contains('post')) {
+        if (event.target.classList.contains('post-media') && event.target.parentNode.classList.contains('post-expanded')) {
             event.target.parentNode.querySelector('.post-modal-container').style.display = 'grid';
             document.getElementsByTagName("html")[0].style.overflow = 'hidden'
         }

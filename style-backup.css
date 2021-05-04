@@ -909,21 +909,19 @@ img {
     .sm\:gap {
         gap: .75rem
     }
-    .post {
-        height: 365px;
-    }
     .post-media {
-        height: 280px;
+        max-height: 560px;
+        max-width: 100%;
+        height: auto;
+        width: auto;
+        padding: 10px 15px 0px 15px;
     }
-    .post-expanded {
-        grid-column: span 3;
-        grid-row: span 2;
-    }
-    .post-expanded.post {
-        height: 700px;
-    }
-    .post-expanded .post-media {
-        height: 615px;
+    .post-expanded img {
+        max-height: 560px;
+        max-width: 100%;
+        height: auto;
+        width: auto;
+        cursor: zoom-in;
     }
 }
 
@@ -941,20 +939,23 @@ img {
     .md\:rounded {
         border-radius:.25rem;
     }
-    .post {
-        height: 365px;
-    }
     .post-media {
-        height: 280px;
+        max-height: 360px;
+        max-width: 100%;
+        height: auto;
+        width: auto;
+        padding: 10px 15px 0px 15px;
     }
     .post-expanded {
         grid-column: span 2;
-    }
-    .post-expanded.post {
-        height: 700px;
-    }
-    .post-expanded .post-media {
-        height: 615px;
+        grid-row: span 2;
+   }
+   .post-expanded img {
+        max-height: 700px;
+        max-width: 100%;
+        height: auto;
+        width: auto;
+        cursor: zoom-in;
     }
 }
 
@@ -972,50 +973,39 @@ img {
     .lg\:rounded {
         border-radius:.25rem;
     }
-    .post {
-        height: 365px;
-    }
     .post-media {
         height: 280px;
+        width: 100%;
+        background-color: rgba(248,247,251,255);
+        overflow: hidden;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+    }
+    .post-media img{
+        height: 100%;
+        width: auto;
+        object-fit: contain;
     }
     .post-expanded {
         grid-column: span 3;
+        grid-row: span 2;
     }
-    .post-expanded.post {
-        height: 700px;
-    }
-    .post-expanded .post-media {
-        height: 615px;
+    .post-expanded img {
+        max-height: 700px;
+        max-width: 100%;
+        height: auto;
+        width: auto;
+        cursor: zoom-in;
     }
 }
 
 .post {
     cursor: pointer;
     padding: .75rem;
+    height: 365px;
     overflow: hidden;
     position: relative;
-    display: inline-block;
-}
-
-.post-media {
-    display: block;
-    width: 100%;
-    overflow: hidden;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-}
-
-.post-img{
-    height: auto;
-    max-height: 100%;
-    max-height: 100%;
-    width: auto;
-    object-fit: contain;
-}
-
-.post-expanded .post-media .post-img {
-    cursor: zoom-in;
 }
 
 .post-meta {
