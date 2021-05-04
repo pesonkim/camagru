@@ -29,6 +29,13 @@ function loadPosts() {
     index += limit;
 }
 
+function nFormatter(num) {
+    if (num >= 1000) {
+       return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+    }
+    return num;
+}
+
 function drawPost(postData) {
     
     var newDiv = document.createElement('div');
@@ -65,19 +72,19 @@ function drawPost(postData) {
     likes.setAttribute('class', 'post-likes');
     likeDiv.appendChild(likes);
     likes = document.createElement('span');
-    likes.appendChild(document.createTextNode(Math.floor(Math.random() * 1000)));
+    likes.appendChild(document.createTextNode(nFormatter(Math.floor(Math.random() * 1000))));
     likeDiv.appendChild(likes);
     
     comments.setAttribute('class', 'post-comments');
     commentDiv.appendChild(comments);
     comments = document.createElement('span');
-    comments.appendChild(document.createTextNode(Math.floor(Math.random() * 1000)));
+    comments.appendChild(document.createTextNode(nFormatter(Math.floor(Math.random() * 1000))));
     commentDiv.appendChild(comments);
     
     views.setAttribute('class', 'post-views');
     viewDiv.appendChild(views);
     views = document.createElement('span');
-    views.appendChild(document.createTextNode(Math.floor(Math.random() * 1000)));
+    views.appendChild(document.createTextNode(nFormatter(Math.floor(Math.random() * 10000))));
     viewDiv.appendChild(views);
 
     actionDiv.appendChild(likeDiv);
@@ -102,9 +109,16 @@ function drawPost(postData) {
             event.target.parentNode.style.display = 'none';
             document.getElementsByTagName("html")[0].style.overflow = 'scroll';
         }
-        else if (event.target.classList.contains('post-likes') || event.target.classList.contains('post-heart')) {
+        else if (event.target.classList.contains('post-likes')) {
             event.target.classList.toggle('post-likes');
             event.target.classList.toggle('post-heart');
+            event.target.parentNode.querySelectorAll('span')[0].textContent = parseInt(event.target.parentNode.querySelectorAll('span')[0].textContent) + 1;
+
+        }
+        else if (event.target.classList.contains('post-heart')) {
+            event.target.classList.toggle('post-likes');
+            event.target.classList.toggle('post-heart');
+            event.target.parentNode.querySelectorAll('span')[0].textContent = parseInt(event.target.parentNode.querySelectorAll('span')[0].textContent) - 1;
         }
         else if (event.currentTarget.classList.contains('post-expanded')) {
             if (event.target.classList.contains('post-img')) {
