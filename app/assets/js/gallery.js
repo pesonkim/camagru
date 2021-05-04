@@ -104,7 +104,6 @@ function drawPost(postData) {
     newDiv.appendChild(modalContainer);
 
     newDiv.addEventListener('click', function(event) {
-        console.log(event.target);
         if (event.target.classList.contains('post-modal-content')) {
             event.target.parentNode.style.display = 'none';
             document.getElementsByTagName("html")[0].style.overflow = 'scroll';
@@ -120,7 +119,7 @@ function drawPost(postData) {
             event.target.classList.toggle('post-heart');
             event.target.parentNode.querySelectorAll('span')[0].textContent = parseInt(event.target.parentNode.querySelectorAll('span')[0].textContent) - 1;
         }
-        else if (event.currentTarget.classList.contains('post-expanded')) {
+        else if (event.currentTarget.classList.contains('post-expanded') || window.matchMedia('(max-width: 767px)').matches) {
             if (event.target.classList.contains('post-img')) {
                 event.currentTarget.querySelector('.post-modal-container').style.display = 'grid';
                 document.getElementsByTagName("html")[0].style.overflow = 'hidden'
@@ -130,7 +129,9 @@ function drawPost(postData) {
                 document.getElementsByTagName("html")[0].style.overflow = 'scroll';
             }
             else {
-                event.currentTarget.classList.toggle('post-expanded');
+                if ((!window.matchMedia('(max-width: 767px)').matches)) {
+                    event.currentTarget.classList.toggle('post-expanded');
+                }
                 event.currentTarget.scrollIntoView({
                     behavior: 'smooth',
                     block: 'center'
@@ -166,17 +167,28 @@ window.onscroll = function() {
 
 window.matchMedia('(min-width: 1024px)').addEventListener('change', function(event) {
     if (event.matches) {
-        console.log('lg');
+        var divs = document.getElementById('postsContainer').querySelectorAll('.post-expanded');
+        for (var i = 0; i < divs.length; i++) {
+            divs[i].classList.toggle('post-expanded');
+        }
     } else {
-        console.log('md');
+        var divs = document.getElementById('postsContainer').querySelectorAll('.post-expanded');
+        for (var i = 0; i < divs.length; i++) {
+            divs[i].classList.toggle('post-expanded');
+        }
     }
 });
+
 window.matchMedia('(max-width: 767px)').addEventListener('change', function(event) {
     if (event.matches) {
-        console.log('sm');
+        var divs = document.getElementById('postsContainer').querySelectorAll('.post-expanded');
+        for (var i = 0; i < divs.length; i++) {
+            divs[i].classList.toggle('post-expanded');
+        }
     } else {
-        console.log('md');
+        var divs = document.getElementById('postsContainer').querySelectorAll('.post-expanded');
+        for (var i = 0; i < divs.length; i++) {
+            divs[i].classList.toggle('post-expanded');
+        }
     }
 });
-
-
