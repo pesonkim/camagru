@@ -910,13 +910,14 @@ img {
         gap: .75rem
     }
     .post {
-        height: 700px;
+        height: 100%;
     }
     .post-media {
-        height: 615px;
+        height: 100%;
     }
     .post-img {
         cursor: zoom-in;
+        padding-bottom: 60px;
     }
 }
 
