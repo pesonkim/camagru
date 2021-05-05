@@ -936,19 +936,22 @@ img {
         border-radius:.25rem;
     }
     .post {
-        height: 365px;
+        height: 380px;
     }
     .post-media {
-        height: 280px;
+        height: 380px;
+    }
+    .post-img {
+        padding-bottom: 85px;
     }
     .post-expanded {
         grid-column: span 2;
     }
     .post-expanded.post {
-        height: 700px;
+        height: 600px;
     }
     .post-expanded .post-media {
-        height: 615px;
+        height: 600px;
     }
 }
 
@@ -970,16 +973,19 @@ img {
         height: 365px;
     }
     .post-media {
-        height: 280px;
+        height: 365px;
+    }
+    .post-img {
+        padding-bottom: 85px;
     }
     .post-expanded {
         grid-column: span 3;
     }
     .post-expanded.post {
-        height: 700px;
+        height: 600px;
     }
     .post-expanded .post-media {
-        height: 615px;
+        height: 600px;
     }
 }
 
