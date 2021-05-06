@@ -12,19 +12,68 @@ class UserModel {
         $this->pdo = Database::getInstance();
     }
 
-    public function usernameExists($username) {
-        $data = array();
-        $data[]= "asd";
-        //return data if true, false otherwise
+    //insert new user to database after verifications
+    public function createUser() {
 
-        if (in_array($username, $data)) {
-            return $username;
-        }        
-        else
-            return false;
     }
 
+    //compare login password to database
+    public function loginUser() {
+
+    }
+
+    //update username
+    public function updateUsername() {
+
+    }
+
+    //update email
+    public function updateEmail() {
+
+    }
+
+    //update password
+    public function updatePassword() {
+
+    }
+
+    //update verified status
+    public function updateVerified() {
+
+    }
+
+    //update notification preference
+    public function updateNotification() {
+
+    }
+
+    //check if account is verified by email
+    public function isVerified() {
+
+    }
+
+    //search user by email
+    public function getUserByEmail() {
+
+    }
+
+    //check if username is taken
+    public function usernameExists($username) {
+        $stmt = ('SELECT * FROM users WHERE username = :username');
+        $this->pdo->prepare($stmt);
+        $this->pdo->bindValue(':username', $username);
+        $this->pdo->execute();
+        $data = $this->pdo->fetch();
+        return $data;
+    }
+
+    //check if email is registered
     public function emailExists($email) {
-        return false;
+        $stmt = ('SELECT * FROM users WHERE email = :email');
+        $this->pdo->prepare($stmt);
+        $this->pdo->bindValue(':email', $email);
+        $this->pdo->execute();
+        $data = $this->pdo->fetch();
+        return $data;
     }
 }

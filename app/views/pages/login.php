@@ -63,4 +63,4 @@ if (!defined('RESTRICTED')) {
     </div>
 </div>
 
-<script type="text/javascript" src="/camagru/app/assets/js/login.js"></script>
+<script type="text/javascript" src="<?=URL?>/app/assets/js/login.js"></script>

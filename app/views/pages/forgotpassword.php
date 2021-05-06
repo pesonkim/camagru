@@ -42,4 +42,4 @@ if (!defined('RESTRICTED')) {
     </div>
 </div>
 
-<script type="text/javascript" src="/camagru/app/assets/js/forgotpassword.js"></script>
+<script type="text/javascript" src="<?=URL?>/app/assets/js/forgotpassword.js"></script>

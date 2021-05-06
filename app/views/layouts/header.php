@@ -12,7 +12,7 @@ session_start();
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
         <title><?=TITLE?></title>
-        <link rel="stylesheet" href="/camagru/app/assets/css/style.css">
+        <link rel="stylesheet" href="<?=URL?>/app/assets/css/style.css">
         <!--
         <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css">
         -->
@@ -24,19 +24,19 @@ session_start();
             <header id="header" class="h-16 flex justify-center fixed top-0 left-0 right-0 z-50 blur shadow header-visible">
                 <section class="w-full max-w-screen-lg flex justify-between items-center mx-4">
                     <section class="flex items-center">
-                        <a href="index.php" class="flex flex-row items-center text-gray-800 text-2xl">
+                        <a href="<?=URL?>/index.php" class="flex flex-row items-center text-gray-800 text-2xl">
                             <h3 class="m-0">Camagru</h3>
                         </a>
                         <button id="open-modal" class="animatedCursor"></button>
                     </section>
                     <section class="flex items-center">
-                        <a href="index.php?page=gallery">
+                        <a href="<?=URL?>/index.php?page=gallery">
                             <button class="mx-2 text-gray-800">Gallery</button>
                         </a>
-                        <a href="index.php?page=login">
+                        <a href="<?=URL?>/index.php?page=login">
                             <button class="mx-2 text-gray-800">Login</button>
                         </a>
-                        <a href="index.php?page=signup">
+                        <a href="<?=URL?>/index.php?page=signup">
                             <button class="mx-2 text-gray-800">Signup</button>
                         </a>
                     </section>
@@ -49,6 +49,6 @@ session_start();
                     <button id="close-modal" class="mx-auto rounded">close me</button>
                 </div>
             </div>
-            <script type="text/javascript" src="/camagru/app/assets/js/header.js"></script>
+            <script type="text/javascript" src="<?=URL?>/app/assets/js/header.js"></script>
             <!--margins for page view main content-->
             <main class="mt-20 mb-4">

@@ -45,4 +45,4 @@ if (!defined('RESTRICTED')) {
     ?>
 </div>
 
-<script type="text/javascript" src="/camagru/app/assets/js/gallery.js"></script>
+<script type="text/javascript" src="<?=URL?>/app/assets/js/gallery.js"></script>

@@ -64,16 +64,49 @@ function drawError() {
 }
 
 function validateField(id, value) {
-    if (value == "") {
-        document.getElementById(id).classList.remove('input-ok');
-        document.getElementById(id).classList.add('input-error');
-        document.getElementById(id+'Error').innerHTML = id + ' is required.';
+    const request = new XMLHttpRequest();
+    if (id === 'Username') {
+        var requestData = 'username='+value;
+        request.open('post', 'index.php?UserController&method=validateUsernameFormat');
     }
-    else {
-        document.getElementById(id).classList.remove('input-error');
-        document.getElementById(id).classList.add('input-ok');
-        document.getElementById(id+'Error').innerHTML = '';
+    if (id === 'Email') {
+        var requestData = 'email='+value;
+        request.open('post', 'index.php?UserController&method=validateEmailFormat');
     }
+    if (id === 'Password') {
+        var requestData = 'password='+value;
+        request.open('post', 'index.php?UserController&method=validatePasswordFormat');
+    }
+    
+    request.onreadystatechange = function() {
+        if (request.readyState == 4) {
+            const json = JSON.parse(request.responseText);
+            console.log(json);
+            if (json.username) {
+                console.log(json.username);
+                document.getElementById('UsernameError').innerHTML = json.username;
+                document.getElementById(id).classList.remove('input-ok');
+                document.getElementById(id).classList.add('input-error');
+            }
+            else if (json.email) {
+                document.getElementById('EmailError').innerHTML = json.email;
+                document.getElementById(id).classList.remove('input-ok');
+                document.getElementById(id).classList.add('input-error');
+            }
+            else if (json.password) {
+                document.getElementById('PasswordError').innerHTML = json.password;
+                document.getElementById(id).classList.remove('input-ok');
+                document.getElementById(id).classList.add('input-error');
+            }
+            else {
+                document.getElementById(id).classList.remove('input-error');
+                document.getElementById(id).classList.add('input-ok');
+                document.getElementById(id+'Error').innerHTML = '';
+            }
+        }
+    }
+    request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    request.send(requestData);
 }
 
 document.getElementById('btn-signup').addEventListener('click', validateForm);
@@ -134,7 +167,7 @@ function validateForm() {
 
     const requestData = 'action=signup&username='+username+'&email='+email+'&password='+password;
 
-    request.open('post', 'index.php?UserController&method=checkSignup');
+    request.open('post', 'index.php?UserController&method=signupUser');
     request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     request.send(requestData);
 }
