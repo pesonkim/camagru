@@ -1,4 +1,7 @@
 <?php
+if (!defined('RESTRICTED')) {
+    die ("Direct access not premitted");
+}
 session_start();
 ?>
 
@@ -8,7 +11,7 @@ session_start();
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
-        <title><?=$title?></title>
+        <title><?=TITLE?></title>
         <link rel="stylesheet" href="/camagru/app/assets/css/style.css">
         <!--
         <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css">

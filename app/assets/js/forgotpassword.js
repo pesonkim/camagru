@@ -2,6 +2,18 @@ function noEnter() {
     return !(window.event && window.event.keyCode == 13);
 }
 
+function toggle(e) {
+    x = document.getElementById('Password').type;
+    if (x == 'password') {
+        e.innerHTML = 'Hide';
+        document.getElementById('Password').type='text';
+    }
+    else {
+        e.innerHTML = 'Show'
+        document.getElementById('Password').type='password';
+    }
+}
+
 document.getElementById('Email').addEventListener('keyup', function (event) {
     if (window.event.keyCode == 13)
         document.getElementById('btn-resetemail').focus();

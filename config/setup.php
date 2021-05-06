@@ -1,10 +1,9 @@
-#!/usr/bin/php
 <?php
 
 require_once 'database.php';
 
 try {
-    $db = new PDO('mysql:host=127.0.0.1', $DB_USER, $DB_PASSWORD);
+    $db = new PDO('mysql:host='.$DB_HOST, $DB_USER, $DB_PASSWORD);
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     $sql = "CREATE DATABASE IF NOT EXISTS `$DB_NAME`";

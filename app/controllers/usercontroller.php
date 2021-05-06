@@ -1,6 +1,9 @@
 <?php
+if (!defined('RESTRICTED')) {
+    die ("Direct access not premitted");
+}
 
-require_once __DIR__ . '/../models/UserModel.php';
+require_once DIRPATH . '/app/models/UserModel.php';
 
 class UserController {
     private $model;

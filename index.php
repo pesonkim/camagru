@@ -1,7 +1,6 @@
 <?php
 
-$title = "Camagru";
-
+require_once __DIR__ . '/config/config.php';
 require_once __DIR__ . '/app/controllers/UserController.php';
 require_once __DIR__ . '/app/controllers/PostController.php';
 
@@ -44,11 +43,6 @@ switch ($page) {
     case "account": {
         $ctrl = new UserController();
         $ctrl->viewAccount();
-        break ;
-    }
-    case "modal": {
-        $ctrl = new UserController();
-        $ctrl->viewModal();
         break ;
     }
     case "gallery": {

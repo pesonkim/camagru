@@ -1,3 +1,8 @@
+<?php
+if (!defined('RESTRICTED')) {
+    die ("Direct access not premitted");
+}
+?>
             </main>
             <footer class="h-16 w-full flex flex-col justify-center items-center">
                 <div class="flex flex-row text-center justify-center flex-wrap">

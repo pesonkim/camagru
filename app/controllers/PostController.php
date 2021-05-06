@@ -1,6 +1,9 @@
 <?php
+if (!defined('RESTRICTED')) {
+    die ("Direct access not premitted");
+}
 
-require_once __DIR__ . '/../models/PostModel.php';
+require_once DIRPATH . '/app/models/PostModel.php';
 
 class PostController {
     private $model;
@@ -22,7 +25,7 @@ class PostController {
     }
 
     public function viewGallery() {
-        require_once __DIR__ . '/../views/pages/gallery.php';
+        require_once DIRPATH . '/app/views/pages/gallery.php';
     }
 
     public function redirect($url) {

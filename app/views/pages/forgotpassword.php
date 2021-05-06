@@ -1,17 +1,7 @@
 <?php
-echo "<script>
-    function toggle(e) {
-        x = document.getElementById('Password').type;
-        if (x == 'password') {
-            e.innerHTML = 'Hide';
-            document.getElementById('Password').type='text';
-        }
-        else {
-            e.innerHTML = 'Show'
-            document.getElementById('Password').type='password';
-        }
-    }
-    </script>";
+if (!defined('RESTRICTED')) {
+    die ("Direct access not premitted");
+}
 ?>
 
 <div class="max-w-screen-sm mx-auto items-center justify-center px-2">

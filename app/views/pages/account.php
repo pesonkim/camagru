@@ -1,6 +1,7 @@
 <?php
-$token = bin2hex(random_bytes(32));
-$_SESSION["token"] = $token;
+if (!defined('RESTRICTED')) {
+    die ("Direct access not premitted");
+}
 ?>
 
 
