@@ -118,10 +118,6 @@ function validateForm() {
 
     request.onreadystatechange = function() {
         if (request.readyState == 4) {
-            if (request.status == 200) {
-                alert('yay');
-                window.location = 'index.php?page=login';
-            }
             const json = JSON.parse(request.responseText);
             console.log(json);
             if (json.code == 200) {
