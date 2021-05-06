@@ -13,19 +13,39 @@ class UserController {
     }
 
     public function signupUser() {
+        $data = array();
         $errors = array();
 
+        //check if form was correctly submitted, else return request as unauthorized
         if (isset($_POST["action"]) && $_POST["action"] === "signup") {
-            $errors['username'] = $this->validateUsernameFormat();
-            $errors['email'] = $this->validateEmailFormat();
-            $errors['password'] = $this->validatePasswordFormat();
-
+            if ($this->validateUsernameFormat()) {
+                $errors['username'] = $this->validateUsernameFormat();
+            }
+            if ($this->validateEmailFormat()) {
+                $errors['email'] = $this->validateEmailFormat();
+            }
+            if ($this->validatePasswordFormat()) {
+                $errors['password'] = $this->validatePasswordFormat();
+            }
+            //return syntax and format errors
             if (!empty($errors)) {
                 $data['code'] = 400;
                 $data['errors'] = $errors;
             }
+            else if ($this->model->usernameExists($_POST['email'])) {
+                $errors['username'] = 'This username is already taken.';
+            }
+            else if ($this->model->emailExists($_POST['email'])) {
+                $errors['email'] = 'An account with this email address already exists.';
+            }
+            //return conflicts if username or email is already in database
+            else if (!empty($errors)) {
+                $data['code'] = 409;
+                $data['errors'] = $errors;
+            }
+            //pass post data to createUser method if no errors
             else {
-                $this->createUser();
+                $this->createUser($data);
             }
         }
         else {
@@ -36,6 +56,7 @@ class UserController {
         exit ;
     }
 
+    //validate signup username, called with ajax after input field loses focus or entire form is submitted
     public function validateUsernameFormat() {
         if (empty($_POST['username'])) {
             $error = 'Please enter a username.';
@@ -65,6 +86,7 @@ class UserController {
         }
     }
 
+    //validate signup email, called with ajax after input field loses focus or entire form is submitted
     public function validateEmailFormat() {
         if (empty($_POST['email'])) {
             $error = 'Please enter an email address.';
@@ -77,7 +99,7 @@ class UserController {
             if (isset($error)) {
                 $errors['email'] = $error;
             }
-            else if ($this->model->usernameExists($_POST['email'])) {
+            else if ($this->model->emailExists($_POST['email'])) {
                 $errors['email'] = 'An account with this email address already exists.';
             }
             echo json_encode($errors);
@@ -88,6 +110,7 @@ class UserController {
         }
     }
 
+    //validate signup password, called with ajax after input field loses focus or entire form is submitted
     public function validatePasswordFormat() {
         if (empty($_POST['password'])) {
             $error = 'Please enter a password.';
@@ -111,7 +134,22 @@ class UserController {
         }
     }
 
+    //prepare data array and call UserModel to create and insert new user
     public function createUser($data) {
+        $data['username'] = $_POST['username'];
+        $data['email'] = $_POST['email'];
+        $data['password'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        $data['token'] = bin2hex(random_bytes(32));
+        $data['created_at'] = date('Y-m-d H:i:s');
+
+        $this->model->createUser($data);
+        $data['code'] = 200;
+        $data['message'] = 'Success!';
+        
+        echo json_encode($data);
+        exit ;
+
+        //handle email
     }
 
  

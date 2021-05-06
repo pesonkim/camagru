@@ -1,6 +1,6 @@
 <?php
 
-date_default_timezone_set('Helsinki/Finland');
+date_default_timezone_set('Europe/Helsinki');
 if (isset($_SERVER['HTTPS'])) {
     $url =  'https://';
 }
