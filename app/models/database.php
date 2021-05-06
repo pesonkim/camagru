@@ -4,8 +4,9 @@ if (!defined('RESTRICTED')) {
 }
 
 class Database {
-    private $dbh; //handle for database connection
+    public $dbh; //handle for database connection
     private static $instance; //instance of constructed connection
+    private $stmt;
     
     private function __construct() //private constructor (singleton pattern) for only a single instance to exist
     {

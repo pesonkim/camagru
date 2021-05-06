@@ -81,9 +81,7 @@ function validateField(id, value) {
     request.onreadystatechange = function() {
         if (request.readyState == 4) {
             const json = JSON.parse(request.responseText);
-            console.log(json);
             if (json.username) {
-                console.log(json.username);
                 document.getElementById('UsernameError').innerHTML = json.username;
                 document.getElementById(id).classList.remove('input-ok');
                 document.getElementById(id).classList.add('input-error');

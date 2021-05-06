@@ -14,7 +14,6 @@ class UserController {
 
     public function signupUser() {
         $errors = array();
-        $data = array();
 
         if (isset($_POST["action"]) && $_POST["action"] === "signup") {
             $errors['username'] = $this->validateUsernameFormat();
@@ -26,7 +25,7 @@ class UserController {
                 $data['errors'] = $errors;
             }
             else {
-                $this->createUser($data);
+                $this->createUser();
             }
         }
         else {
@@ -55,6 +54,9 @@ class UserController {
             if (isset($error)) {
                 $errors['username'] = $error;
             }
+            else if ($this->model->usernameExists($_POST['username'])) {
+                $errors['username'] = 'This username is already taken.';
+            }
             echo json_encode($errors);
             exit ;
         }
@@ -74,6 +76,9 @@ class UserController {
             $errors = array();
             if (isset($error)) {
                 $errors['email'] = $error;
+            }
+            else if ($this->model->usernameExists($_POST['email'])) {
+                $errors['email'] = 'An account with this email address already exists.';
             }
             echo json_encode($errors);
             exit ;
@@ -107,9 +112,6 @@ class UserController {
     }
 
     public function createUser($data) {
-
-
-  
     }
 
  

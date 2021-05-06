@@ -9,7 +9,8 @@ class UserModel {
     private $pdo;
     
     public function __construct() {
-        $this->pdo = Database::getInstance();
+        $db = Database::getInstance();
+        $this->pdo = $db->dbh;
     }
 
     //insert new user to database after verifications
@@ -59,21 +60,19 @@ class UserModel {
 
     //check if username is taken
     public function usernameExists($username) {
-        $stmt = ('SELECT * FROM users WHERE username = :username');
-        $this->pdo->prepare($stmt);
-        $this->pdo->bindValue(':username', $username);
-        $this->pdo->execute();
-        $data = $this->pdo->fetch();
+        $stmt = $this->pdo->prepare('SELECT * FROM users WHERE username = :username');
+        $stmt->bindValue(':username', $username);
+        $stmt->execute();
+        $data = $stmt->fetch();
         return $data;
     }
 
     //check if email is registered
     public function emailExists($email) {
-        $stmt = ('SELECT * FROM users WHERE email = :email');
-        $this->pdo->prepare($stmt);
-        $this->pdo->bindValue(':email', $email);
-        $this->pdo->execute();
-        $data = $this->pdo->fetch();
+        $stmt = $this->pdo->prepare('SELECT * FROM users WHERE email = :email');
+        $stmt->bindValue(':email', $email);
+        $stmt->execute();
+        $data = $stmt->fetch();
         return $data;
     }
 }
