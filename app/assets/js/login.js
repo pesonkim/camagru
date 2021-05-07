@@ -48,11 +48,25 @@ function drawError() {
     }
 }
 
+function drawConfirm() {
+    document.getElementById('Username').classList.remove('input-error');
+    document.getElementById('Username').classList.add('input-ok');
+    document.getElementById('UsernameError').innerHTML = '';
+    document.getElementById('Password').classList.remove('input-error');
+    document.getElementById('Password').classList.add('input-ok');
+    document.getElementById('PasswordError').innerHTML = '';
+}
+
 function validateField(id, value) {
     if (value == "") {
         document.getElementById(id).classList.remove('input-ok');
         document.getElementById(id).classList.add('input-error');
-        document.getElementById(id+'Error').innerHTML = id + ' is required.';
+        if (id == 'Username') {
+            document.getElementById(id+'Error').innerHTML = 'Please enter a username.';
+        }
+        else {
+            document.getElementById(id+'Error').innerHTML = 'Please enter a password.';
+        }
     }
     else {
         document.getElementById(id).classList.remove('input-error');
@@ -73,48 +87,55 @@ function validateForm() {
         if (request.readyState == 4) {
             console.log(request.responseText);
             const json = JSON.parse(request.responseText);
+            console.log(json);
             if (json.code == 200) {
+                drawConfirm();
                 alert(json.message);
-                window.location ='index.php';
+                //window.location = 'index.php?page=gallery';
             }
             if (json.code == 401) {
                 alert(json.message);
             }
             if (json.code == 400) {
-                if (json.errors.username)
-                    document.getElementById('UsernameError').innerHTML = json.errors.username;
-                else
+                if (json.errors.login) {
                     document.getElementById('UsernameError').innerHTML = '';
-                if (json.errors.password)
-                    document.getElementById('PasswordError').innerHTML = json.errors.password;
-                else
-                    document.getElementById('PasswordError').innerHTML = '';
-                drawError();
-                document.getElementById('loginWrapper').classList.add('apply-shake');
-                setTimeout(function() {document.getElementById('loginWrapper').classList.remove('apply-shake');}, 500);
-            }
-            if (json.code == 409) {
-                if (json.errors.username)
-                    document.getElementById('UsernameError').innerHTML = json.errors.username;
-                else
+                    document.getElementById('PasswordError').innerHTML = json.errors.login;
+                    document.getElementById('Username').classList.remove('input-ok');
+                    document.getElementById('Username').classList.add('input-error');
+                    document.getElementById('Password').classList.remove('input-ok');
+                    document.getElementById('Password').classList.add('input-error');
+                    document.getElementById('loginWrapper').classList.add('apply-shake');
+                    setTimeout(function() {document.getElementById('loginWrapper').classList.remove('apply-shake');}, 500);
+                }
+                else if (json.errors.verify) {
                     document.getElementById('UsernameError').innerHTML = '';
-                if (json.errors.password)
-                    document.getElementById('PasswordError').innerHTML = json.errors.password;
-                else
-                    document.getElementById('PasswordError').innerHTML = '';
-                document.getElementById('Username').classList.remove('input-ok');
-                document.getElementById('Username').classList.add('input-error');
-                document.getElementById('Password').classList.remove('input-ok');
-                document.getElementById('Password').classList.add('input-error');
-                document.getElementById('loginWrapper').classList.add('apply-shake');
-                setTimeout(function() {document.getElementById('loginWrapper').classList.remove('apply-shake');}, 500);
+                    document.getElementById('PasswordError').innerHTML = json.errors.verify;
+                    document.getElementById('Username').classList.remove('input-ok');
+                    document.getElementById('Username').classList.add('input-error');
+                    document.getElementById('Password').classList.remove('input-ok');
+                    document.getElementById('Password').classList.add('input-error');
+                    alert(json.message);
+                }
+                else {
+                    if (json.errors.username)
+                        document.getElementById('UsernameError').innerHTML = json.errors.username;
+                    else
+                        document.getElementById('UsernameError').innerHTML = '';
+                    if (json.errors.password)
+                        document.getElementById('PasswordError').innerHTML = json.errors.password;
+                    else
+                        document.getElementById('PasswordError').innerHTML = '';
+                    drawError();
+                    document.getElementById('loginWrapper').classList.add('apply-shake');
+                    setTimeout(function() {document.getElementById('loginWrapper').classList.remove('apply-shake');}, 500);
+                }
             }
         }
     }
 
     const requestData = 'action=login&username='+username+'&password='+password;
 
-    request.open('post', 'index.php?UserController&method=checkLogin');
+    request.open('post', 'index.php?UserController&method=loginUser');
     request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     request.send(requestData);
 }

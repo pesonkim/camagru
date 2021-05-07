@@ -23,6 +23,8 @@ else if (isset($_GET['PostController'])) {
 
 require_once __DIR__ . '/app/views/layouts/header.php';
 
+var_dump($_SESSION);
+
 $page = $_GET['page'];
 switch ($page) {
     case "login": {

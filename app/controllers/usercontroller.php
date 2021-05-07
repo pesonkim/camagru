@@ -12,6 +12,7 @@ class UserController {
         $this->model = new UserModel();
     }
 
+    //called after submitting signup form
     public function signupUser() {
         $data = array();
         $errors = array();
@@ -152,97 +153,61 @@ class UserController {
         //handle email
     }
 
- 
-
-
-
-
-
-    //-----------
-
-    public function checkLogin() {
-        $errors = array();
+    //called after submitting login form
+    public function loginUser() {
         $data = array();
+        $errors = array();
 
-        if (empty($_POST['username']) && $_POST['username'] !== '0') {
-            $errors['username'] = 'Username is required.';
+        //check if form was correctly submitted, else return request as unauthorized
+        if (isset($_POST["action"]) && $_POST["action"] === "login") {
+            if (empty($_POST['username'])) {
+                $errors['username'] = 'Please enter a username.';
+            }
+            if (empty($_POST['password'])) {
+                $errors['password'] = 'Please enter a password.';
+            }
+            //return empty fields
+            if (!empty($errors)) {
+                $data['code'] = 400;
+                $data['errors'] = $errors;
+            }
+            //compare login input to hashed password in database 
+            else if ($this->model->loginUser($_POST['username'],$_POST['password'])) {
+                //fetch user data if password verify matches
+                $user = $this->model->getUserData($_POST['username']);
+                //set session data if account is verified
+                if ($user['is_verified'] === '1') {
+                    $_SESSION['id_user'] = $user['id_user'];
+                    $_SESSION['username'] = $user['username'];
+                    $_SESSION['email'] = $user['email'];
+                    $_SESSION['notify_pref'] = $user['notify_pref'];
+                    $data['code'] = 200;
+                    $data['message'] = 'Success!';
+                }
+                else {
+                    $data['code'] = 400;
+                    $errors['verify'] = 'Please verify your email first.';
+                    $data['errors'] = $errors;
+                    $data['message'] = 'Account verification needed. Please follow the link in the email we sent you to verify your account before logging in.';
+                }
+            }
+            //return syntax error if password verify fails
+            else {
+                $data['code'] = 400;
+                $errors['login'] = 'Your login information was incorrect.';
+                $data['errors'] = $errors;
+            }
         }
-        if (empty($_POST['password']) && $_POST['password'] !== '0') {
-            $errors['password'] = 'Password is required.';
-        }
-        if (!empty($errors)) {
-            $data['code'] = 400;
-            $data['errors'] = $errors;
-        }
-        else if (!isset($_POST["action"]) || $_POST["action"] !== "login") {
+        else {
             $data['code'] = 401;
             $data['message'] = 'Not authorized!';
         }
-        else {
-            $this->loginUser();
-        }
-
-        echo json_encode($data);
-        exit ;
-
-        //clear post data before redirect
-    }
-
-    public function loginUser() {
-        $username = $_POST['username'];
-        $password = $_POST['password'];
-        $errors = array();
-        $data = array();
-
-        //$errors['password'] = 'Incorrect username or password.';
-
-        if (!empty($errors)) {
-            $data['code'] = 409;
-            $data['errors'] = $errors;
-        }
-        else {
-            $data['code'] = 200;
-            $data['message'] = 'Success!';
-        }
-
-        //insert user into model here
-
         echo json_encode($data);
         exit ;
     }
 
+    /*
 
-
-
-
-    public function login() {
-        $errors = array();
-        $data = array();
-
-        if (empty($_POST['username'])) {
-            $errors['username'] = 'Username is required.';
-        }
-        if (empty($_POST['password'])) {
-            $errors['password'] = 'Password is required.';
-        }
-        if (!empty($errors)) {
-            $data['success'] = false;
-            $data['errors'] = $errors;
-        }
-        else {
-            $data['success'] = true;
-            $data['message'] = 'Success!';
-        }
-
-        echo json_encode($data);
-
-        if ($data['success']) {
-            $this->viewGallery();
-        }
-        else
-            $this->viewLogin();
-
-    }
 
     public function forgotPassword() {
         $errors = array();
@@ -276,7 +241,7 @@ class UserController {
         exit ;
     }
 
-
+    */
 
     public function viewLogin() {
         require_once __DIR__ . '/../views/pages/login.php';

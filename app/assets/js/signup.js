@@ -63,6 +63,18 @@ function drawError() {
     }
 }
 
+function drawConfirm() {
+    document.getElementById('Username').classList.remove('input-error');
+    document.getElementById('Username').classList.add('input-ok');
+    document.getElementById('UsernameError').innerHTML = '';
+    document.getElementById('Email').classList.remove('input-error');
+    document.getElementById('Email').classList.add('input-ok');
+    document.getElementById('EmailError').innerHTML = '';
+    document.getElementById('Password').classList.remove('input-error');
+    document.getElementById('Password').classList.add('input-ok');
+    document.getElementById('PasswordError').innerHTML = '';
+}
+
 function validateField(id, value) {
     const request = new XMLHttpRequest();
     if (id === 'Username') {
@@ -121,6 +133,7 @@ function validateForm() {
             const json = JSON.parse(request.responseText);
             console.log(json);
             if (json.code == 200) {
+                drawConfirm();
                 alert(json.message);
                 window.location = 'index.php?page=login';
             }
