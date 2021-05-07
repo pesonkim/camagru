@@ -96,4 +96,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
     if (url.searchParams.get('logout') === 'success') {
         flash('Logged out','See you again!', 'index.php');
     }
+    if (url.searchParams.get('login') === 'true') {
+        flash('Oops','You are already logged in.', 'index.php');
+    }
+    if (url.searchParams.get('login') === 'false') {
+        flash('Login required','Please login to see this resource.', 'index.php');
+    }
 });

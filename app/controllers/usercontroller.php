@@ -250,23 +250,39 @@ class UserController {
     }
 
     public function viewLogin() {
-        require_once __DIR__ . '/../views/pages/login.php';
+        if (!isset($_SESSION['username']))
+            require_once DIRPATH .  '/app/views/pages/login.php';
+        else
+            $this->redirect('/index.php?login=true');
     }
 
     public function viewForgotpassword() {
-        require_once __DIR__ . '/../views/pages/forgotpassword.php';
+        if (!isset($_SESSION['username']))
+            require_once DIRPATH .  '/app/views/pages/forgotpassword.php';
+        else
+            $this->redirect('/index.php?login=true');
     }
 
     public function viewSignup() {
-        require_once __DIR__ . '/../views/pages/signup.php';
+        if (!isset($_SESSION['username']))
+            require_once DIRPATH .  '/app/views/pages/signup.php';
+        else
+            $this->redirect('/index.php?login=true');
+    }
+
+    public function pleaseLogin() {
+        $this->redirect('/index.php?login=false');
     }
 
     public function viewAccount() {
-        require_once __DIR__ . '/../views/pages/account.php';
+        if (isset($_SESSION['username']))
+            require_once DIRPATH .  '/app/views/pages/account.php';
+        else
+            $this->pleaseLogin();
     }
 
     public function viewGallery() {
-        require_once __DIR__ . '/../views/pages/gallery.php';
+        require_once DIRPATH .  '/app/views/pages/gallery.php';
     }
 
     public function redirect($url) {
