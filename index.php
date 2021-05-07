@@ -24,8 +24,6 @@ else if (isset($_GET['PostController'])) {
 
 require_once __DIR__ . '/app/views/layouts/header.php';
 
-var_dump($_SESSION);
-
 $page = $_GET['page'];
 switch ($page) {
     case "signup": {
@@ -45,7 +43,12 @@ switch ($page) {
     }
     case "forgotpassword": {
         $ctrl = new UserController();
-        $ctrl->viewForgotpassword();
+        $ctrl->viewForgotPassword();
+        break ;
+    }
+    case "resetpassword": {
+        $ctrl = new UserController();
+        $ctrl->viewResetPassword();
         break ;
     }
     case "account": {

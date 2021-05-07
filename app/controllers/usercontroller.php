@@ -249,6 +249,36 @@ class UserController {
         exit ;
     }
 
+        //handle password reset form submit
+        public function resetPassword() {
+            $errors = array();
+            $data = array();
+            
+            if (isset($_POST["action"]) && $_POST["action"] === "resetPassword") {
+                if ($this->validatePasswordFormat()) {
+                    $errors['password'] = $this->validatePasswordFormat();
+                }
+                if (!empty($errors)) {
+                    $data['code'] = 400;
+                    $data['errors'] = $errors;
+                }
+                //check against current password
+                else if (1) {
+                    $errors['password'] = 'New password is the same as current one. Please choose another one or try logging in instead.';
+                    $data['code'] = 400;
+                    $data['errors'] = $errors;
+                }
+                else {
+                    $data['code'] = 200;
+                }
+            }
+            else {
+                $data['code'] = 401;
+            }
+            echo json_encode($data);
+            exit ;
+        }
+
     public function viewLogin() {
         if (!isset($_SESSION['username']))
             require_once DIRPATH .  '/app/views/pages/login.php';
@@ -256,11 +286,21 @@ class UserController {
             $this->redirect('/index.php?login=true');
     }
 
-    public function viewForgotpassword() {
+    public function viewForgotPassword() {
         if (!isset($_SESSION['username']))
             require_once DIRPATH .  '/app/views/pages/forgotpassword.php';
         else
             $this->redirect('/index.php?login=true');
+    }
+
+    public function viewResetPassword() {
+        /*
+        if (!isset($_SESSION['username']))
+            require_once DIRPATH .  '/app/views/pages/forgotpassword.php';
+        else
+            $this->redirect('/index.php?login=true');
+        */
+        require_once DIRPATH .  '/app/views/pages/resetpassword.php';
     }
 
     public function viewSignup() {
