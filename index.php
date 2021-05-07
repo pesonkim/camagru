@@ -28,19 +28,24 @@ var_dump($_SESSION);
 
 $page = $_GET['page'];
 switch ($page) {
+    case "signup": {
+        $ctrl = new UserController();
+        $ctrl->viewSignup();
+        break ;
+    }
     case "login": {
         $ctrl = new UserController();
         $ctrl->viewLogin();
         break ;
     }
+    case "logout": {
+        $ctrl = new UserController();
+        $ctrl->logout();
+        break ;
+    }
     case "forgotpassword": {
         $ctrl = new UserController();
         $ctrl->viewForgotpassword();
-        break ;
-    }
-    case "signup": {
-        $ctrl = new UserController();
-        $ctrl->viewSignup();
         break ;
     }
     case "account": {

@@ -201,6 +201,23 @@ class UserController {
         exit ;
     }
 
+    public function logout() {
+        if (isset($_SESSION['id_user'])) {
+            unset($_SESSION['id_user']);
+        }
+        if (isset($_SESSION['username'])) {
+            unset($_SESSION['username']);
+        }
+        if (isset($_SESSION['email'])) {
+            unset($_SESSION['email']);
+        }
+        if (isset($_SESSION['notify_pref'])) {
+            unset($_SESSION['notify_pref']);
+        }
+        session_destroy();
+        $this->redirect('/index.php?logout=success');
+    }
+
     /*
 
 

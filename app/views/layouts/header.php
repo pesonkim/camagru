@@ -28,17 +28,31 @@ if (!defined('RESTRICTED')) {
                         </a>
                         <button id="open-modal" class="animatedCursor"></button>
                     </section>
+                    <?php if (isset($_SESSION['username'])) { ?>
                     <section class="flex items-center">
-                        <a href="<?=URL?>/index.php?page=gallery">
-                            <button class="mx-2 text-gray-800">Gallery</button>
+                        <a href="<?=URL?>/index.php?page=upload">
+                            <button class="mx-2 text-gray-800">Upload</button>
                         </a>
-                        <a href="<?=URL?>/index.php?page=login">
-                            <button class="mx-2 text-gray-800">Login</button>
+                        <a href="<?=URL?>/index.php?page=profile">
+                            <button class="mx-2 text-gray-800">Profile</button>
                         </a>
-                        <a href="<?=URL?>/index.php?page=signup">
-                            <button class="mx-2 text-gray-800">Signup</button>
+                        <a href="<?=URL?>/index.php?page=logout">
+                            <button class="mx-2 text-gray-800">Logout</button>
                         </a>
                     </section>
+                    <?php } else { ?>
+                    <section class="flex items-center">
+                    <a href="<?=URL?>/index.php?page=gallery">
+                        <button class="mx-2 text-gray-800">Gallery</button>
+                    </a>
+                    <a href="<?=URL?>/index.php?page=login">
+                        <button class="mx-2 text-gray-800">Login</button>
+                    </a>
+                    <a href="<?=URL?>/index.php?page=signup">
+                        <button class="mx-2 text-gray-800">Signup</button>
+                    </a>
+                    </section>
+                    <?php } ?>
                 </section>
             </header>
             <div id="modal-container" class="modal-container fadeIn">
