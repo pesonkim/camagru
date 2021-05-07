@@ -90,11 +90,10 @@ function validateForm() {
             console.log(json);
             if (json.code == 200) {
                 drawConfirm();
-                alert(json.message);
-                //window.location = 'index.php?page=gallery';
+                flash('Success!','Welcome to Camagru!', 'index.php?page=gallery');
             }
             if (json.code == 401) {
-                alert(json.message);
+                flash('Unauthorized','The request was unauthorized');
             }
             if (json.code == 400) {
                 if (json.errors.login) {
@@ -114,7 +113,7 @@ function validateForm() {
                     document.getElementById('Username').classList.add('input-error');
                     document.getElementById('Password').classList.remove('input-ok');
                     document.getElementById('Password').classList.add('input-error');
-                    alert(json.message);
+                    flash('Account verification needed.','Please follow the link in the email we sent you to verify your account before logging in.');
                 }
                 else {
                     if (json.errors.username)

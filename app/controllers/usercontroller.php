@@ -51,7 +51,6 @@ class UserController {
         }
         else {
             $data['code'] = 401;
-            $data['message'] = 'Not authorized!';
         }
         echo json_encode($data);
         exit ;
@@ -145,7 +144,6 @@ class UserController {
 
         $this->model->createUser($data);
         $data['code'] = 200;
-        $data['message'] = 'Success!';
         
         echo json_encode($data);
         exit ;
@@ -182,13 +180,11 @@ class UserController {
                     $_SESSION['email'] = $user['email'];
                     $_SESSION['notify_pref'] = $user['notify_pref'];
                     $data['code'] = 200;
-                    $data['message'] = 'Success!';
                 }
                 else {
                     $data['code'] = 400;
                     $errors['verify'] = 'Please verify your email first.';
                     $data['errors'] = $errors;
-                    $data['message'] = 'Account verification needed. Please follow the link in the email we sent you to verify your account before logging in.';
                 }
             }
             //return syntax error if password verify fails
@@ -200,7 +196,6 @@ class UserController {
         }
         else {
             $data['code'] = 401;
-            $data['message'] = 'Not authorized!';
         }
         echo json_encode($data);
         exit ;

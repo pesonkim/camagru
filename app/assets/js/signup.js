@@ -134,11 +134,10 @@ function validateForm() {
             console.log(json);
             if (json.code == 200) {
                 drawConfirm();
-                alert(json.message);
-                window.location = 'index.php?page=login';
+                flash('Success!','Please check your email for a link to validate your account.', 'index.php?page=login');
             }
             if (json.code == 401) {
-                alert(json.message);
+                flash('Unauthorized','The request was unauthorized');
             }
             if (json.code == 400) {
                 if (json.errors.username)

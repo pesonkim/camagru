@@ -2,7 +2,6 @@
 if (!defined('RESTRICTED')) {
     die ("Direct access not premitted");
 }
-session_start();
 ?>
 
 <!DOCTYPE html>
@@ -44,8 +43,8 @@ session_start();
             </header>
             <div id="modal-container" class="modal-container fadeIn">
                 <div id="modal-content" class="modal-content flex flex-col justify-center mx-auto my-2 p-4 px-6 bg-white rounded shadow slideDown">
-                    <h1 class="text-3xl text-center mb-4">This is a popup</h1>
-                    <p class="modal-message text-center">Something just happened. Something just happened. Something just happened. </p>
+                    <h1 class="text-3xl text-center mb-4" id="flash-title"></h1>
+                    <p class="modal-message text-center" id="flash-text"></p>
                     <button id="close-modal" class="mx-auto rounded">close me</button>
                 </div>
             </div>
