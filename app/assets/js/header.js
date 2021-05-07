@@ -94,6 +94,6 @@ window.addEventListener('click', function(event) {
 window.addEventListener('DOMContentLoaded', (event) => {
     var url = new URL(window.location.href);
     if (url.searchParams.get('logout') === 'success') {
-        flash('Logged out','See you again!');
+        flash('Logged out','See you again!', 'index.php');
     }
 });

@@ -201,6 +201,7 @@ class UserController {
         exit ;
     }
 
+    //clear session variables for logged in user
     public function logout() {
         if (isset($_SESSION['id_user'])) {
             unset($_SESSION['id_user']);
@@ -218,42 +219,35 @@ class UserController {
         $this->redirect('/index.php?logout=success');
     }
 
-    /*
-
-
+    //send password reset email after form submission
     public function forgotPassword() {
         $errors = array();
         $data = array();
-
-        if (empty($_POST['email']) && $_POST['email'] !== '0') {
-            $errors['email'] = 'Email is required.';
-        }
-        else if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-            $errors['email'] = 'Please enter a valid email.';
-        }
-        if (!empty($errors)) {
-            $data['code'] = 400;
-            $data['errors'] = $errors;
-        }
-        else if (!isset($_POST["action"]) || $_POST["action"] !== "sendResetemail") {
-            $data['code'] = 401;
-            $data['message'] = 'Not authorized!';
-        }
-        else if (!$this->model->emailExists($email)) {
-            $data['code'] = 409;
-            $errors['email'] = 'This email is not linked to any account.';
-            $data['errors'] = $errors;
+        
+        if (isset($_POST["action"]) && $_POST["action"] === "sendResetEmail") {
+            if (empty($_POST['email'])) {
+                $errors['email'] = 'Please enter an email address.';
+            }
+            else if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+                $errors['email'] = 'Please enter a valid email address.';
+            }
+            else if (!$this->model->emailExists($_POST['email'])) {
+                $errors['email'] = 'This email is not linked to any account.';
+            }
+            if (!empty($errors)) {
+                $data['code'] = 400;
+                $data['errors'] = $errors;
+            }
+            else {
+                $data['code'] = 200;
+            }
         }
         else {
-            $data['code'] = 200;
-            $data['message'] = 'Success!';
+            $data['code'] = 401;
         }
-
         echo json_encode($data);
         exit ;
     }
-
-    */
 
     public function viewLogin() {
         require_once __DIR__ . '/../views/pages/login.php';

@@ -25,7 +25,7 @@ if (!defined('RESTRICTED')) {
                 type="submit"
                 class="form-button rounded"
                 name="action"
-                value="sendResetemail">
+                value="sendResetEmail">
                 Send password reset email
             </button>
         </form>

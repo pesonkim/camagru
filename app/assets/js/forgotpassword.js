@@ -2,18 +2,6 @@ function noEnter() {
     return !(window.event && window.event.keyCode == 13);
 }
 
-function toggle(e) {
-    x = document.getElementById('Password').type;
-    if (x == 'password') {
-        e.innerHTML = 'Hide';
-        document.getElementById('Password').type='text';
-    }
-    else {
-        e.innerHTML = 'Show'
-        document.getElementById('Password').type='password';
-    }
-}
-
 document.getElementById('Email').addEventListener('keyup', function (event) {
     if (window.event.keyCode == 13)
         document.getElementById('btn-resetemail').focus();
@@ -33,11 +21,17 @@ function drawError() {
     }
 }
 
+function drawConfirm() {
+    document.getElementById('Email').classList.remove('input-error');
+    document.getElementById('Email').classList.add('input-ok');
+    document.getElementById('EmailError').innerHTML = '';
+}
+
 function validateField(id, value) {
     if (value == "") {
         document.getElementById(id).classList.remove('input-ok');
         document.getElementById(id).classList.add('input-error');
-        document.getElementById(id+'Error').innerHTML = id + ' is required.';
+        document.getElementById(id+'Error').innerHTML = 'Please enter an email address.';
     }
     else {
         document.getElementById(id).classList.remove('input-error');
@@ -55,14 +49,14 @@ function validateForm() {
 
     request.onreadystatechange = function() {
         if (request.readyState == 4) {
-            console.log(request.responseText);
             const json = JSON.parse(request.responseText);
+            console.log(json);
             if (json.code == 200) {
-                alert(json.message);
-                window.location ='index.php';
+                drawConfirm();
+                flash('Success!','Please check your email for a link to reset your password.', 'index.php?page=login');
             }
             if (json.code == 401) {
-                alert(json.message);
+                flash('Unauthorized','The request was unauthorized');
             }
             if (json.code == 400) {
                 if (json.errors.email)
@@ -73,19 +67,10 @@ function validateForm() {
                 document.getElementById('forgotpasswordWrapper').classList.add('apply-shake');
                 setTimeout(function() {document.getElementById('forgotpasswordWrapper').classList.remove('apply-shake');}, 500);
             }
-            if (json.code == 409) {
-                if (json.errors.email)
-                    document.getElementById('EmailError').innerHTML = json.errors.email;
-                else
-                    document.getElementById('EmailError').innerHTML = '';
-                document.getElementById('forgotpasswordWrapper').classList.add('apply-shake');
-                drawError();
-                setTimeout(function() {document.getElementById('forgotpasswordWrapper').classList.remove('apply-shake');}, 500);
-            }
         }
     }
 
-    const requestData = 'action=sendResetemail&email='+email;
+    const requestData = 'action=sendResetEmail&email='+email;
 
     request.open('post', 'index.php?UserController&method=forgotPassword');
     request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
