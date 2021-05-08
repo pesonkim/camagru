@@ -188,6 +188,7 @@ class UserController {
             Please follow this link or paste it in your browser to verify your email address:
             ".$verifylink."
 
+            -Camagru
             ";
             mail($user['email'], $subject, $body);
             $data['code'] = 200;
@@ -317,12 +318,24 @@ class UserController {
                     $data['errors'] = $errors;
                 }
                 else {
-                    if (mail($_POST['email'], 'Another one', 'Test body asdasd')) {
-                        $data['code'] = 200;
-                    }
-                    else {
-                        $data['code'] = 401;
-                    }
+                    $user = $this->model->getUserDataByEmail($_POST['email']);
+                    $subject = 'Reset you Camagru password';
+                    $verifylink = URL . '/index.php?page=resetpassword&id='.$user['id_user'].'&token='.$user['token'];
+                    $body = "
+        
+                    Hello,
+                    
+                    Your account '".$user['username']."' recently requested to reset your Camagru password.
+                    Please follow this link or paste it in your browser to set a new password:
+                
+                    ".$verifylink."
+                    
+                    If you didn't request a password reset, you can ignore this email.
+
+                    -Camagru
+                    ";
+                    mail($user['email'], $subject, $body);
+                    $data['code'] = 200;
                 }
             }
             else {
@@ -336,13 +349,35 @@ class UserController {
         }
     }
 
+
+
+    //display reset password form if authorized
+    public function resetForm() {
+        $id = $_GET['id'];
+        $token = $_GET['token'];
+        
+        if (!empty($id) && !empty($token)) {
+            $hash = $this->model->getTokenById($id);
+            if ($token === $hash) {
+                require_once DIRPATH .  '/app/views/pages/resetpassword.php';
+            }
+            else {
+                $this->redirect('/index.php?token=false');
+            }
+        }
+        else {
+            $this->redirect('/index.php?token=false');
+        }
+    }
+
     //handle password reset form submit
     public function resetPassword() {
         $errors = array();
         $data = array();
         
         if ($this->isAjax()) {
-            if (isset($_POST["action"]) && $_POST["action"] === "resetPassword") {
+            if ((isset($_POST["action"]) && $_POST["action"] === "resetPassword") 
+                && (!empty($_POST['id']) && !empty($_POST['token']))) {
                 if ($this->validatePasswordFormat()) {
                     $errors['password'] = $this->validatePasswordFormat();
                 }
@@ -351,12 +386,17 @@ class UserController {
                     $data['errors'] = $errors;
                 }
                 //check against current password
-                else if (1) {
+                else if ($this->model->authUserByIdToken($_POST['id'], $_POST['token'], $_POST['password'])) {
                     $errors['password'] = 'New password is the same as current one. Please choose another one or try logging in instead.';
                     $data['code'] = 400;
                     $data['errors'] = $errors;
                 }
                 else {
+                    $passwd = password_hash($_POST['password'], PASSWORD_DEFAULT);
+                    $this->model->updatePassword($_POST['id'], $passwd);
+                    //destroy currently saved token to expire reset email
+                    $newToken = bin2hex(random_bytes(32));
+                    $this->model->updateToken($_POST['id'], $newToken);
                     $data['code'] = 200;
                 }
             }
@@ -378,21 +418,18 @@ class UserController {
             $this->redirect('/index.php?login=true');
     }
 
+    public function viewResetPassword() {
+        if (!isset($_SESSION['username']))
+            $this->resetForm();
+        else
+            $this->redirect('/index.php?login=true');
+    }
+
     public function viewForgotPassword() {
         if (!isset($_SESSION['username']))
             require_once DIRPATH .  '/app/views/pages/forgotpassword.php';
         else
             $this->redirect('/index.php?login=true');
-    }
-
-    public function viewResetPassword() {
-        /*
-        if (!isset($_SESSION['username']))
-            require_once DIRPATH .  '/app/views/pages/forgotpassword.php';
-        else
-            $this->redirect('/index.php?login=true');
-        */
-        require_once DIRPATH .  '/app/views/pages/resetpassword.php';
     }
 
     public function viewSignup() {

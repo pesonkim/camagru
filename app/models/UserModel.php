@@ -49,6 +49,29 @@ class UserModel {
         return $user;
     }
 
+    //get user data by email
+    public function getUserDataByEmail($email) {
+        $stmt = $this->pdo->prepare('SELECT id_user, username, email, token
+                                    FROM users WHERE email = :email');
+        $stmt->bindValue(':email', $email);
+        $stmt->execute();
+        $user = $stmt->fetch();
+        return $user;
+    }
+
+    //auth user data by id and token
+    public function authUserByIdToken($id, $token, $passwd) {
+        $stmt = $this->pdo->prepare('SELECT id_user, passwd FROM users WHERE id_user = :id_user AND token = :token');
+        $stmt->bindValue(':id_user', $id);
+        $stmt->bindValue(':token', $token);
+        $stmt->execute();
+        $hash = $stmt->fetch();
+        if (password_verify($passwd, $hash['passwd']))
+            return $hash['id_user'];
+        else
+            return false;
+    }
+
     //get user data by username
     public function getTokenById($id) {
         $stmt = $this->pdo->prepare('SELECT token FROM users WHERE id_user = :id_user');
@@ -74,7 +97,6 @@ class UserModel {
         $stmt->execute();
     }
 
-
     //update username
     public function updateUsername() {
 
@@ -86,8 +108,11 @@ class UserModel {
     }
 
     //update password
-    public function updatePassword() {
-
+    public function updatePassword($id, $passwd) {
+        $stmt = $this->pdo->prepare('UPDATE users SET passwd = :passwd WHERE id_user = :id_user');
+        $stmt->bindValue(':id_user', $id);
+        $stmt->bindValue(':passwd', $passwd);
+        $stmt->execute();
     }
 
     //update notification preference

@@ -72,6 +72,9 @@ function validateForm() {
     event.preventDefault();
     const password = document.getElementById('Password').value;
     const request = new XMLHttpRequest();
+    const url = new URL(window.location.href);
+    const id = url.searchParams.get('id');
+    const token = url.searchParams.get('token');
 
     request.onreadystatechange = function() {
         if (request.readyState == 4) {
@@ -96,7 +99,7 @@ function validateForm() {
         }
     }
 
-    const requestData = 'action=resetPassword&password='+password;
+    const requestData = 'action=resetPassword&password='+password+'&id='+id+'&token='+token;
 
     request.open('post', 'index.php?UserController&method=resetPassword');
     request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');

@@ -10,7 +10,13 @@ if (!defined('RESTRICTED')) {
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
-        <title><?=TITLE?></title>
+        <title>
+            <?php if (isset($_SESSION['username'])) { ?>
+            <?=TITLE.' - '.$_SESSION['username']?>
+            <?php } else { ?>
+            <?=TITLE?>
+            <?php }?>
+        </title>
         <link rel="stylesheet" href="<?=URL?>/app/assets/css/style.css">
         <!--
         <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css">
