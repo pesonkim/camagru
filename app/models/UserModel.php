@@ -51,7 +51,7 @@ class UserModel {
 
     //get user data by email
     public function getUserDataByEmail($email) {
-        $stmt = $this->pdo->prepare('SELECT id_user, username, email, token
+        $stmt = $this->pdo->prepare('SELECT id_user, username, email, is_verified, token
                                     FROM users WHERE email = :email');
         $stmt->bindValue(':email', $email);
         $stmt->execute();
@@ -59,7 +59,7 @@ class UserModel {
         return $user;
     }
 
-    //auth user data by id and token
+    //authenticate user data by id and token for password reset
     public function authUserByIdToken($id, $token, $passwd) {
         $stmt = $this->pdo->prepare('SELECT id_user, passwd FROM users WHERE id_user = :id_user AND token = :token');
         $stmt->bindValue(':id_user', $id);
@@ -72,7 +72,7 @@ class UserModel {
             return false;
     }
 
-    //get user data by username
+    //get user token by id
     public function getTokenById($id) {
         $stmt = $this->pdo->prepare('SELECT token FROM users WHERE id_user = :id_user');
         $stmt->bindValue(':id_user', $id);

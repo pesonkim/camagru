@@ -319,23 +319,30 @@ class UserController {
                 }
                 else {
                     $user = $this->model->getUserDataByEmail($_POST['email']);
-                    $subject = 'Reset you Camagru password';
-                    $verifylink = URL . '/index.php?page=resetpassword&id='.$user['id_user'].'&token='.$user['token'];
-                    $body = "
-        
-                    Hello,
+                    if ($user['is_verified'] === '1') {
+                        $subject = 'Reset your Camagru password';
+                        $verifylink = URL . '/index.php?page=resetpassword&id='.$user['id_user'].'&token='.$user['token'];
+                        $body = "
+            
+                        Hello,
+                        
+                        Your account '".$user['username']."' recently requested to reset your Camagru password.
+                        Please follow this link or paste it in your browser to set a new password:
                     
-                    Your account '".$user['username']."' recently requested to reset your Camagru password.
-                    Please follow this link or paste it in your browser to set a new password:
-                
-                    ".$verifylink."
-                    
-                    If you didn't request a password reset, you can ignore this email.
-
-                    -Camagru
-                    ";
-                    mail($user['email'], $subject, $body);
-                    $data['code'] = 200;
+                        ".$verifylink."
+                        
+                        If you didn't request a password reset, you can ignore this email.
+    
+                        -Camagru
+                        ";
+                        mail($user['email'], $subject, $body);
+                        $data['code'] = 200;
+                    }
+                    else {
+                        $data['code'] = 400;
+                        $errors['verify'] = 'Please verify your email address first to receive reset instructions.';
+                        $data['errors'] = $errors;
+                    }
                 }
             }
             else {
@@ -348,8 +355,6 @@ class UserController {
             $this->redirect('/index.php?auth=false');
         }
     }
-
-
 
     //display reset password form if authorized
     public function resetForm() {

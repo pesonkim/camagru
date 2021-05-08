@@ -59,10 +59,14 @@ function validateForm() {
                 flash('Unauthorized','The request was unauthorized');
             }
             if (json.code == 400) {
-                if (json.errors.email)
+                if (json.errors.verify) {
+                    document.getElementById('EmailError').innerHTML = json.errors.verify;
+                    document.getElementById('Email').classList.remove('input-ok');
+                    document.getElementById('Email').classList.add('input-error');
+                    flash('Account verification needed.','Please follow the link in the email we sent you to verify your account.');
+                }
+                else if (json.errors.email)
                     document.getElementById('EmailError').innerHTML = json.errors.email;
-                else
-                    document.getElementById('Email').innerHTML = '';
                 drawError();
                 document.getElementById('forgotpasswordWrapper').classList.add('apply-shake');
                 setTimeout(function() {document.getElementById('forgotpasswordWrapper').classList.remove('apply-shake');}, 500);
