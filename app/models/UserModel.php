@@ -41,7 +41,7 @@ class UserModel {
 
     //get user data by username
     public function getUserData($username) {
-        $stmt = $this->pdo->prepare('SELECT id_user, username, email, is_verified, notify_pref
+        $stmt = $this->pdo->prepare('SELECT id_user, username, email, is_verified, notify_pref, token
                                     FROM users WHERE username = :username');
         $stmt->bindValue(':username', $username);
         $stmt->execute();
@@ -49,10 +49,31 @@ class UserModel {
         return $user;
     }
 
-    //check if account is verified by email
-    public function isVerified() {
-
+    //get user data by username
+    public function getTokenById($id) {
+        $stmt = $this->pdo->prepare('SELECT token FROM users WHERE id_user = :id_user');
+        $stmt->bindValue(':id_user', $id);
+        $stmt->execute();
+        $user = $stmt->fetch();
+        return $user['token'];
     }
+
+    //update verified status
+    public function updateVerified($id) {
+        $stmt = $this->pdo->prepare('UPDATE users SET is_verified = :is_verified WHERE id_user = :id_user');
+        $stmt->bindValue(':id_user', $id);
+        $stmt->bindValue(':is_verified', '1');
+        $stmt->execute();
+    }
+
+    //generate a new token for user to prevent using old email verifications
+    public function updateToken($id, $token) {
+        $stmt = $this->pdo->prepare('UPDATE users SET token = :token WHERE id_user = :id_user');
+        $stmt->bindValue(':id_user', $id);
+        $stmt->bindValue(':token', $token);
+        $stmt->execute();
+    }
+
 
     //update username
     public function updateUsername() {
@@ -66,11 +87,6 @@ class UserModel {
 
     //update password
     public function updatePassword() {
-
-    }
-
-    //update verified status
-    public function updateVerified() {
 
     }
 

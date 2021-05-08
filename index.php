@@ -41,6 +41,11 @@ switch ($page) {
         $ctrl->logout();
         break ;
     }
+    case "verify": {
+        $ctrl = new UserController();
+        $ctrl->verifyEmail();
+        break ;
+    }
     case "forgotpassword": {
         $ctrl = new UserController();
         $ctrl->viewForgotPassword();

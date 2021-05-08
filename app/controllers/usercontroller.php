@@ -172,15 +172,54 @@ class UserController {
             $data['created_at'] = date('Y-m-d H:i:s');
     
             $this->model->createUser($data);
-            $data['code'] = 200;
+            $user = $this->model->getUserData($data['username']);
+            $subject = 'Welcome to Camagru!';
+            $verifylink = URL . '/index.php?page=verify&id='.$user['id_user'].'&token='.$user['token'];
+            $body = "
+
+            Welcome to Camagru!
             
+            Your account '".$user['username']."' was successfully created and almost ready to use.
+            Before you can log in, we still ask that you verify your email address:
+            ".$user['email']."
+            
+            This will let you receive notifications and password resets from Camagru.
+            
+            Please follow this link or paste it in your browser to verify your email address:
+            ".$verifylink."
+
+            ";
+            mail($user['email'], $subject, $body);
+            $data['code'] = 200;
             echo json_encode($data);
             exit ;
-    
-            //handle email
         }
         else {
             $this->redirect('/index.php?auth=false');
+        }
+    }
+
+    //handle email verification and update account status
+    public function verifyEmail() {
+        $id = $_GET['id'];
+        $token = $_GET['token'];
+        
+        if (!empty($id) && !empty($token)) {
+            $hash = $this->model->getTokenById($id);
+            if ($token === $hash) {
+                //update verified status in UserModel
+                $this->model->updateVerified($id);
+                //destroy currently saved token to expire verify email
+                $newToken = bin2hex(random_bytes(32));
+                $this->model->updateToken($id, $newToken);
+                $this->redirect('/index.php?verify=success');
+            }
+            else {
+                $this->redirect('/index.php?token=false');
+            }
+        }
+        else {
+            $this->redirect('/index.php?token=false');
         }
     }
 
@@ -278,7 +317,12 @@ class UserController {
                     $data['errors'] = $errors;
                 }
                 else {
-                    $data['code'] = 200;
+                    if (mail($_POST['email'], 'Another one', 'Test body asdasd')) {
+                        $data['code'] = 200;
+                    }
+                    else {
+                        $data['code'] = 401;
+                    }
                 }
             }
             else {

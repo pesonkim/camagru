@@ -99,10 +99,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
     if (url.searchParams.get('login') === 'true') {
         flash('Oops','You are already logged in.', 'index.php');
     }
+    if (url.searchParams.get('verify') === 'success') {
+        flash('Success!','Thank you for verifying your account. You are now ready to log in and enjoy Camagru!', 'index.php');
+    }
     if (url.searchParams.get('login') === 'false') {
         flash('Login required','Please login to see this resource.', 'index.php');
     }
     if (url.searchParams.get('auth') === 'false') {
         flash('Unauthorized','You are not authorized to see this resource.', 'index.php');
+    }
+    if (url.searchParams.get('token') === 'false') {
+        flash('Error','The link you followed was either invalid or expired. Please request a new one.', 'index.php');
     }
 });
