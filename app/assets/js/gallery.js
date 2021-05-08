@@ -24,6 +24,7 @@ function loadPosts() {
 
     request.open('post', 'index.php?PostController&method=getPosts');
     request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     request.send(requestData);
 
     index += limit;

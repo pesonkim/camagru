@@ -116,6 +116,7 @@ function validateField(id, value) {
         }
     }
     request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     request.send(requestData);
 }
 
@@ -180,5 +181,6 @@ function validateForm() {
 
     request.open('post', 'index.php?UserController&method=signupUser');
     request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     request.send(requestData);
 }

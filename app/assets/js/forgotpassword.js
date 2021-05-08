@@ -74,5 +74,6 @@ function validateForm() {
 
     request.open('post', 'index.php?UserController&method=forgotPassword');
     request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     request.send(requestData);
 }
