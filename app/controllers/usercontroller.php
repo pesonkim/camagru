@@ -448,11 +448,14 @@ class UserController {
         $this->redirect('/index.php?login=false');
     }
 
-    public function viewAccount() {
+    public function viewProfile() {
+        require_once DIRPATH .  '/app/views/pages/profile.php';
+        /*
         if (isset($_SESSION['username']))
-            require_once DIRPATH .  '/app/views/pages/account.php';
+            require_once DIRPATH .  '/app/views/pages/profile.php';
         else
             $this->pleaseLogin();
+            */
     }
 
     public function viewGallery() {

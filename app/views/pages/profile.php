@@ -4,8 +4,7 @@ if (!defined('RESTRICTED')) {
 }
 ?>
 
-
-<div class="grid lg:grid-cols-1 gap-7 md:grid-cols-2 mx-auto px-2">
+<div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-5 mx-auto px-2">
     <div class="">
         <div class="flex flex-col justify-center my-2 p-4 px-6 shadow bg-white rounded">
             <div class="">
@@ -18,7 +17,7 @@ if (!defined('RESTRICTED')) {
     </div>
     <div class="">
         <div class="flex flex-col justify-center my-2 p-4 px-6 shadow bg-white rounded">
-            <h1 class="text-3xl mb-4">Account</h1>
+            <h1 class="text-3xl mb-4">Your profile</h1>
             <form class="text-center h-full" method="post">
                 <input type="text" class="form-input rounded" placeholder="Username" name="username" value="" >
                 <input type="text" class="form-input rounded" placeholder="Email" name="email" value="" >

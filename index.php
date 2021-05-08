@@ -56,9 +56,9 @@ switch ($page) {
         $ctrl->viewResetPassword();
         break ;
     }
-    case "account": {
+    case "profile": {
         $ctrl = new UserController();
-        $ctrl->viewAccount();
+        $ctrl->viewProfile();
         break ;
     }
     case "gallery": {
