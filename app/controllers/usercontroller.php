@@ -416,6 +416,33 @@ class UserController {
         }
     }
 
+    public function getNotifyPref() {
+        $data = array();
+        if ($this->isAjax()) {
+            if (isset($_POST["action"]) && $_POST["action"] === "getNotifyPref" && isset($_SESSION["id_user"])) {
+                $data['pref'] = $this->model->getNotifyPrefById($_SESSION["id_user"]);
+            }
+            echo json_encode($data);
+            exit ;
+        }
+        else {
+            $this->redirect('/index.php?auth=false');
+        }
+    }
+
+    public function updateNotifyPref() {
+        if ($this->isAjax()) {
+            if (isset($_POST["action"]) && $_POST["action"] === "updateNotifyPref" && isset($_SESSION["id_user"])
+                && isset($_POST["pref"])) {
+                $this->model->updateNotifyPref($_SESSION["id_user"],$_POST["pref"]);
+            }
+            exit ;
+        }
+        else {
+            $this->redirect('/index.php?auth=false');
+        }
+    }
+
     public function viewLogin() {
         if (!isset($_SESSION['username']))
             require_once DIRPATH .  '/app/views/pages/login.php';

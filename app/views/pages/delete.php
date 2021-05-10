@@ -3,8 +3,8 @@ if (!defined('RESTRICTED')) {
     die ("Direct access not permitted");
 }
 ?>
-            <h1 class="text-3xl ">Delete user account</h1>
-            <form id="signupForm" class="h-full" method="POST">
+            <h1 class="text-3xl mb-2">Delete user account</h1>
+            <form id="profileForm" class="h-full" method="POST">
                 <p class="mb-4">Verify your login credentials to completely remove your account and all content linked to it. This action is permanent and cannot be reversed!</p>
                 <label>Username</label>
                 <input

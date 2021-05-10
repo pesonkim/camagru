@@ -4,7 +4,7 @@ if (!defined('RESTRICTED')) {
 }
 ?>
             <h1 class="text-3xl mb-4">Edit user info</h1>
-            <form id="signupForm" class="h-full" method="POST">
+            <form id="profileForm" class="h-full" method="POST">
                 <label>Username</label>
                 <input
                     id="Username"
@@ -30,7 +30,7 @@ if (!defined('RESTRICTED')) {
                 <button
                     id="btn-update";
                     type="submit"
-                    class="form-button rounded"
+                    class="update-button rounded"
                     name="action"
                     value="update">
                     Save changes

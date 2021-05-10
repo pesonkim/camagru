@@ -1156,6 +1156,17 @@ img {
     background-color: #1f9d55;
 }
 
+.update-button {
+    width: 100%;
+    color: #fff;
+    padding: .75rem;
+    margin-top: .25rem;
+    margin-bottom: 1rem;
+    background-color: #e2e8f0;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
 .delete-button {
     width: 100%;
     color: #fff;
@@ -1367,3 +1378,30 @@ img {
     transform: translate3d(0px, -64px, 0px);
 }
 
+.toggleContainer {
+    width: 4rem;
+    height: 2.5rem;
+    --tw-bg-opacity:1;background-color:rgba(209,213,219,var(--tw-bg-opacity));
+    border-radius: 9999px;
+    padding: .25rem;
+    flex-shrink:0;
+}
+
+.translate-x-6 {
+    --tw-translate-x:1.5rem;
+}
+
+.toggle {
+    width:2rem;
+    height:2rem;
+    border-radius: 9999px;
+    transition-duration:.3s;
+    transition-timing-function:cubic-bezier(0.4,0,0.2,1);
+}
+
+.bg-active {
+    background-color: #38c172;
+    transition-duration:.3s;
+    transition-timing-function:cubic-bezier(0.4,0,0.2,1);
+    --tw-translate-x:1.5rem;
+}

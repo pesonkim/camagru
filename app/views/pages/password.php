@@ -4,7 +4,7 @@ if (!defined('RESTRICTED')) {
 }
 ?>
             <h1 class="text-3xl mb-4">Change password</h1>
-            <form id="signupForm" class="h-full" method="POST">
+            <form id="profileForm" class="h-full" method="POST">
                 <label>Current password</label>
                 <div class="relative">                
                     <input

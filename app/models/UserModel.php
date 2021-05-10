@@ -97,6 +97,23 @@ class UserModel {
         $stmt->execute();
     }
 
+    //get user notify preference by id
+    public function getNotifyPrefById($id) {
+        $stmt = $this->pdo->prepare('SELECT notify_pref FROM users WHERE id_user = :id_user');
+        $stmt->bindValue(':id_user', $id);
+        $stmt->execute();
+        $user = $stmt->fetch();
+        return $user['notify_pref'];
+    }
+
+    //update user notify preference
+    public function updateNotifyPref($id, $pref) {
+        $stmt = $this->pdo->prepare('UPDATE users SET notify_pref = :notify_pref WHERE id_user = :id_user');
+        $stmt->bindValue(':id_user', $id);
+        $stmt->bindValue(':notify_pref', $pref);
+        $stmt->execute();
+    }
+
     //update username
     public function updateUsername() {
 
