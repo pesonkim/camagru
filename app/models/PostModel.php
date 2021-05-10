@@ -1,6 +1,6 @@
 <?php
 if (!defined('RESTRICTED')) {
-    die ("Direct access not premitted");
+    die ("Direct access not permitted");
 }
 
 require_once __DIR__ . '/Database.php';

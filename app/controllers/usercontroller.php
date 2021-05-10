@@ -1,6 +1,6 @@
 <?php
 if (!defined('RESTRICTED')) {
-    die ("Direct access not premitted");
+    die ("Direct access not permitted");
 }
 
 require_once DIRPATH . '/app/models/UserModel.php';
@@ -449,13 +449,10 @@ class UserController {
     }
 
     public function viewProfile() {
-        require_once DIRPATH .  '/app/views/pages/profile.php';
-        /*
         if (isset($_SESSION['username']))
             require_once DIRPATH .  '/app/views/pages/profile.php';
         else
             $this->pleaseLogin();
-            */
     }
 
     public function viewGallery() {

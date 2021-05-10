@@ -1,33 +1,54 @@
 <?php
 if (!defined('RESTRICTED')) {
-    die ("Direct access not premitted");
+    die ("Direct access not permitted");
 }
+if (!isset($_GET['tab']))
+    header("Location: " . URL . '/index.php?page=profile&tab=info');
 ?>
 
 <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-5 mx-auto px-2">
-    <div class="">
+    <div id="tabWrapper">
         <div class="flex flex-col justify-center my-2 p-4 px-6 shadow bg-white rounded">
             <div class="">
-                <div class="account-tab">Update username</div>
-                <div class="account-tab">Update password</div>
-                <div class="account-tab">Update email</div>
-                <div class="account-tab">Delete account</div>
+                <a href="<?=URL?>/index.php?page=profile&tab=info" class="account-tab mb-2
+                <?php if ($_GET['tab'] === 'info') {echo 'active';} ?>">User info</a>
+                <a href="<?=URL?>/index.php?page=profile&tab=sec" class="account-tab mb-2
+                <?php if ($_GET['tab'] === 'sec') {echo 'active';} ?>">Security</a>
+                <a href="<?=URL?>/index.php?page=profile&tab=notif" class="account-tab mb-2
+                <?php if ($_GET['tab'] === 'notif') {echo 'active';} ?>">Notifications</a>
+                <a href="<?=URL?>/index.php?page=profile&tab=delete" class="account-tab
+                <?php if ($_GET['tab'] === 'delete') {echo 'active';} ?>">Delete account</a>
             </div>
         </div>
     </div>
-    <div class="">
+    <div id="sectionWrapper">
         <div class="flex flex-col justify-center my-2 p-4 px-6 shadow bg-white rounded">
-            <h1 class="text-3xl mb-4">Your profile</h1>
-            <form class="text-center h-full" method="post">
-                <input type="text" class="form-input rounded" placeholder="Username" name="username" value="" >
-                <input type="text" class="form-input rounded" placeholder="Email" name="email" value="" >
-                <input type="password" class="form-input rounded" placeholder="Password" name="password" value="" >
-                <input type="password" class="form-input rounded" placeholder="Confirm password" name="confirm" value="" >
-                <button type="submit" class="form-button rounded" value="login">Create account</button>
-                <input type="hidden" name="token" value="<?=$token?>" >
-            </form>
+            <?php
+            //include right form depending on selected tab
+            $tab = $_GET['tab'];
+            switch ($tab) {
+                case "info": {
+                    require_once DIRPATH . '/app/views/pages/userinfo.php';
+                    break ;
+                }
+                case "sec": {
+                    require_once DIRPATH . '/app/views/pages/password.php';
+                    break ;
+                }
+                case "notif": {
+                    require_once DIRPATH . '/app/views/pages/notification.php';
+                    break ;
+                }
+                case "delete": {
+                    require_once DIRPATH . '/app/views/pages/delete.php';
+                    break ;
+                }
+                default: {
+                    header("Location: " . URL . '/index.php?page=profile&tab=info');
+                    break ;
+                }
+            }
+            ?>
         </div>
     </div>
 </div>
-
-
