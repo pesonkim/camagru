@@ -36,12 +36,10 @@ var flashtitle = document.getElementById('flash-title');
 var flashtext = document.getElementById('flash-text');
 var redirect = '';
 
-//remove with button
 var btn = document.getElementById('open-modal');
 
 var close = document.getElementById('close-modal');
 
-//remove with button
 btn.addEventListener('click', function() {
     if (modal.classList.contains('fadeOut')) {
         modal.classList.remove('fadeOut');

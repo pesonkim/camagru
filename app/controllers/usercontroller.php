@@ -422,6 +422,7 @@ class UserController {
         }
     }
 
+    //fetch user notification preference
     public function getNotifyPref() {
         $data = array();
         if ($this->isAjax()) {
@@ -436,6 +437,7 @@ class UserController {
         }
     }
 
+    //update user notification preference
     public function updateNotifyPref() {
         if ($this->isAjax()) {
             if (isset($_POST["action"]) && $_POST["action"] === "updateNotifyPref" && isset($_SESSION["id_user"])
@@ -449,6 +451,7 @@ class UserController {
         }
     }
 
+    //handle username and/or email updates
     public function updateUserInfo() {
         $data = array();
         $error = array();
@@ -480,7 +483,7 @@ class UserController {
                     $data['code'] = 409;
                     $data['errors'] = $errors;
                 }
-                //pass post data to createUser method if no errors
+                //update username and/or email after error check pass
                 else {
                     if (!empty($_POST['username'])) {
                         $this->model->updateUsername($_SESSION["id_user"], $_POST['username']);
@@ -505,6 +508,7 @@ class UserController {
         }
     }
 
+    //update user password
     public function updatePassword() {
         $errors = array();
         $data = array();
@@ -515,6 +519,7 @@ class UserController {
                 if (empty($_POST['oldPassword'])) {
                     $errors['oldpassword'] = 'Please enter your current password.';
                 }
+                //compare 'old' password against database hash 
                 else if (!$this->model->authUserByIdPassword($_SESSION['id_user'],$_POST['oldPassword'])) {
                     $errors['oldpassword'] = 'Your password was incorrect.';
                     $data['errors'] = $errors;
@@ -532,15 +537,59 @@ class UserController {
                     $data['code'] = 400;
                     $data['errors'] = $errors;
                 }
+                //test if new !== old
                 else if ($_POST['newPassword'] === $_POST['oldPassword']) {
                     $errors['newpassword'] = 'New password cannot be the same as current one.';
                     $data['code'] = 400;
                     $data['errors'] = $errors;
                 }
+                //finally hash new password and update to database 
                 else {
                     $passwd = password_hash($_POST['newPassword'], PASSWORD_DEFAULT);
                     $this->model->updatePassword($_SESSION['id_user'], $passwd);
                     $data['code'] = 200;
+                }
+            }
+            else {
+                $data['code'] = 401;
+            }
+            echo json_encode($data);
+            exit ;
+        }
+        else {
+            $this->redirect('/index.php?auth=false');
+        }
+    }
+
+    //delete user data
+    public function deleteUser() {
+        $data = array();
+        $errors = array();
+
+        //check if form was correctly submitted, else return request as unauthorized
+        if ($this->isAjax()) {
+            if (isset($_POST["action"]) && $_POST["action"] === "delete") {
+                if (empty($_POST['username'])) {
+                    $errors['username'] = 'Username cannot be empty.';
+                }
+                if (empty($_POST['password'])) {
+                    $errors['password'] = 'Password cannot be empty.';
+                }
+                //return empty fields
+                if (!empty($errors)) {
+                    $data['code'] = 400;
+                    $data['errors'] = $errors;
+                }
+                //compare login input to hashed password in database 
+                else if ($this->model->loginUser($_POST['username'],$_POST['password'])) {
+                    //call whatever to nuke user account at this point
+                    $data['code'] = 200;
+                }
+                //return syntax error if password verify fails
+                else {
+                    $data['code'] = 400;
+                    $errors['login'] = 'Your login information was incorrect.';
+                    $data['errors'] = $errors;
                 }
             }
             else {

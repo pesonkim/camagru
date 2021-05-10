@@ -1290,6 +1290,58 @@ img {
     background-color: #1f9d55;
 }
 
+.delete-container {
+    background-color: rgba(0, 0, 0, 0.3);
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    display: none;
+    z-index:9000;
+    padding-top: 200px;
+}
+
+.delete-content {
+    max-width: 500px;
+}
+
+.delete-message {
+    padding: .75rem;
+    margin-top: .25rem;
+    margin-bottom: 1rem;
+}
+
+#confirm-delete {
+    width: 30%;
+    color: #fff;
+    padding: .75rem;
+    margin-top: .25rem;
+    margin-bottom: .25rem;
+    background-color: #d0504d
+}
+
+#confirm-delete:hover,
+#confirm-delete:focus {
+    outline: none;
+    background-color: #d3272f
+}
+
+#close-delete {
+    width: 30%;
+    color: #fff;
+    padding: .75rem;
+    margin-top: .25rem;
+    margin-bottom: .25rem;
+    background-color: #38c172;
+}
+
+#close-delete:hover,
+#close-delete:focus {
+    outline: none;
+    background-color: #1f9d55;
+}
+
 .slideUp {
     animation-name: slideUp;
     -webkit-animation-name: slideUp;

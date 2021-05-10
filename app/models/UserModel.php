@@ -72,6 +72,7 @@ class UserModel {
             return false;
     }
 
+    //authenticate user data by id and current password
     public function authUserByIdPassword($id, $passwd) {
         $stmt = $this->pdo->prepare('SELECT id_user, passwd FROM users WHERE id_user = :id_user');
         $stmt->bindValue(':id_user', $id);
