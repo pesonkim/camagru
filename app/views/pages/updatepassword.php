@@ -16,7 +16,7 @@ if (!defined('RESTRICTED')) {
                         onkeypress="return noEnter()"
                     >
                     <button
-                        onclick="toggle(this)"
+                        onclick="toggleOld(this)"
                         class="show-hide-button"
                         type="button"
                         tabindex="-1"
@@ -35,7 +35,7 @@ if (!defined('RESTRICTED')) {
                         onkeypress="return noEnter()"
                     >
                     <button
-                        onclick="toggle(this)"
+                        onclick="toggleNew(this)"
                         class="show-hide-button"
                         type="button"
                         tabindex="-1"
@@ -46,9 +46,10 @@ if (!defined('RESTRICTED')) {
                 <button
                     id="btn-update";
                     type="submit"
-                    class="form-button rounded"
+                    class="update-button rounded"
                     name="action"
                     value="update">
                     Save changes
                 </button>
             </form>
+            <script type="text/javascript" src="<?=URL?>/app/assets/js/updatepassword.js"></script>

@@ -32,7 +32,7 @@ if (!isset($_GET['tab']))
                     break ;
                 }
                 case "sec": {
-                    require_once DIRPATH . '/app/views/pages/password.php';
+                    require_once DIRPATH . '/app/views/pages/updatepassword.php';
                     break ;
                 }
                 case "notif": {

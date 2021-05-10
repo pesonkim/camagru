@@ -505,6 +505,55 @@ class UserController {
         }
     }
 
+    public function updatePassword() {
+        $errors = array();
+        $data = array();
+        
+        if ($this->isAjax()) {
+            if ((isset($_POST["action"]) && $_POST["action"] === "updatePassword")
+            && (!empty($_SESSION['id_user']))) {
+                if (empty($_POST['oldPassword'])) {
+                    $errors['oldpassword'] = 'Please enter your current password.';
+                }
+                else if (!$this->model->authUserByIdPassword($_SESSION['id_user'],$_POST['oldPassword'])) {
+                    $errors['oldpassword'] = 'Your password was incorrect.';
+                    $data['errors'] = $errors;
+                }
+                if (empty($_POST['newPassword'])) {
+                    $errors['newpassword'] = 'Please enter a new password.';
+                }
+                else if (strlen($_POST['newPassword']) <  6) {
+                    $errors['newpassword'] = 'Password must be at least 6 characters long.';
+                }
+                else if (!preg_match('/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,}$/', $_POST['newPassword'])) {
+                    $errors['newpassword'] = 'Password must contain at least one lowercase and uppercase letter, and a number.';
+                }
+                if (!empty($errors)) {
+                    $data['code'] = 400;
+                    $data['errors'] = $errors;
+                }
+                else if ($_POST['newPassword'] === $_POST['oldPassword']) {
+                    $errors['newpassword'] = 'New password cannot be the same as current one.';
+                    $data['code'] = 400;
+                    $data['errors'] = $errors;
+                }
+                else {
+                    $passwd = password_hash($_POST['newPassword'], PASSWORD_DEFAULT);
+                    $this->model->updatePassword($_SESSION['id_user'], $passwd);
+                    $data['code'] = 200;
+                }
+            }
+            else {
+                $data['code'] = 401;
+            }
+            echo json_encode($data);
+            exit ;
+        }
+        else {
+            $this->redirect('/index.php?auth=false');
+        }
+    }
+
     public function viewLogin() {
         if (!isset($_SESSION['username']))
             require_once DIRPATH .  '/app/views/pages/login.php';

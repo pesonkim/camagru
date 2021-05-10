@@ -72,6 +72,17 @@ class UserModel {
             return false;
     }
 
+    public function authUserByIdPassword($id, $passwd) {
+        $stmt = $this->pdo->prepare('SELECT id_user, passwd FROM users WHERE id_user = :id_user');
+        $stmt->bindValue(':id_user', $id);
+        $stmt->execute();
+        $hash = $stmt->fetch();
+        if (password_verify($passwd, $hash['passwd']))
+            return $hash['id_user'];
+        else
+            return false;
+    }
+
     //get user token by id
     public function getTokenById($id) {
         $stmt = $this->pdo->prepare('SELECT token FROM users WHERE id_user = :id_user');
