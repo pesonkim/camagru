@@ -18,18 +18,15 @@ if (!defined('RESTRICTED')) {
             <?php }?>
         </title>
         <link rel="stylesheet" href="<?=URL?>/app/assets/css/style.css">
-        <!--
-        <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css">
-        -->
     </head>
     <body>
         <!--header/footer vertical placement-->
         <div class="flex flex-col justify-between min-h-screen w-full max-w-screen-lg mx-auto">
             <!--header spacing and styling-->
             <header id="header" class="h-16 flex justify-center fixed top-0 left-0 right-0 z-50 blur shadow header-visible">
-                <section class="w-full max-w-screen-lg flex justify-between items-center mx-4">
+                <section class="w-full max-w-screen-lg flex justify-between items-center px-2">
                     <section class="flex items-center">
-                        <a href="<?=URL?>/index.php" class="flex flex-row items-center text-gray-800 text-2xl">
+                        <a href="<?=URL?>/index.php" class="flex flex-row items-center text-2xl">
                             <h3 class="m-0">Camagru</h3>
                         </a>
                         <button id="open-modal" class="animatedCursor"></button>
@@ -37,26 +34,26 @@ if (!defined('RESTRICTED')) {
                     <?php if (isset($_SESSION['username'])) { ?>
                     <section class="flex items-center">
                         <a href="<?=URL?>/index.php?page=upload">
-                            <button class="mx-2 text-gray-800">Upload</button>
+                            <button class="mr-2">Uploads</button>
                         </a>
-                        <a href="<?=URL?>/index.php?page=profile">
-                            <button class="mx-2 text-gray-800">Profile</button>
+                        <a class="verticalLine" href="<?=URL?>/index.php?page=profile">
+                            <button class="mx-2">Profile</button>
                         </a>
                         <a href="<?=URL?>/index.php?page=logout">
-                            <button class="mx-2 text-gray-800">Logout</button>
+                            <button class="ml-2">Logout</button>
                         </a>
                     </section>
                     <?php } else { ?>
                     <section class="flex items-center">
-                    <a href="<?=URL?>/index.php?page=gallery">
-                        <button class="mx-2 text-gray-800">Gallery</button>
-                    </a>
-                    <a href="<?=URL?>/index.php?page=login">
-                        <button class="mx-2 text-gray-800">Login</button>
-                    </a>
-                    <a href="<?=URL?>/index.php?page=signup">
-                        <button class="mx-2 text-gray-800">Signup</button>
-                    </a>
+                        <a href="<?=URL?>/index.php?page=gallery">
+                            <button class="mr-2">Gallery</button>
+                        </a>
+                        <a class="verticalLine" href="<?=URL?>/index.php?page=login">
+                            <button class="mx-2">Login</button>
+                        </a>
+                        <a href="<?=URL?>/index.php?page=signup">
+                            <button class="ml-2">Signup</button>
+                        </a>
                     </section>
                     <?php } ?>
                 </section>

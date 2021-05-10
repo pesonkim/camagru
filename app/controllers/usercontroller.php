@@ -39,7 +39,7 @@ class UserController {
                     $data['code'] = 400;
                     $data['errors'] = $errors;
                 }
-                else if ($this->model->usernameExists($_POST['email'])) {
+                else if ($this->model->usernameExists($_POST['username'])) {
                     $errors['username'] = 'This username is already taken.';
                 }
                 else if ($this->model->emailExists($_POST['email'])) {
@@ -93,6 +93,9 @@ class UserController {
                 echo json_encode($errors);
                 exit ;
             }
+            else if ($this->model->usernameExists($_POST['username'])) {
+                $error = 'This username is already taken.';
+            }
             if (isset($error)) {
                 return $error;
             }
@@ -121,6 +124,9 @@ class UserController {
                 }
                 echo json_encode($errors);
                 exit ;
+            }
+            else if ($this->model->emailExists($_POST['email'])) {
+                $error = 'An account with this email address already exists.';
             }
             if (isset($error)) {
                 return $error;
@@ -436,6 +442,62 @@ class UserController {
                 && isset($_POST["pref"])) {
                 $this->model->updateNotifyPref($_SESSION["id_user"],$_POST["pref"]);
             }
+            exit ;
+        }
+        else {
+            $this->redirect('/index.php?auth=false');
+        }
+    }
+
+    public function updateUserInfo() {
+        $data = array();
+        $error = array();
+        if ($this->isAjax()) {
+            if (isset($_POST["action"]) && $_POST["action"] === "update" && isset($_SESSION["id_user"])) {
+                if (!empty($_POST['username'])) {
+                    if ($this->validateUsernameFormat()) {
+                        $errors['username'] = $this->validateUsernameFormat();
+                    }
+                }
+                if (!empty($_POST['email'])) {
+                    if ($this->validateEmailFormat()) {
+                        $errors['email'] = $this->validateEmailFormat();
+                    }
+                }
+                //return syntax and format errors
+                if (!empty($errors)) {
+                    $data['code'] = 400;
+                    $data['errors'] = $errors;
+                }
+                else if ($this->model->usernameExists($_POST['username'])) {
+                    $errors['username'] = 'This username is already taken.';
+                }
+                else if ($this->model->emailExists($_POST['email'])) {
+                    $errors['email'] = 'An account with this email address already exists.';
+                }
+                //return conflicts if username or email is already in database
+                else if (!empty($errors)) {
+                    $data['code'] = 409;
+                    $data['errors'] = $errors;
+                }
+                //pass post data to createUser method if no errors
+                else {
+                    if (!empty($_POST['username'])) {
+                        $this->model->updateUsername($_SESSION["id_user"], $_POST['username']);
+                        $_SESSION['username'] = $_POST['username'];
+                        $data['code'] = 200;
+                    }
+                    if (!empty($_POST['email'])) {
+                        $this->model->updateEmail($_SESSION["id_user"], $_POST['email']);
+                        $_SESSION['email'] = $_POST['email'];
+                        $data['code'] = 200;
+                    }
+                }
+            }
+            else {
+                $data['code'] = 401;
+            }
+            echo json_encode($data);
             exit ;
         }
         else {

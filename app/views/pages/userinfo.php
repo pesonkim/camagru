@@ -36,3 +36,4 @@ if (!defined('RESTRICTED')) {
                     Save changes
                 </button>
             </form>
+            <script type="text/javascript" src="<?=URL?>/app/assets/js/userinfo.js"></script>

@@ -52,5 +52,3 @@ if (!isset($_GET['tab']))
         </div>
     </div>
 </div>
-
-<script type="text/javascript" src="<?=URL?>/app/assets/js/profile.js"></script>

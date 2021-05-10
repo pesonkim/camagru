@@ -1405,3 +1405,9 @@ img {
     transition-timing-function:cubic-bezier(0.4,0,0.2,1);
     --tw-translate-x:1.5rem;
 }
+
+.verticalLine {
+    height: 100%;
+    border-left: 1px solid;
+    border-right: 1px solid;
+}

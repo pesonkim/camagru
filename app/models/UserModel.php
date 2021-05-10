@@ -115,13 +115,19 @@ class UserModel {
     }
 
     //update username
-    public function updateUsername() {
-
+    public function updateUsername($id, $username) {
+        $stmt = $this->pdo->prepare('UPDATE users SET username = :username WHERE id_user = :id_user');
+        $stmt->bindValue(':id_user', $id);
+        $stmt->bindValue(':username', $username);
+        $stmt->execute();
     }
 
     //update email
-    public function updateEmail() {
-
+    public function updateEmail($id, $email) {
+        $stmt = $this->pdo->prepare('UPDATE users SET email = :email WHERE id_user = :id_user');
+        $stmt->bindValue(':id_user', $id);
+        $stmt->bindValue(':email', $email);
+        $stmt->execute();
     }
 
     //update password
@@ -130,11 +136,6 @@ class UserModel {
         $stmt->bindValue(':id_user', $id);
         $stmt->bindValue(':passwd', $passwd);
         $stmt->execute();
-    }
-
-    //update notification preference
-    public function updateNotification() {
-
     }
 
     //check if username is taken
