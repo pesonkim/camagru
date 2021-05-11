@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
 const postsContainer = document.getElementById('postsContainer');
 var index = 0;
-var limit = 0;
+var limit = 5;
 
 function loadPosts() {
     const request = new XMLHttpRequest();
@@ -57,6 +57,10 @@ function drawPost(postData) {
     var comments = document.createElement('div');
     var modalContainer = document.createElement('div');
     var modalContent = document.createElement('img');
+
+    var commentContainer = document.createElement('div');
+    var commentCreate = document.createElement('div');
+    var commentList = document.createElement('div');
 
     newDiv.setAttribute('class', 'flex flex-col justify-center shadow bg-white lg:rounded md:rounded slideUp post');
     imgDiv.setAttribute('class', 'post-media');
@@ -117,6 +121,22 @@ function drawPost(postData) {
     modalContent.setAttribute('src', postData.img);
     modalContainer.appendChild(modalContent);
 
+    var commentContainer = document.createElement('div');
+    var commentCreate = document.createElement('div');
+    var commentList = document.createElement('div');
+
+    commentContainer.setAttribute('class', 'flex flex-col justify-center shadow bg-white lg:rounded md:rounded slideDown commentContainer');
+    commentContainer.setAttribute('style', 'display:none')
+    commentCreate.setAttribute('class', 'commentCreate');
+    var input = document.createElement('input');
+    input.setAttribute('type', 'text');
+    input.setAttribute('class', 'form-input rounded');
+    input.setAttribute('name', 'commentField');
+    commentCreate.appendChild(input);
+    commentList.setAttribute('class', 'commentList');
+    commentContainer.appendChild(commentCreate);
+    commentContainer.appendChild(commentList);
+
     newDiv.appendChild(imgDiv);
     newDiv.appendChild(metaDiv);
     newDiv.appendChild(modalContainer);
@@ -144,6 +164,30 @@ function drawPost(postData) {
                 icon.querySelector('div').classList.toggle('post-likes');
             }
         }
+        //comment button
+        else if (event.target.classList.contains('comment-post')) {
+            //small screens
+            if (window.matchMedia('(max-width: 767px)').matches) {
+                if (event.currentTarget.nextElementSibling.style.display=='none') {
+                    event.currentTarget.nextElementSibling.style.display='flex';
+                    event.currentTarget.nextElementSibling.getElementsByClassName('commentCreate')[0].getElementsByTagName('input')[0].focus();
+                }
+                else {
+                    event.currentTarget.nextElementSibling.style.display='none';
+                }
+            }
+            else if (!event.currentTarget.classList.contains('post-expanded')) {
+                event.currentTarget.classList.toggle('post-expanded');
+                event.currentTarget.nextElementSibling.style.display='flex';
+                event.currentTarget.nextElementSibling.getElementsByClassName('commentCreate')[0].scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
+                });
+            }
+            else {
+                event.currentTarget.nextElementSibling.getElementsByClassName('commentCreate')[0].getElementsByTagName('input')[0].focus();
+            }
+        }
         //lightbox zoom in
         else if (event.currentTarget.classList.contains('post-expanded') || window.matchMedia('(max-width: 767px)').matches) {
             if (event.target.classList.contains('post-img')) {
@@ -159,6 +203,7 @@ function drawPost(postData) {
             else {
                 if ((!window.matchMedia('(max-width: 767px)').matches)) {
                     event.currentTarget.classList.toggle('post-expanded');
+                    event.currentTarget.nextElementSibling.style.display='none';
                 }
                 event.currentTarget.scrollIntoView({
                     behavior: 'smooth',
@@ -169,6 +214,7 @@ function drawPost(postData) {
         }
         else {
             event.currentTarget.classList.toggle('post-expanded');
+            event.currentTarget.nextElementSibling.style.display='flex';
             event.currentTarget.scrollIntoView({
                 behavior: 'smooth',
                 block: 'center'
@@ -176,6 +222,7 @@ function drawPost(postData) {
         }
     });
     postsContainer.appendChild(newDiv);
+    postsContainer.appendChild(commentContainer);
 }
 
 window.onload = function() {
@@ -198,11 +245,13 @@ window.matchMedia('(min-width: 1024px)').addEventListener('change', function(eve
         var divs = document.getElementById('postsContainer').querySelectorAll('.post-expanded');
         for (var i = 0; i < divs.length; i++) {
             divs[i].classList.toggle('post-expanded');
+            divs[i].nextElementSibling.style.display='none';
         }
     } else {
         var divs = document.getElementById('postsContainer').querySelectorAll('.post-expanded');
         for (var i = 0; i < divs.length; i++) {
             divs[i].classList.toggle('post-expanded');
+            divs[i].nextElementSibling.style.display='none';
         }
     }
 });
@@ -212,11 +261,13 @@ window.matchMedia('(max-width: 767px)').addEventListener('change', function(even
         var divs = document.getElementById('postsContainer').querySelectorAll('.post-expanded');
         for (var i = 0; i < divs.length; i++) {
             divs[i].classList.toggle('post-expanded');
+            divs[i].nextElementSibling.style.display='none';
         }
     } else {
         var divs = document.getElementById('postsContainer').querySelectorAll('.post-expanded');
         for (var i = 0; i < divs.length; i++) {
             divs[i].classList.toggle('post-expanded');
+            divs[i].nextElementSibling.style.display='none';
         }
     }
 });
