@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
 const postsContainer = document.getElementById('postsContainer');
 var index = 0;
-var limit = 5;
+var limit = 0;
 
 function loadPosts() {
     const request = new XMLHttpRequest();
@@ -58,7 +58,7 @@ function drawPost(postData) {
     var modalContainer = document.createElement('div');
     var modalContent = document.createElement('img');
 
-    newDiv.setAttribute('class', 'flex flex-col justify-center shadow bg-white lg:rounded md:rounded slideUp p-4 post');
+    newDiv.setAttribute('class', 'flex flex-col justify-center shadow bg-white lg:rounded md:rounded slideUp post');
     imgDiv.setAttribute('class', 'post-media');
     img.setAttribute('class', 'post-img');
     img.setAttribute('src', postData.img);
@@ -93,6 +93,7 @@ function drawPost(postData) {
 
     buttonDiv.setAttribute('class', 'like-comment flex');
     buttonLike.setAttribute('class', 'like-post shadow-md');
+    buttonLike.setAttribute('type', 'checkbox');
     buttonComment.setAttribute('class', 'comment-post shadow-md');
     likes = document.createElement('span');
     likes.appendChild(document.createTextNode('like'));
@@ -121,30 +122,40 @@ function drawPost(postData) {
     newDiv.appendChild(modalContainer);
 
     newDiv.addEventListener('click', function(event) {
+        //close lightbox
         if (event.target.classList.contains('post-modal-content')) {
             event.target.parentNode.style.display = 'none';
             document.getElementsByTagName("html")[0].style.overflow = 'scroll';
         }
-        else if (event.target.classList.contains('post-likes')) {
-            event.target.classList.toggle('post-likes');
-            event.target.classList.toggle('post-heart');
-            event.target.parentNode.querySelectorAll('span')[0].textContent = parseInt(event.target.parentNode.querySelectorAll('span')[0].textContent) + 1;
+        //like button toggle
+        else if (event.target.classList.contains('like-post')) {
+            var icon = event.currentTarget.querySelector('.post-actions').querySelectorAll('.flex')[0];
 
+            if (icon.querySelector('div').classList.contains('post-likes')) {
+                event.target.classList.toggle('selected');
+                icon.querySelectorAll('span')[0].textContent = parseInt(icon.querySelectorAll('span')[0].textContent) + 1;
+                icon.querySelector('div').classList.toggle('post-heart');
+                icon.querySelector('div').classList.toggle('post-likes');
+            }
+            else if (icon.querySelector('div').classList.contains('post-heart')) {
+                event.target.classList.toggle('selected');
+                icon.querySelectorAll('span')[0].textContent = parseInt(icon.querySelectorAll('span')[0].textContent) - 1;
+                icon.querySelector('div').classList.toggle('post-heart');
+                icon.querySelector('div').classList.toggle('post-likes');
+            }
         }
-        else if (event.target.classList.contains('post-heart')) {
-            event.target.classList.toggle('post-likes');
-            event.target.classList.toggle('post-heart');
-            event.target.parentNode.querySelectorAll('span')[0].textContent = parseInt(event.target.parentNode.querySelectorAll('span')[0].textContent) - 1;
-        }
+        //lightbox zoom in
         else if (event.currentTarget.classList.contains('post-expanded') || window.matchMedia('(max-width: 767px)').matches) {
             if (event.target.classList.contains('post-img')) {
                 event.currentTarget.querySelector('.post-modal-container').style.display = 'grid';
                 document.getElementsByTagName("html")[0].style.overflow = 'hidden'
             }
+            //close lightbox
             else if (event.target.classList.contains('post-modal-container')) {
                 event.target.style.display = 'none';
                 document.getElementsByTagName("html")[0].style.overflow = 'scroll';
             }
+            //close post expand
             else {
                 if ((!window.matchMedia('(max-width: 767px)').matches)) {
                     event.currentTarget.classList.toggle('post-expanded');

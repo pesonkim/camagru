@@ -43,8 +43,8 @@ if (!defined('RESTRICTED')) {
 
     */
     ?>
-    <!--
-    <div class="flex flex-col justify-center shadow bg-white lg:rounded md:rounded slideUp p-4 post">
+
+    <div class="flex flex-col justify-center shadow bg-white lg:rounded md:rounded slideUp post">
         <div class="post-media">
             <img class="post-img" src="https://source.unsplash.com/random/?sig=1"></div>
         <div class="post-meta bg-white">
@@ -78,7 +78,7 @@ if (!defined('RESTRICTED')) {
             <img class="post-modal-content" src="https://source.unsplash.com/random/?sig=1"></div>
     </div>
 
-    <div class="flex flex-col justify-center shadow bg-white lg:rounded md:rounded slideUp p-4 post">
+    <div class="flex flex-col justify-center shadow bg-white lg:rounded md:rounded slideUp post post-expanded">
         <div class="post-media">
             <img class="post-img" src="https://source.unsplash.com/random/?sig=1"></div>
         <div class="post-meta bg-white">
@@ -99,11 +99,51 @@ if (!defined('RESTRICTED')) {
                     <span>6.5K</span>
                 </div>
             </div>
+            <div class="like-comment flex">
+                <div class="like-post shadow-md">
+                    <span>like</span>
+                </div>
+                <div class="comment-post shadow-md">
+                    <span>comment</span>
+                </div>
+            </div>
         </div>
         <div class="post-modal-container" name="modal">
-            <img class="post-modal-content" src="https://source.unsplash.com/random/?sig=1"></div>
+            <img class="post-modal-content" src="https://source.unsplash.com/random/?sig=1">
+        </div>
     </div>
--->
+    <div class="flex flex-col justify-center shadow bg-white lg:rounded md:rounded slideUp post-expanded commentContainer">
+        <div class="commentField">
+            <div class="commentCreate">
+                <input
+                    id="comment"
+                    type="text"
+                    class="form-input rounded"
+                    name="comment"
+                    placeholder="Login to leave a comment"
+                    onkeypress="return noEnter()"
+                >
+                <button
+                    class="show-hide-button"
+                    type="button"
+                    tabindex="-1"
+                    >Show
+                </button>
+            </div>
+        </div>
+        <div class="commentList">
+            <div class="commentEntry">
+                <div class="authorDate">
+                    <span>Author</span>
+                    <span> - </span>
+                    <span>Time of posting</span>
+                </div>
+                <span>This is the comment body.</span>
+            </div>
+
+        </div>
+    </div>
+
 
 </div>
 
