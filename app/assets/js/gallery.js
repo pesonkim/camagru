@@ -50,6 +50,9 @@ function drawPost(postData) {
     var likes = document.createElement('div');
     var viewDiv = document.createElement('div');
     var views = document.createElement('div');
+    var buttonDiv = document.createElement('div');
+    var buttonLike = document.createElement('div');
+    var buttonComment = document.createElement('div');
     var commentDiv = document.createElement('div');
     var comments = document.createElement('div');
     var modalContainer = document.createElement('div');
@@ -88,11 +91,24 @@ function drawPost(postData) {
     views.appendChild(document.createTextNode(nFormatter(Math.floor(Math.random() * 10000))));
     viewDiv.appendChild(views);
 
+    buttonDiv.setAttribute('class', 'like-comment flex');
+    buttonLike.setAttribute('class', 'like-post shadow-md');
+    buttonComment.setAttribute('class', 'comment-post shadow-md');
+    likes = document.createElement('span');
+    likes.appendChild(document.createTextNode('like'));
+    comments = document.createElement('span');
+    comments.appendChild(document.createTextNode('comment'));
+    buttonLike.appendChild(likes);
+    buttonComment.appendChild(comments);
+    buttonDiv.appendChild(buttonLike);
+    buttonDiv.appendChild(buttonComment);
+
     actionDiv.appendChild(likeDiv);
     actionDiv.appendChild(commentDiv);
     actionDiv.appendChild(viewDiv);
     metaDiv.appendChild(titleDiv);
     metaDiv.appendChild(actionDiv);
+    metaDiv.appendChild(buttonDiv);
 
     modalContainer.setAttribute('class', 'post-modal-container');
     modalContainer.setAttribute('name', 'modal');

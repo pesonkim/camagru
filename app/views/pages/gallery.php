@@ -43,6 +43,68 @@ if (!defined('RESTRICTED')) {
 
     */
     ?>
+    <!--
+    <div class="flex flex-col justify-center shadow bg-white lg:rounded md:rounded slideUp p-4 post">
+        <div class="post-media">
+            <img class="post-img" src="https://source.unsplash.com/random/?sig=1"></div>
+        <div class="post-meta bg-white">
+            <div class="post-title">
+                <span>Example post #1</span>
+            </div>
+            <div class="post-actions">
+                <div class="flex">
+                    <div class="post-likes"></div>
+                    <span>940</span>
+                </div>
+                <div class="flex">
+                    <div class="post-comments"></div>
+                    <span>74</span>
+                </div>
+                <div class="flex">
+                    <div class="post-views"></div>
+                    <span>6.5K</span>
+                </div>
+            </div>
+            <div class="like-comment flex">
+                <div class="like-post shadow-md">
+                    <span>like</span>
+                </div>
+                <div class="comment-post shadow-md">
+                    <span>comment</span>
+                </div>
+            </div>
+        </div>
+        <div class="post-modal-container" name="modal">
+            <img class="post-modal-content" src="https://source.unsplash.com/random/?sig=1"></div>
+    </div>
+
+    <div class="flex flex-col justify-center shadow bg-white lg:rounded md:rounded slideUp p-4 post">
+        <div class="post-media">
+            <img class="post-img" src="https://source.unsplash.com/random/?sig=1"></div>
+        <div class="post-meta bg-white">
+            <div class="post-title">
+                <span>Example post #1</span>
+            </div>
+            <div class="post-actions">
+                <div class="flex">
+                    <div class="post-likes"></div>
+                    <span>940</span>
+                </div>
+                <div class="flex">
+                    <div class="post-comments"></div>
+                    <span>74</span>
+                </div>
+                <div class="flex">
+                    <div class="post-views"></div>
+                    <span>6.5K</span>
+                </div>
+            </div>
+        </div>
+        <div class="post-modal-container" name="modal">
+            <img class="post-modal-content" src="https://source.unsplash.com/random/?sig=1"></div>
+    </div>
+-->
+
 </div>
 
 <script type="text/javascript" src="<?=URL?>/app/assets/js/gallery.js"></script>
