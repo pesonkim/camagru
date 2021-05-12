@@ -1051,7 +1051,7 @@ img {
 
 .commentLoginButton {
     position: absolute;
-    top: 10px;
+    bottom: 10px;
     right: 120px;
     width: 100px;
     height: 30px;
@@ -1066,8 +1066,8 @@ img {
 
 .commentButton {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    bottom: 7px;
+    right: 0;
     width: 100px;
     height: 30px;
     border-radius: 5px;
@@ -1081,7 +1081,7 @@ img {
 
 .commentSignupButton {
     position: absolute;
-    top: 10px;
+    bottom: 10px;
     right: 10px;
     width: 100px;
     height: 30px;
@@ -1099,20 +1099,29 @@ img {
 }
 
 .commentCreate textarea {
-    padding-right: 120px;
-    margin-right: 5px;
-    max-height: 200px;
+    height: 100px;
+    resize: none;
 }
 
-.commentCreate:after {
-    margin-top: 10px;
+.charCount {
+    padding-top: .75rem;
+    width: 100%;
+    --tw-text-opacity:1;color:rgba(107,114,128,var(--tw-text-opacity));
+    line-height: 1.14;
+    font-size: 15px;
+    text-align: left;
+    overflow: hidden;
+    user-select: none;
+}
+
+.charCount:after {
+    margin-top: .75rem;
     content: "";
     display: block;
     position: relative;
     height: 1px;
     width: 100%;
     --tw-bg-opacity:1;background-color:rgba(229,231,235,var(--tw-bg-opacity));
-
 }
 
 .commentList {

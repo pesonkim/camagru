@@ -8,6 +8,7 @@ if (!defined('RESTRICTED')) {
     
     
     <?php
+
     /*
     $ctrl = new PostController();
     $data = json_decode($ctrl->getPosts(), true);

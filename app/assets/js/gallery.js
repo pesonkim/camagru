@@ -62,6 +62,31 @@ function nFormatter(num) {
     return num;
 }
 
+function getCount(text) {
+    var max = 280;
+
+    return max - [...text.value].length;
+}
+
+function updateCount(count) {
+    count.textContent = getCount(count.parentElement.parentElement.parentElement.querySelector('textarea'));
+}
+
+function comment(count) {
+    var len = getCount(count.parentElement.parentElement.parentElement.querySelector('textarea'));
+
+    if (len == 280) {
+        flash('Oops', 'Comment body cannot be empty.');
+    }
+    else if (len < 0) {
+        flash('Oops', 'Comment character limit exceeded.');
+    }
+    else {
+        flash('Comment:', count.parentElement.parentElement.parentElement.querySelector('textarea').value);
+    }
+}
+
+
 function drawPost(postData) {
     
     var newDiv = document.createElement('div');
@@ -154,9 +179,60 @@ function drawPost(postData) {
     input.setAttribute('class', 'form-input rounded');
     input.setAttribute('name', 'commentField');
     input.setAttribute('placeholder', (loggedIn ? 'Leave a comment.' : 'Login to leave a comment.'));
-    if (!loggedIn)
+    if (!loggedIn) {
         input.style.pointerEvents = 'none';
-    commentCreate.appendChild(input);
+        input.style.height = '50px';
+        var div = document.createElement('div');
+        var url = new URL(window.location.href);
+
+        var a1 = document.createElement('a');
+        a1.setAttribute('href', url.pathname+'?page=login');
+        var button1 = document.createElement('button');
+        button1.setAttribute('class', 'commentLoginButton');
+        button1.appendChild(document.createTextNode('Login'));
+        a1.appendChild(button1);
+        div.appendChild(a1);
+
+        var a2 = document.createElement('a');
+        a2.setAttribute('href', url.pathname+'?page=signup');
+        var button2 = document.createElement('button');
+        button2.setAttribute('class', 'commentSignupButton');
+        button2.appendChild(document.createTextNode('Signup'));
+        a2.appendChild(button2);
+        div.appendChild(a2);
+
+        commentCreate.appendChild(input);
+        commentCreate.appendChild(div);
+    }
+    //character counter
+    else {
+        var div = document.createElement('div');
+        var count = document.createElement('div');
+        var span = document.createElement('span');
+        span.appendChild(document.createTextNode('Characters remaining: '));
+
+        var counter = document.createElement('span');
+        counter.setAttribute('class', 'countChar');
+
+        var button = document.createElement('button');
+        count.setAttribute('class', 'charCount');
+        button.setAttribute('class', 'commentButton');
+        button.appendChild(document.createTextNode('Comment'));
+        count.appendChild(span);
+        count.appendChild(counter);
+        div.appendChild(count);
+        div.appendChild(button);
+
+        commentCreate.appendChild(input);
+        commentCreate.appendChild(div);
+        counter.appendChild(document.createTextNode(getCount(counter.parentElement.parentElement.parentElement.querySelector('textarea'))));
+        input.addEventListener('input', function() {
+            updateCount(counter);
+        }, false);
+        button.addEventListener('click', function() {
+            comment(counter);
+        }, false);
+    }
     commentList.setAttribute('class', 'commentList');
     commentContainer.appendChild(commentCreate);
     commentContainer.appendChild(commentList);
