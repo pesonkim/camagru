@@ -635,6 +635,17 @@ class UserController {
             $this->pleaseLogin();
     }
 
+    public function viewUpload() {
+        if (isset($_SESSION['username']))
+            require_once DIRPATH .  '/app/views/pages/upload.php';
+        else
+            $this->pleaseLogin();
+    }
+
+    public function viewInfinite() {
+        require_once DIRPATH .  '/app/views/pages/infinite.php';
+    }
+
     public function viewGallery() {
         require_once DIRPATH .  '/app/views/pages/gallery.php';
     }

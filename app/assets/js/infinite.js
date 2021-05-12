@@ -104,10 +104,6 @@ function comment(count) {
         list.insertBefore(entry, list.firstChild);
         count.parentElement.parentElement.parentElement.querySelector('textarea').value = '';
         updateCount(count);
-        list.firstChild.scrollIntoView({
-            behavior: 'smooth',
-            block: 'center'
-        });
         //flash('Comment:', count.parentElement.parentElement.parentElement.querySelector('textarea').value);
 
         //<div class="commentEntry">
@@ -385,19 +381,13 @@ window.matchMedia('(min-width: 1024px)').addEventListener('change', function(eve
         var divs = document.getElementById('postsContainer').querySelectorAll('.post-expanded');
         for (var i = 0; i < divs.length; i++) {
             divs[i].classList.toggle('post-expanded');
-        }
-        var comments = document.getElementById('postsContainer').querySelectorAll('.commentContainer:not([style*="display: none"])');
-        for (var i = 0; i < comments.length; i++) {
-            comments[i].style.display='none';
+            divs[i].nextElementSibling.style.display='none';
         }
     } else {
         var divs = document.getElementById('postsContainer').querySelectorAll('.post-expanded');
         for (var i = 0; i < divs.length; i++) {
             divs[i].classList.toggle('post-expanded');
-        }
-        var comments = document.getElementById('postsContainer').querySelectorAll('.commentContainer:not([style*="display: none"])');
-        for (var i = 0; i < comments.length; i++) {
-            comments[i].style.display='none';
+            divs[i].nextElementSibling.style.display='none';
         }
     }
 });
@@ -407,19 +397,13 @@ window.matchMedia('(max-width: 767px)').addEventListener('change', function(even
         var divs = document.getElementById('postsContainer').querySelectorAll('.post-expanded');
         for (var i = 0; i < divs.length; i++) {
             divs[i].classList.toggle('post-expanded');
-        }
-        var comments = document.getElementById('postsContainer').querySelectorAll('.commentContainer:not([style*="display: none"])');
-        for (var i = 0; i < comments.length; i++) {
-            comments[i].style.display='none';
+            divs[i].nextElementSibling.style.display='none';
         }
     } else {
         var divs = document.getElementById('postsContainer').querySelectorAll('.post-expanded');
         for (var i = 0; i < divs.length; i++) {
             divs[i].classList.toggle('post-expanded');
-        }
-        var comments = document.getElementById('postsContainer').querySelectorAll('.commentContainer:not([style*="display: none"])');
-        for (var i = 0; i < comments.length; i++) {
-            comments[i].style.display='none';
+            divs[i].nextElementSibling.style.display='none';
         }
     }
 });

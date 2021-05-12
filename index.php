@@ -61,9 +61,19 @@ switch ($page) {
         $ctrl->viewProfile();
         break ;
     }
+    case "upload": {
+        $ctrl = new UserController();
+        $ctrl->viewUpload();
+        break ;
+    }
     case "gallery": {
         $ctrl = new PostController();
         $ctrl->viewGallery();
+        break ;
+    }
+    case "infinite": {
+        $ctrl = new UserController();
+        $ctrl->viewInfinite();
         break ;
     }
     default: {

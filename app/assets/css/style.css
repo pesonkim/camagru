@@ -1137,6 +1137,8 @@ img {
     font-size: 15px;
     line-height: 150%;
     overflow-wrap: break-word;
+    background-color: rgba(248,247,251,255);
+    margin-bottom: .5rem;
 }
 
 .authorDate {
@@ -1156,8 +1158,7 @@ img {
     height: 1px;
     width: 100%;
     --tw-bg-opacity:1;background-color:rgba(229,231,235,var(--tw-bg-opacity));
-    bottom: -4px;
-    margin-bottom: .25rem;
+    bottom: -.5rem;
 }
 
 .post-title {
