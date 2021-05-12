@@ -1,10 +1,35 @@
-document.addEventListener("DOMContentLoaded", function(){
-    loadPosts();
-});
-
 const postsContainer = document.getElementById('postsContainer');
 var index = 0;
 var limit = 5;
+var loggedIn = undefined;
+
+document.addEventListener("DOMContentLoaded", function(){
+    isLoggedIn();
+    loadPosts();
+});
+
+function isLoggedIn() {
+    const request = new XMLHttpRequest();
+
+    request.onreadystatechange = function() {
+        if (request.readyState == 4) {
+            const json = JSON.parse(request.responseText);
+            if (json.user === '1') {
+                loggedIn = true;
+            }
+            else if (json.user === '0') {
+                loggedIn = false;
+            }
+        }
+    }
+
+    const requestData = 'action=isLoggedIn';
+
+    request.open('post', 'index.php?UserController&method=isLoggedIn');
+    request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    request.send(requestData);
+}
 
 function loadPosts() {
     const request = new XMLHttpRequest();
@@ -121,17 +146,16 @@ function drawPost(postData) {
     modalContent.setAttribute('src', postData.img);
     modalContainer.appendChild(modalContent);
 
-    var commentContainer = document.createElement('div');
-    var commentCreate = document.createElement('div');
-    var commentList = document.createElement('div');
-
     commentContainer.setAttribute('class', 'flex flex-col justify-center shadow bg-white lg:rounded md:rounded slideDown commentContainer');
     commentContainer.setAttribute('style', 'display:none')
     commentCreate.setAttribute('class', 'commentCreate');
-    var input = document.createElement('input');
+    var input = document.createElement('textarea');
     input.setAttribute('type', 'text');
     input.setAttribute('class', 'form-input rounded');
     input.setAttribute('name', 'commentField');
+    input.setAttribute('placeholder', (loggedIn ? 'Leave a comment.' : 'Login to leave a comment.'));
+    if (!loggedIn)
+        input.style.pointerEvents = 'none';
     commentCreate.appendChild(input);
     commentList.setAttribute('class', 'commentList');
     commentContainer.appendChild(commentCreate);
@@ -151,7 +175,9 @@ function drawPost(postData) {
         else if (event.target.classList.contains('like-post')) {
             var icon = event.currentTarget.querySelector('.post-actions').querySelectorAll('.flex')[0];
 
-            if (icon.querySelector('div').classList.contains('post-likes')) {
+            if (!loggedIn)
+                flash('Login required', 'Please login to like posts.');
+            else if (icon.querySelector('div').classList.contains('post-likes')) {
                 event.target.classList.toggle('selected');
                 icon.querySelectorAll('span')[0].textContent = parseInt(icon.querySelectorAll('span')[0].textContent) + 1;
                 icon.querySelector('div').classList.toggle('post-heart');
@@ -170,7 +196,7 @@ function drawPost(postData) {
             if (window.matchMedia('(max-width: 767px)').matches) {
                 if (event.currentTarget.nextElementSibling.style.display=='none') {
                     event.currentTarget.nextElementSibling.style.display='flex';
-                    event.currentTarget.nextElementSibling.getElementsByClassName('commentCreate')[0].getElementsByTagName('input')[0].focus();
+                    event.currentTarget.nextElementSibling.getElementsByClassName('commentCreate')[0].getElementsByTagName('textarea')[0].focus();
                 }
                 else {
                     event.currentTarget.nextElementSibling.style.display='none';
@@ -183,9 +209,13 @@ function drawPost(postData) {
                     behavior: 'smooth',
                     block: 'center'
                 });
+                
             }
             else {
-                event.currentTarget.nextElementSibling.getElementsByClassName('commentCreate')[0].getElementsByTagName('input')[0].focus();
+                if (loggedIn)
+                    event.currentTarget.nextElementSibling.getElementsByClassName('commentCreate')[0].getElementsByTagName('textarea')[0].focus();
+                else
+                    flash('Login required', 'Please login to leave a comment.');
             }
         }
         //lightbox zoom in

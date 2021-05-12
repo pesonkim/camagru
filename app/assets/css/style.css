@@ -1098,9 +1098,10 @@ img {
     position: relative;
 }
 
-.commentCreate input {
+.commentCreate textarea {
     padding-right: 120px;
     margin-right: 5px;
+    max-height: 200px;
 }
 
 .commentCreate:after {

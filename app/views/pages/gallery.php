@@ -265,3 +265,4 @@ if (!defined('RESTRICTED')) {
 </div>
 
 <script type="text/javascript" src="<?=URL?>/app/assets/js/gallery.js"></script>
+

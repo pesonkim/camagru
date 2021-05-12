@@ -561,7 +561,27 @@ class UserController {
         }
     }
 
-    //delete user data
+    //ajax check if user is logged in
+    public function isLoggedIn() {
+        $data = array();
+
+        //check if form was correctly submitted, else return request as unauthorized
+        if ($this->isAjax()) {
+            if ($_POST["action"] === "isLoggedIn" && 
+            (isset($_SESSION['id_user']) && isset($_SESSION['username']))) {
+                $data['user'] = '1';
+            }
+            else {
+                $data['user'] = '0';
+            }
+            echo json_encode($data);
+            exit ;
+        }
+        else {
+            $this->redirect('/index.php?auth=false');
+        }
+    }
+
     public function deleteUser() {
         $data = array();
         $errors = array();
@@ -569,34 +589,7 @@ class UserController {
         //check if form was correctly submitted, else return request as unauthorized
         if ($this->isAjax()) {
             if (isset($_POST["action"]) && $_POST["action"] === "delete") {
-                if (empty($_POST['username'])) {
-                    $errors['username'] = 'Username cannot be empty.';
-                }
-                if (empty($_POST['password'])) {
-                    $errors['password'] = 'Password cannot be empty.';
-                }
-                //return empty fields
-                if (!empty($errors)) {
-                    $data['code'] = 400;
-                    $data['errors'] = $errors;
-                }
-                //compare login input to hashed password in database 
-                else if ($this->model->loginUser($_POST['username'],$_POST['password'])) {
-                    //call whatever to nuke user account at this point
-                    $data['code'] = 200;
-                }
-                //return syntax error if password verify fails
-                else {
-                    $data['code'] = 400;
-                    $errors['login'] = 'Your login information was incorrect.';
-                    $data['errors'] = $errors;
-                }
             }
-            else {
-                $data['code'] = 401;
-            }
-            echo json_encode($data);
-            exit ;
         }
         else {
             $this->redirect('/index.php?auth=false');
