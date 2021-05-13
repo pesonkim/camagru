@@ -90,7 +90,7 @@ function comment(count) {
         var date = document.createElement('span');
         var comment = count.parentElement.parentElement.parentElement.querySelector('textarea').value;
 
-        entry.setAttribute('class', 'commentEntry');
+        entry.setAttribute('class', 'commentEntry slideDown');
         authorDate.setAttribute('class', 'authorDate');
         author.appendChild(document.createTextNode('Author'));
         date.appendChild(document.createTextNode('Date'));

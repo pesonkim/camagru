@@ -914,6 +914,13 @@ img {
     .sm\:gap {
         gap: .75rem
     }
+    #uploadWrapper {
+        height: 600px;
+        grid-column: span 1;
+    }
+    .uploadMedia {
+        height: 100%;
+    }
     .post {
         height: 100%;
     }
@@ -942,6 +949,13 @@ img {
     }
     .md\:rounded {
         border-radius:.25rem;
+    }
+    #uploadWrapper {
+        height: 600px;
+        grid-column: span 2;
+    }
+    .uploadMedia {
+        height: 100%;
     }
     .post {
         height: 380px;
@@ -982,6 +996,13 @@ img {
     .lg\:rounded {
         border-radius:.25rem;
     }
+    #uploadWrapper {
+        height: 600px;
+        grid-column: span 3;
+    }
+    .uploadMedia {
+        height: 100%;
+    }
     .post {
         height: 365px;
     }
@@ -1002,6 +1023,77 @@ img {
         margin-top: -25px;
         top: 600px;
     }
+}
+
+#uploadWrapper {
+    padding: .75rem;
+}
+
+.uploadMedia {
+    background-color: rgba(248,247,251,255);
+    width: 100%;
+    overflow: hidden;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.uploadMedia span {
+    margin: auto;
+    --tw-text-opacity:1;
+    color:rgba(156,163,175,var(--tw-text-opacity));
+    line-height: 1.14;
+    font-size: 25px;
+    word-wrap: break-word;
+    width: 80%;
+}
+
+.uploadPreview {
+    height: auto;
+    max-height: 100%;
+    width: auto;
+    margin: auto;
+}
+
+.uploadSelect {
+    width: 100%;
+    display: inline-flex;
+    align-items: center; 
+}
+
+.uploadSelect button {
+    width: 50%;
+    height: 50px;
+    padding: .75rem;
+    border-radius: 5px;
+    overflow: hidden;
+    white-space:nowrap;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    display: block;
+}
+
+.uploadSelect button:focus {
+    outline: none;
+    border-color: #dae4e9;
+    border-width: 3px;
+}
+
+.uploadSelect button:hover {
+    border-color: #dae4e9;
+    border-width: 3px;
+}
+
+.uploadIcon {
+    width: 25px;
+    height: 25px;
+    vertical-align: middle;
+}
+
+.webcamIcon {
+    width: 25px;
+    height: 25px;
+    vertical-align: middle;
 }
 
 .post {
