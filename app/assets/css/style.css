@@ -915,11 +915,11 @@ img {
         gap: .75rem
     }
     #uploadWrapper {
-        height: 600px;
+        height: 100%;
         grid-column: span 1;
     }
     .uploadMedia {
-        height: 100%;
+        height: auto;
     }
     .post {
         height: 100%;
@@ -951,11 +951,11 @@ img {
         border-radius:.25rem;
     }
     #uploadWrapper {
-        height: 600px;
+        height: 100%;
         grid-column: span 2;
     }
     .uploadMedia {
-        height: 100%;
+        height: auto;
     }
     .post {
         height: 380px;
@@ -997,11 +997,11 @@ img {
         border-radius:.25rem;
     }
     #uploadWrapper {
-        height: 600px;
+        height: 100%;
         grid-column: span 3;
     }
     .uploadMedia {
-        height: 100%;
+        height: auto;
     }
     .post {
         height: 365px;
@@ -1039,6 +1039,8 @@ img {
 }
 
 .uploadMedia span {
+    padding-top: 200px;
+    padding-bottom: 200px;
     margin: auto;
     --tw-text-opacity:1;
     color:rgba(156,163,175,var(--tw-text-opacity));
@@ -1055,13 +1057,34 @@ img {
     margin: auto;
 }
 
+#videoPlayer {
+    height: auto;
+    max-height: 100%;
+    width: auto;
+    margin: auto;
+}
+
+#canvas {
+    height: auto;
+    max-height: 100%;
+    width: auto;
+    margin: auto;
+}
+
+#canvasCapture {
+    height: auto;
+    max-height: 100%;
+    width: auto;
+    margin: auto;
+}
+
 .uploadSelect {
     width: 100%;
     display: inline-flex;
     align-items: center; 
 }
 
-.uploadSelect button {
+.fileButton {
     width: 50%;
     height: 50px;
     padding: .75rem;
@@ -1073,15 +1096,55 @@ img {
     display: block;
 }
 
-.uploadSelect button:focus {
+.fileButton:focus {
     outline: none;
     border-color: #dae4e9;
     border-width: 3px;
 }
 
-.uploadSelect button:hover {
+.fileButton:hover {
     border-color: #dae4e9;
     border-width: 3px;
+}
+
+.fileCancel {
+    width: 50%;
+    height: 50px;
+    padding: .75rem;
+    border-radius: 5px;
+    overflow: hidden;
+    white-space:nowrap;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    display: block;
+    border-width: 1px;
+    border-color: #d0504d;
+}
+
+.fileCancel:hover,
+.fileCancel:active {
+    border-width: 3px;
+    border-color: #d3272f;
+}
+
+.fileContinue {
+    width: 50%;
+    height: 50px;
+    padding: .75rem;
+    border-radius: 5px;
+    overflow: hidden;
+    white-space:nowrap;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    display: block;
+    border-width: 1px;
+    border-color: #38c172;
+}
+
+.fileContinue:hover,
+.fileContinue:active {
+    border-width: 3px;
+    border-color: #1f9d55;
 }
 
 .uploadIcon {
