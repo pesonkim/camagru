@@ -14,3 +14,4 @@ define('DIRPATH', dirname(dirname(__FILE__)));
 define('DIRROOT', basename(dirname(dirname(__FILE__))));
 define('RESTRICTED', true);
 define('TITLE', 'Camagru');
+define('MB', 1048576);

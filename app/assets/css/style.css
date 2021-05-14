@@ -998,6 +998,7 @@ img {
     }
     #uploadWrapper {
         height: 100%;
+        max-height: 600px;
         grid-column: span 3;
     }
     .uploadMedia {
@@ -1071,7 +1072,7 @@ img {
     margin: auto;
 }
 
-#canvasCapture {
+#preview {
     height: auto;
     max-height: 100%;
     width: auto;
@@ -1725,6 +1726,32 @@ img {
     100% {
         opacity: 1;
         -webkit-transform: translateY(0%);
+    }
+}
+
+.shutter {
+    animation-name: shutter;
+    -webkit-animation-name: shutter;
+    animation-duration: 0.5s;
+    -webkit-animation-duration: 0.5s;
+    visibility: visible;
+}
+
+@keyframes shutter {
+    0% {
+        opacity: 0;
+    } 
+    100% {
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes shutter {
+    0% {
+        opacity: 0;
+    } 
+    100% {
+        opacity: 1;
     }
 }
 

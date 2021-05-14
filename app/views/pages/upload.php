@@ -12,21 +12,19 @@ if (!defined('RESTRICTED')) {
             <span id="fileName" style="display: none"></span>
             <video autoplay="true" id="videoPlayer" style="display: none"></video>
             <canvas id="canvas" height="" width="" style="display: none"></canvas>
-            <img id="canvasCapture" src="" alt="capture" style="display: none">
+            <img id="preview" class="shutter" src="" alt="capture" style="display: none">
         </div>
-        <form id="uploadForm" action="POST" hidden>
+        <form id="uploadForm" enctype="multipart/form-data" method="POST" hidden>
             <input
                 id="fileUpload"
                 type='file'
                 accept="image/*"
-                enctype="multipart/form-data"
                 hidden
             />
             <input
                 id="webcamUpload"
                 type='file'
                 capture="camera"
-                enctype="multipart/form-data"
                 hidden
             />
         </form>
