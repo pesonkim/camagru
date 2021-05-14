@@ -7,7 +7,7 @@ if (!defined('RESTRICTED')) {
 <div id="postsContainer" class="w-full max-w-screen-lg grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:gap md:gap sm:gap mt-2 mx-auto lg:px-2 md:px-2">
 
     <div id="uploadWrapper" class="flex flex-col justify-center shadow bg-white lg:rounded md:rounded slideUp">
-        <h1 class="text-3xl text-center mb-4">File upload</h1>
+        <h1 class="text-3xl text-center mb-4">Create new post</h1>
         <div id="uploadPreview" class="uploadMedia">
             <span id="fileName" style="display: none"></span>
             <video autoplay="true" id="videoPlayer" style="display: none"></video>
@@ -77,7 +77,49 @@ if (!defined('RESTRICTED')) {
             Continue
             </button>
         </div>
+        <div id="editMenu" class="slideDown flex-col" >
+            <label>Add stickers (optional)</label>
+            <div id="stickers" class="rounded">
+                <div class="sticker">1</div>
+                <div class="sticker">2</div>
+                <div class="sticker">3</div>
+                <div class="sticker">4</div>
+                <div class="sticker">5</div>
+                <div class="sticker">6</div>
+                <div class="sticker">7</div>
+                <div class="sticker">8</div>
+                <div class="sticker">9</div>
+                <div class="sticker">10</div>
+            </div>
+            <label>Post title</label>
+            <input
+                id="title"
+                type="text"
+                class="form-input rounded"
+                name="title"
+                onkeypress="return noEnter()"
+            >
+            <div class="uploadSelect mt-4 mb-2">
+                <button
+                    id="postCancel"
+                    class="mr-1 shadow-md fileCancel"
+                >
+                <img class="uploadIcon" src="<?=URL?>/app/assets/img/resources/upload.svg" alt="upload">
+                Cancel
+                </button>
+                <button
+                    id="postCreate"
+                    class="ml-1 shadow-md fileContinue"
+                >
+                <img class="uploadIcon" src="<?=URL?>/app/assets/img/resources/upload.svg" alt="upload">
+                Create post
+                </button>
+            </div>
+        </div>
 
+        <div class="post-modal-container" name="modal">
+            <img class="post-modal-content" src="">
+        </div>
     </div>
 
 </div>

@@ -16,6 +16,10 @@ var menu3 = document.getElementById('menu3');
 var fileCancel = document.getElementById('imgCancel');
 var fileContinue = document.getElementById('imgContinue');
 
+var menu4 = document.getElementById('editMenu');
+var postCancel = document.getElementById('postCancel');
+var postCreate = document.getElementById('postCreate');
+
 var uploadFile = undefined;
 var captureFile = undefined;
 var fileName = document.getElementById('fileName');
@@ -44,6 +48,8 @@ function resetFields() {
     preview.src = '';
     preview.style.display = 'none';
     fileName.style.display = 'block';
+    var modal = preview.parentElement.parentElement.querySelector('.post-modal-container');
+    modal.querySelector('.post-modal-content').src = '';
     var event = new Event('change');
     uploadForm.dispatchEvent(event);
 }
@@ -120,7 +126,28 @@ function uploadImage() {
     }
 }
 
-var video = document.querySelector("#videoElement");
+preview.addEventListener('click', function(event) {
+    //open lightbox
+    if (preview.src !== '') {
+        var modal = preview.parentElement.parentElement.querySelector('.post-modal-container');
+        modal.querySelector('.post-modal-content').src = preview.src;
+        modal.style.display = 'grid';
+        document.getElementsByTagName("html")[0].style.overflow = 'hidden';
+    }
+});
+
+uploadWrapper.addEventListener('click', function(event) {
+    //close lightbox
+    if (event.target.classList.contains('post-modal-content')) {
+        event.target.parentNode.style.display = 'none';
+        document.getElementsByTagName("html")[0].style.overflow = 'scroll';
+    }
+    //close lightbox
+    else if (event.target.classList.contains('post-modal-container')) {
+        event.target.style.display = 'none';
+        document.getElementsByTagName("html")[0].style.overflow = 'scroll';
+    }
+});
 
 webcamCancel.addEventListener('click', function() {
     videoPlayer.srcObject.getVideoTracks().forEach(track => track.stop());
@@ -167,6 +194,7 @@ uploadForm.addEventListener('change', function() {
         menu1.style.display = 'none';
         menu2.style.display = 'none';
         menu3.style.display = 'flex';
+        menu4.style.display = 'none';
     }
     else {
         fileName.innerHTML = 'No file selected.'
@@ -174,6 +202,7 @@ uploadForm.addEventListener('change', function() {
         menu1.style.display = 'flex';
         menu2.style.display = 'none';
         menu3.style.display = 'none';
+        menu4.style.display = 'none';
     }
 })
 
@@ -186,8 +215,48 @@ fileCancel.addEventListener('click', function() {
 })
 
 fileContinue.addEventListener('click', function() {
-    console.log(uploadFile);
+    menu3.style.display = 'none';
+    menu4.style.display = 'flex';
 })
+
+postCancel.addEventListener('click', function() {
+    resetFields();
+})
+
+postCreate.addEventListener('click', function() {
+    flash('Create post', uploadFile);
+})
+
+const slider = document.getElementById('stickers');
+var isDown = false;
+var startX;
+var scrollLeft;
+
+slider.addEventListener('mousedown', function(event) {
+    isDown = true;
+    slider.classList.add('grabbing');
+    startX = event.pageX - slider.offsetLeft;
+    scrollLeft = slider.scrollLeft;
+});
+
+slider.addEventListener('mouseup', function() {
+    isDown = false;
+    slider.classList.remove('grabbing');
+});
+
+slider.addEventListener('mouseleave', function() {
+    isDown = false;
+    slider.classList.remove('grabbing');
+});
+
+slider.addEventListener('mousemove', function(event) {
+    if (!isDown)
+        return;
+    event.preventDefault();
+    const x = event.pageX - slider.offsetLeft;
+    const walk = (x - startX);
+    slider.scrollLeft = scrollLeft - walk;
+});
 
 window.addEventListener('DOMContentLoaded', function() {
     var event = new Event('change');

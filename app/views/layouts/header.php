@@ -34,7 +34,7 @@ if (!defined('RESTRICTED')) {
                     <?php if (isset($_SESSION['username'])) { ?>
                     <section class="flex items-center">
                         <a href="<?=URL?>/index.php?page=upload">
-                            <button class="mr-2">Uploads</button>
+                            <button class="mr-2">My posts</button>
                         </a>
                         <a class="verticalLine" href="<?=URL?>/index.php?page=profile">
                             <button class="mx-2">Profile</button>
