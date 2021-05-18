@@ -1419,7 +1419,7 @@ img {
 }
 
 #stickers {
-    height: 200px;
+    height: 150px;
     overflow-x: scroll;
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
@@ -1440,9 +1440,22 @@ img {
 .sticker {
     display: inline-block;
     height: 100%;
-    width: 200px;
-    outline: 1px solid;
+    width: 150px;
+    border-color: #dae4e9;
+    border-width: 1px;
+    border-radius: 5px;
     text-align: center;
+    vertical-align: middle;
+}
+
+.sticker.selected {
+    border-width: 2px;
+    border-color: #38c172;
+}
+
+.sticker1 {
+    height: 100%;
+    width: auto;
 }
 
 .blur {

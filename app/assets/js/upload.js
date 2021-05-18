@@ -29,6 +29,15 @@ const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
 const preview = document.getElementById('preview');
 
+function noEnter() {
+    return !(window.event && window.event.keyCode == 13);
+}
+
+document.getElementById('title').addEventListener('keyup', function (event) {
+    if (window.event.keyCode == 13)
+        document.getElementById('title').blur();
+});
+
 function getFileName() {
     if (uploadInput.files[0]) {
         uploadFile = uploadInput.files[0];
@@ -40,6 +49,7 @@ function getFileName() {
     }
 }
 
+//clear anything related to temp image upload
 function resetFields() {
     cancelUpload();
     uploadInput.value = '';
@@ -54,6 +64,39 @@ function resetFields() {
     uploadForm.dispatchEvent(event);
 }
 
+//send src image and title for post controller
+function createPost() {
+    const request = new XMLHttpRequest();
+    const file = uploadFile;
+    const title = document.getElementById('title').value;
+
+    request.onreadystatechange = function() {
+        if (request.readyState == 4) {
+            const json = JSON.parse(request.responseText);
+            console.log(json);
+            if (json.code == 200) {
+                flash('Success', 'create post');
+            }
+            if (json.code == 401) {
+                flash('Unauthorized','The request was unauthorized');
+            }
+            if (json.code == 400) {
+                if (json.errors.file)
+                    flash('Error','Something went wrong uploading image, please try again.');
+                else if (json.errors.title)
+                    flash('error','please give title');
+            }
+        }
+    }
+    const requestData = 'action=createPost&file='+file+'&title='+title;
+
+    request.open('post', 'index.php?PostController&method=createPost');
+    request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    request.send(requestData);
+}
+
+//clear currently uploaded temp image
 function cancelUpload() {
     const request = new XMLHttpRequest();
     const file = uploadFile;
@@ -73,6 +116,7 @@ function cancelUpload() {
     request.send(requestData);
 }
 
+//upload initial image for image editing
 function uploadImage() {
     const request = new XMLHttpRequest();
     const file = uploadInput.files[0];
@@ -149,6 +193,7 @@ uploadWrapper.addEventListener('click', function(event) {
     }
 });
 
+//close webcam and clear video channels
 webcamCancel.addEventListener('click', function() {
     videoPlayer.srcObject.getVideoTracks().forEach(track => track.stop());
     fileName.style.display = 'block';
@@ -158,6 +203,7 @@ webcamCancel.addEventListener('click', function() {
     menu3.style.display = 'none';
 })
 
+//capture image from webcam and save to canvas
 webcamCapture.addEventListener('click', function() {
     canvas.width = videoPlayer.srcObject.getVideoTracks()[0].getSettings().width;
     canvas.height = videoPlayer.srcObject.getVideoTracks()[0].getSettings().height;
@@ -170,6 +216,7 @@ webcamCapture.addEventListener('click', function() {
     uploadImage();
 })
 
+//open webcam and init video channels
 webcamBtn.addEventListener('click', function() {
     if (videoPlayer.style.display == 'none') {
         fileName.style.display = 'none';
@@ -224,7 +271,7 @@ postCancel.addEventListener('click', function() {
 })
 
 postCreate.addEventListener('click', function() {
-    flash('Create post', uploadFile);
+    createPost();
 })
 
 const slider = document.getElementById('stickers');
@@ -234,7 +281,6 @@ var scrollLeft;
 
 slider.addEventListener('mousedown', function(event) {
     isDown = true;
-    slider.classList.add('grabbing');
     startX = event.pageX - slider.offsetLeft;
     scrollLeft = slider.scrollLeft;
 });
@@ -252,11 +298,20 @@ slider.addEventListener('mouseleave', function() {
 slider.addEventListener('mousemove', function(event) {
     if (!isDown)
         return;
+    slider.classList.add('grabbing');
     event.preventDefault();
     const x = event.pageX - slider.offsetLeft;
     const walk = (x - startX);
     slider.scrollLeft = scrollLeft - walk;
 });
+
+var stickers = document.querySelectorAll('.sticker');
+for (var i = 0; i < stickers.length; i++) {
+    stickers[i].addEventListener('mouseup', function(event) {
+        if (!event.target.parentElement.classList.contains('grabbing'))
+            event.target.classList.toggle('selected');
+    });
+}
 
 window.addEventListener('DOMContentLoaded', function() {
     var event = new Event('change');

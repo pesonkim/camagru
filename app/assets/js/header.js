@@ -89,6 +89,21 @@ window.addEventListener('click', function(event) {
     }
 });
 
+window.addEventListener('keyup', function(event) {
+    if (window.event.keyCode == 27 && modal.style.display == 'block') {
+        modal.classList.add('fadeOut');
+        setTimeout(function() {
+            modal.style.display = 'none';
+            modal.classList.remove('fadeOut');
+        }, 200)
+    }
+    if (redirect) {
+        var view = redirect;
+        redirect = '';
+        window.location = view;
+    }
+});
+
 window.addEventListener('DOMContentLoaded', (event) => {
     var url = new URL(window.location.href);
     if (url.searchParams.get('logout') === 'success') {

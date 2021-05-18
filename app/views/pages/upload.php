@@ -77,10 +77,12 @@ if (!defined('RESTRICTED')) {
             Continue
             </button>
         </div>
-        <div id="editMenu" class="slideDown flex-col" >
+        <div id="editMenu" class="slideDown flex-col" style="display: flex">
             <label>Add stickers (optional)</label>
             <div id="stickers" class="rounded">
-                <div class="sticker">1</div>
+                <div class="sticker">
+                    <img class="sticker1" src="<?=URL?>/app/assets/img/stickers/emoji2.png" alt="sticker1">
+                </div>
                 <div class="sticker">2</div>
                 <div class="sticker">3</div>
                 <div class="sticker">4</div>

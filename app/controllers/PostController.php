@@ -153,6 +153,43 @@ class PostController {
         }
     }
 
+    //creates a post in database from given src
+    public function createPost() {
+        $dir = $this->getUserDir();
+        $file = basename($_POST['file']);
+        $data = array();
+        $errors = array();
+
+        if ($this->isAjax()) {
+            if (($dir && $file) && (isset($_POST["action"]) && $_POST["action"] === "createPost")) {
+                if (!file_exists($dir . $file)) {
+                    $errors['file'] = 'Upload file is missing.';
+                }
+                else if (empty($_POST['title'])) {
+                    $errors['title'] = 'Please give your post a title.';
+                }
+                if (!empty($errors)) {
+                    $data['code'] = 400;
+                    $data['errors'] = $errors;
+                }
+                else {
+                    //call model here
+                    $data['src'] = $dir . $file;
+                    $data['code'] = 200;
+                }
+            }
+            else {
+                $data['code'] = 401;
+            }
+
+            echo json_encode($data);
+            exit ;
+        }
+        else {
+            $this->redirect('/index.php?auth=false');
+        }
+    }
+
     public function getPosts() {
         $posts = array();
         $index = $_POST['index'];
