@@ -127,6 +127,7 @@ if (!defined('RESTRICTED')) {
 </div>
 
 <script type="text/javascript" src="<?=URL?>/app/assets/js/upload.js"></script>
+<script type="text/javascript" src="<?=URL?>/app/assets/js/userposts.js"></script>
 
 <!--
                 <form id="uploadForm" class="flex flex-row uploadSelect" method="POST">

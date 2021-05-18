@@ -162,7 +162,8 @@ class PostController {
 
         if ($this->isAjax()) {
             if (($dir && $file) && (isset($_POST["action"]) && $_POST["action"] === "createPost")) {
-                if (!file_exists($dir . $file)) {
+                $src = $dir . $file;
+                if (!file_exists($src)) {
                     $errors['file'] = 'Upload file is missing.';
                 }
                 else if (empty($_POST['title'])) {
@@ -173,8 +174,16 @@ class PostController {
                     $data['errors'] = $errors;
                 }
                 else {
-                    //call model here
-                    $data['src'] = $dir . $file;
+                    $url = $this->getUserUrl();
+                    $url .= $file;
+
+                    $data['id_user'] = $_SESSION['id_user'];
+                    $data['title'] = $_POST['title'];
+                    $data['src'] = $url;
+                    $data['created_at'] = date('Y-m-d H:i:s');
+            
+                    $this->model->createPost($data);
+        
                     $data['code'] = 200;
                 }
             }
@@ -190,13 +199,53 @@ class PostController {
         }
     }
 
+    //fetch all post id that match logged in user id
+    public function getUserPosts() {
+        $ids = array();
+        $posts = array();
+
+        $author = $this->model->getAuthorById($_SESSION['id_user']);
+        $ids = $this->model->getUserPosts($_SESSION['id_user']);
+
+        for ($x = 0; $x < count($ids); $x++) {
+            $posts[$x] = $this->model->getPostById($ids[$x]['id_post']);
+            $posts[$x]['author'] = $author;
+        }
+
+        echo json_encode($posts);
+        exit ;
+    }
+
+    //fetch all post ids in database
     public function getPosts() {
+        $posts = array();
+
+        $posts = $this->model->getPosts();
+
+        echo json_encode($posts);
+        exit ;
+    }
+
+    //fetch post data by post id
+    public function getPostById() {
+        $post = array();
+
+        $post = $this->model->getPostById($_POST['id']);
+        $author = $this->model->getAuthorById($post['id_user']);
+        $post['author'] = $author;
+
+        echo json_encode($post);
+        exit ;
+    }
+
+    //generate example posts for index.php?page=infinite
+    public function getExamplePosts() {
         $posts = array();
         $index = $_POST['index'];
         $limit = $_POST['limit'];
 
         for ($x = 0; $x < $limit; $x++) {
-            $posts[$x] = $this->model->getPost(++$index);
+            $posts[$x] = $this->model->getExamplePost(++$index);
         }
         echo json_encode($posts);
         exit ;

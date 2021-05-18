@@ -75,7 +75,7 @@ function createPost() {
             const json = JSON.parse(request.responseText);
             console.log(json);
             if (json.code == 200) {
-                flash('Success', 'create post');
+                flash('Success','Your post was created.', 'index.php?page=upload');
             }
             if (json.code == 401) {
                 flash('Unauthorized','The request was unauthorized');
@@ -84,7 +84,7 @@ function createPost() {
                 if (json.errors.file)
                     flash('Error','Something went wrong uploading image, please try again.');
                 else if (json.errors.title)
-                    flash('error','please give title');
+                    flash('Title required','Please give your post a title.');
             }
         }
     }

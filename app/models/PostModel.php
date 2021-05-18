@@ -15,32 +15,48 @@ class PostModel {
 
     //insert a new post into database
     public function createPost($data) {
-        $stmt = $this->pdo->prepare('INSERT INTO users (username, email, passwd, token, created_at)
-                                    VALUES (:username, :email, :passwd, :token, :created_at)');
-        $stmt->bindValue(':username', $data['username']);
-        $stmt->bindValue(':email', $data['email']);
-        $stmt->bindValue(':passwd', $data['password']);
-        $stmt->bindValue(':token', $data['token']);
+        $stmt = $this->pdo->prepare('INSERT INTO posts (post_title, post_src, id_user, created_at)
+                                    VALUES (:post_title, :post_src, :id_user, :created_at)');
+        $stmt->bindValue(':post_title', $data['title']);
+        $stmt->bindValue(':post_src', $data['src']);
+        $stmt->bindValue(':id_user', $data['id_user']);
         $stmt->bindValue(':created_at', $data['created_at']);
         $stmt->execute();
     }
 
-    //validation check before creating a post
-    public function authUpload($username, $passwd) {
-        $stmt = $this->pdo->prepare('SELECT id_user, username, email, passwd, is_verified, notify_pref
-                                    FROM users WHERE username = :username');
-        $stmt->bindValue(':username', $username);
+    public function getUserPosts($id) {
+        $stmt = $this->pdo->prepare('SELECT id_post FROM posts WHERE id_user = :id_user ORDER BY id_post DESC');
+        $stmt->bindValue(':id_user', $id);
         $stmt->execute();
-        $hash = $stmt->fetch();
-
-        if (password_verify($passwd, $hash['passwd']))
-            return $hash;
-        else
-            return false;
+        $posts = $stmt->fetchAll();
+        return $posts;
     }
 
+    public function getPostById($id) {
+        $stmt = $this->pdo->prepare('SELECT id_post, post_title, post_src, id_user, created_at
+                FROM posts WHERE id_post = :id_post');
+        $stmt->bindValue(':id_post', $id);
+        $stmt->execute();
+        $post = $stmt->fetch();
+        return $post;
+    }
 
-    public static function getPost($i) {
+    public function getAuthorById($id) {
+        $stmt = $this->pdo->prepare('SELECT username FROM users WHERE id_user = :id_user');
+        $stmt->bindValue(':id_user', $id);
+        $stmt->execute();
+        $author = $stmt->fetch();
+        return $author['username'];
+    }
+
+    public function getPosts() {
+        $stmt = $this->pdo->prepare('SELECT id_post FROM posts ORDER BY id_post DESC');
+        $stmt->execute();
+        $posts = $stmt->fetchAll();
+        return $posts;
+    }
+
+    public function getExamplePost($i) {
         $post = array();
         
         $post['name'] = 'Example post #' . $i;
@@ -51,3 +67,9 @@ class PostModel {
     }
 
 }
+
+//id_post int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+//post_title varchar(255),
+//post_src varchar(5000) NOT NULL,
+//id_user int NOT NULL,
+//created_at datetime NOT NULL,

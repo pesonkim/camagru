@@ -1,81 +1,26 @@
 const postsContainer = document.getElementById('postsContainer');
-const page = 5;
-var posts, index, limit = undefined;
-var loggedIn = undefined;
 
 document.addEventListener("DOMContentLoaded", function(){
-    isLoggedIn();
-    getPostIds();
+    loadPosts();
 });
 
-function isLoggedIn() {
+function loadPosts() {
     const request = new XMLHttpRequest();
 
     request.onreadystatechange = function() {
         if (request.readyState == 4) {
             const json = JSON.parse(request.responseText);
-            if (json.user === '1') {
-                loggedIn = true;
-            }
-            else if (json.user === '0') {
-                loggedIn = false;
+            for (var i = 0; i < json.length; i++) {
+                console.log(json[i]);
+                drawPost(json[i]);
             }
         }
     }
 
-    const requestData = 'action=isLoggedIn';
-
-    request.open('post', 'index.php?UserController&method=isLoggedIn');
-    request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-    request.send(requestData);
-}
-
-function getPostIds() {
-    const request = new XMLHttpRequest();
-
-    request.onreadystatechange = function() {
-        if (request.readyState == 4) {
-            console.log(request.responseText);
-            posts = JSON.parse(request.responseText);
-            index = 0;
-            limit = posts.length;
-            loadPosts();
-        }
-    }
-
-    request.open('post', 'index.php?PostController&method=getPosts');
+    request.open('post', 'index.php?PostController&method=getUserPosts');
     request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     request.send();
-}
-
-function loadPosts() {
-    if (index < limit) {
-        for (var i = 0; i < page; i++) {
-            if (index >= limit) {
-                break ;
-            }
-            const request = new XMLHttpRequest();
-
-            request.onreadystatechange = function() {
-                if (request.readyState == 4) {
-                    const json = JSON.parse(request.responseText);
-                    console.log(json);
-                    drawPost(json);
-                }
-            }
-        
-            const requestData = 'id='+posts[index]['id_post'];
-        
-            request.open('post', 'index.php?PostController&method=getPostById');
-            request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-            request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-            request.send(requestData);
-        
-            index++;
-        }
-    }
 }
 
 function nFormatter(num) {
@@ -131,16 +76,6 @@ function comment(count) {
             behavior: 'smooth',
             block: 'center'
         });
-        //flash('Comment:', count.parentElement.parentElement.parentElement.querySelector('textarea').value);
-
-        //<div class="commentEntry">
-        //    <div class="authorDate">
-        //        <span>Author</span>
-        //        <span> - </span>
-        //        <span>Time of posting</span>
-        //    </div>
-        //    <span>This is the comment body.</span>
-        //</div>
     }
 }
 
@@ -235,61 +170,35 @@ function drawPost(postData) {
     input.setAttribute('type', 'text');
     input.setAttribute('class', 'form-input rounded');
     input.setAttribute('name', 'commentField');
-    input.setAttribute('placeholder', (loggedIn ? 'Leave a comment.' : 'Login to leave a comment.'));
-    if (!loggedIn) {
-        input.style.pointerEvents = 'none';
-        input.style.height = '50px';
-        var div = document.createElement('div');
-        var url = new URL(window.location.href);
-
-        var a1 = document.createElement('a');
-        a1.setAttribute('href', url.pathname+'?page=login');
-        var button1 = document.createElement('button');
-        button1.setAttribute('class', 'commentLoginButton');
-        button1.appendChild(document.createTextNode('Login'));
-        a1.appendChild(button1);
-        div.appendChild(a1);
-
-        var a2 = document.createElement('a');
-        a2.setAttribute('href', url.pathname+'?page=signup');
-        var button2 = document.createElement('button');
-        button2.setAttribute('class', 'commentSignupButton');
-        button2.appendChild(document.createTextNode('Signup'));
-        a2.appendChild(button2);
-        div.appendChild(a2);
-
-        commentCreate.appendChild(input);
-        commentCreate.appendChild(div);
-    }
+    input.setAttribute('placeholder', 'Leave a comment.');
     //character counter
-    else {
-        var div = document.createElement('div');
-        var count = document.createElement('div');
-        var span = document.createElement('span');
-        span.appendChild(document.createTextNode('Characters remaining: '));
+    var div = document.createElement('div');
+    var count = document.createElement('div');
+    var span = document.createElement('span');
+    span.appendChild(document.createTextNode('Characters remaining: '));
 
-        var counter = document.createElement('span');
-        counter.setAttribute('class', 'countChar');
+    var counter = document.createElement('span');
+    counter.setAttribute('class', 'countChar');
 
-        var button = document.createElement('button');
-        count.setAttribute('class', 'charCount');
-        button.setAttribute('class', 'commentButton');
-        button.appendChild(document.createTextNode('Comment'));
-        count.appendChild(span);
-        count.appendChild(counter);
-        div.appendChild(count);
-        div.appendChild(button);
+    var button = document.createElement('button');
+    count.setAttribute('class', 'charCount');
+    button.setAttribute('class', 'commentButton');
+    button.appendChild(document.createTextNode('Comment'));
+    count.appendChild(span);
+    count.appendChild(counter);
+    div.appendChild(count);
+    div.appendChild(button);
 
-        commentCreate.appendChild(input);
-        commentCreate.appendChild(div);
-        counter.appendChild(document.createTextNode(getCount(counter.parentElement.parentElement.parentElement.querySelector('textarea'))));
-        input.addEventListener('input', function() {
-            updateCount(counter);
-        }, false);
-        button.addEventListener('click', function() {
-            comment(counter);
-        }, false);
-    }
+    commentCreate.appendChild(input);
+    commentCreate.appendChild(div);
+    counter.appendChild(document.createTextNode(getCount(counter.parentElement.parentElement.parentElement.querySelector('textarea'))));
+    input.addEventListener('input', function() {
+        updateCount(counter);
+    }, false);
+    button.addEventListener('click', function() {
+        comment(counter);
+    }, false);
+
     commentList.setAttribute('class', 'commentList');
     commentContainer.appendChild(commentCreate);
     commentContainer.appendChild(commentList);
@@ -308,9 +217,7 @@ function drawPost(postData) {
         else if (event.target.classList.contains('like-post')) {
             var icon = event.currentTarget.querySelector('.post-actions').querySelectorAll('.flex')[0];
 
-            if (!loggedIn)
-                flash('Login required', 'Please login to like posts.');
-            else if (icon.querySelector('div').classList.contains('post-likes')) {
+            if (icon.querySelector('div').classList.contains('post-likes')) {
                 event.target.classList.toggle('selected');
                 icon.querySelectorAll('span')[0].textContent = parseInt(icon.querySelectorAll('span')[0].textContent) + 1;
                 icon.querySelector('div').classList.toggle('post-heart');
@@ -387,22 +294,6 @@ function drawPost(postData) {
     postsContainer.appendChild(newDiv);
     postsContainer.appendChild(commentContainer);
 }
-
-window.onload = function() {
-    var timer = setInterval(function() {
-        if (document.body.scrollHeight <= window.innerHeight)
-            loadPosts();
-        else
-            clearInterval(timer);
-    }, 1000);
-};
-
-
-window.onscroll = function() {
-    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-        loadPosts();
-    }
-};
 
 window.matchMedia('(min-width: 1024px)').addEventListener('change', function(event) {
     if (event.matches) {

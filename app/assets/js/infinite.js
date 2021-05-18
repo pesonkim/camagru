@@ -47,7 +47,7 @@ function loadPosts() {
 
     const requestData = 'index='+index+'&limit='+limit;
 
-    request.open('post', 'index.php?PostController&method=getPosts');
+    request.open('post', 'index.php?PostController&method=getExamplePosts');
     request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     request.send(requestData);
