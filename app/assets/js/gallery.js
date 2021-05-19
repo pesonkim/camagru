@@ -51,31 +51,35 @@ function getPostIds() {
 }
 
 function loadPosts() {
-    if (index < limit) {
-        for (var i = 0; i < page; i++) {
-            if (index >= limit) {
-                break ;
-            }
-            const request = new XMLHttpRequest();
-
-            request.onreadystatechange = function() {
-                if (request.readyState == 4) {
-                    const json = JSON.parse(request.responseText);
-                    console.log(json);
-                    drawPost(json);
-                }
-            }
-        
-            const requestData = 'id='+posts[index]['id_post'];
-        
-            request.open('post', 'index.php?PostController&method=getPostById');
-            request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-            request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-            request.send(requestData);
-        
-            index++;
-        }
+    for (var i = 0; i < page; i++) {
+        getPostData(i);
     }
+}
+
+function getPostData(j) {
+    setTimeout(function() {
+        if (index >= limit) {
+            return ;
+        }
+    
+        const request = new XMLHttpRequest();
+    
+        request.onreadystatechange = function() {
+            if (request.readyState == 4) {
+                const json = JSON.parse(request.responseText);
+                console.log(json);
+                drawPost(json);
+            }
+        }
+    
+        const requestData = 'id='+posts[index]['id_post'];
+    
+        request.open('post', 'index.php?PostController&method=getPostById');
+        request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        request.send(requestData);
+        index++;
+    }, 20 * j);
 }
 
 function nFormatter(num) {
@@ -173,7 +177,17 @@ function drawPost(postData) {
     imgDiv.setAttribute('class', 'post-media');
     img.setAttribute('class', 'post-img');
     img.setAttribute('src', postData.post_src);
-    imgDiv.appendChild(img);
+
+    function loaded() {
+        imgDiv.appendChild(img);
+    }
+    if (img.complete) {
+        loaded();
+    }
+    else {
+        img.addEventListener('load', loaded);
+        //alert(postData.id_post+' img not ready');
+    }
     
     metaDiv.setAttribute('class', 'post-meta bg-white');
     titleDiv.setAttribute('class', 'post-title');
