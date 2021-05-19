@@ -145,7 +145,6 @@ function comment(count) {
 }
 
 function drawPost(postData) {
-    
     var newDiv = document.createElement('div');
     var imgDiv = document.createElement('div');
     var img = document.createElement('img');
@@ -170,6 +169,7 @@ function drawPost(postData) {
     var commentList = document.createElement('div');
 
     newDiv.setAttribute('class', 'flex flex-col justify-center shadow bg-white lg:rounded md:rounded slideUp post');
+    newDiv.setAttribute('id', postData.id_post);
     imgDiv.setAttribute('class', 'post-media');
     img.setAttribute('class', 'post-img');
     img.setAttribute('src', postData.post_src);
@@ -184,26 +184,40 @@ function drawPost(postData) {
     commentDiv.setAttribute('class', 'flex');
     viewDiv.setAttribute('class', 'flex');
 
-    likes.setAttribute('class', 'post-likes');
+    if (postData.like) {
+        likes.setAttribute('class', 'post-heart');
+    }
+    else {
+        likes.setAttribute('class', 'post-likes');
+    }
     likeDiv.appendChild(likes);
     likes = document.createElement('span');
-    likes.appendChild(document.createTextNode(nFormatter(Math.floor(Math.random() * 1000))));
+    //likes.appendChild(document.createTextNode(nFormatter(Math.floor(Math.random() * 1000))));
+    likes.appendChild(document.createTextNode(nFormatter(postData.likes)));
     likeDiv.appendChild(likes);
     
     comments.setAttribute('class', 'post-comments');
     commentDiv.appendChild(comments);
     comments = document.createElement('span');
-    comments.appendChild(document.createTextNode(nFormatter(Math.floor(Math.random() * 1000))));
+    //comments.appendChild(document.createTextNode(nFormatter(Math.floor(Math.random() * 1000))));
+    comments.appendChild(document.createTextNode(nFormatter(postData.comments)));
     commentDiv.appendChild(comments);
     
     views.setAttribute('class', 'post-views');
     viewDiv.appendChild(views);
     views = document.createElement('span');
-    views.appendChild(document.createTextNode(nFormatter(Math.floor(Math.random() * 10000))));
+    //views.appendChild(document.createTextNode(nFormatter(Math.floor(Math.random() * 10000))));
+    views.appendChild(document.createTextNode(nFormatter(postData.views)));
     viewDiv.appendChild(views);
 
     buttonDiv.setAttribute('class', 'like-comment flex');
-    buttonLike.setAttribute('class', 'like-post shadow-md');
+
+    if (postData.like) {
+        buttonLike.setAttribute('class', 'like-post shadow-md selected');
+    }
+    else {
+        buttonLike.setAttribute('class', 'like-post shadow-md');
+    }
     buttonLike.setAttribute('type', 'checkbox');
     buttonComment.setAttribute('class', 'comment-post shadow-md');
     likes = document.createElement('span');
@@ -311,12 +325,14 @@ function drawPost(postData) {
             if (!loggedIn)
                 flash('Login required', 'Please login to like posts.');
             else if (icon.querySelector('div').classList.contains('post-likes')) {
+                likePost(event.currentTarget.id);
                 event.target.classList.toggle('selected');
                 icon.querySelectorAll('span')[0].textContent = parseInt(icon.querySelectorAll('span')[0].textContent) + 1;
                 icon.querySelector('div').classList.toggle('post-heart');
                 icon.querySelector('div').classList.toggle('post-likes');
             }
             else if (icon.querySelector('div').classList.contains('post-heart')) {
+                likePost(event.currentTarget.id);
                 event.target.classList.toggle('selected');
                 icon.querySelectorAll('span')[0].textContent = parseInt(icon.querySelectorAll('span')[0].textContent) - 1;
                 icon.querySelector('div').classList.toggle('post-heart');
@@ -325,7 +341,11 @@ function drawPost(postData) {
         }
         //comment button
         else if (event.target.classList.contains('comment-post')) {
+
+            commentPost(event.currentTarget.id);
+
             //small screens
+            /*
             if (window.matchMedia('(max-width: 767px)').matches) {
                 if (event.currentTarget.nextElementSibling.style.display=='none') {
                     event.currentTarget.nextElementSibling.style.display='flex';
@@ -350,6 +370,7 @@ function drawPost(postData) {
                 else
                     flash('Login required', 'Please login to leave a comment.');
             }
+            */
         }
         //lightbox zoom in
         else if (event.currentTarget.classList.contains('post-expanded') || window.matchMedia('(max-width: 767px)').matches) {
@@ -387,6 +408,23 @@ function drawPost(postData) {
     postsContainer.appendChild(newDiv);
     postsContainer.appendChild(commentContainer);
 }
+
+function likePost(id) {
+    console.log(id);
+    const request = new XMLHttpRequest();
+
+    const requestData = 'action=likePost&id='+id;
+
+    request.open('post', 'index.php?PostController&method=likePost');
+    request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    request.send(requestData);
+}
+
+function commentPost(id) {
+    console.log(id);
+}
+
 
 window.onload = function() {
     var timer = setInterval(function() {

@@ -92,7 +92,7 @@ function createPost() {
 
     request.open('post', 'index.php?PostController&method=createPost');
     request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    request.setRequestHeader('X-Requested-With' , 'XMLHttpRequest');
     request.send(requestData);
 }
 
@@ -142,7 +142,7 @@ function uploadImage() {
                 if (json.errors.format)
                     flash('Oops','Uploaded file is not an image.');
                 else if (json.errors.size)
-                    flash('Oops','Size limit for uploads is 2MB.');
+                    flash('Oops','Size limit for uploads is 4MB.');
                 resetFields();
             }
             if (json.code == 500) {

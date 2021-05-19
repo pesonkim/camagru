@@ -56,6 +56,61 @@ class PostModel {
         return $posts;
     }
 
+    public function getLike($user, $post) {
+        $stmt = $this->pdo->prepare('SELECT id_like FROM likes WHERE id_user = :id_user AND id_post = :id_post');
+        $stmt->bindValue(':id_user', $user);
+        $stmt->bindValue(':id_post', $post);
+        $stmt->execute();
+        $like = $stmt->fetch();
+        if ($like) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    
+    public function createLike($data) {
+        $stmt = $this->pdo->prepare('INSERT INTO likes (id_post, id_user, created_at)
+                                    VALUES (:id_post, :id_user, :created_at)');
+        $stmt->bindValue(':id_post', $data['id_post']);
+        $stmt->bindValue(':id_user', $data['id_user']);
+        $stmt->bindValue(':created_at', $data['created_at']);
+        $stmt->execute();
+    }
+
+    public function deleteLike($data) {
+        $stmt = $this->pdo->prepare('DELETE FROM likes WHERE id_user = :id_user AND id_post = :id_post');
+        $stmt->bindValue(':id_post', $data['id_post']);
+        $stmt->bindValue(':id_user', $data['id_user']);
+        $stmt->execute();
+    }
+
+    public function getPostLikes($post) {
+        $stmt = $this->pdo->prepare('SELECT id_like FROM likes WHERE id_post = :id_post');
+        $stmt->bindValue(':id_post', $post);
+        $stmt->execute();
+        $count = $stmt->fetchAll();
+        return count($count);
+    }
+
+    public function getPostComments($post) {
+        $stmt = $this->pdo->prepare('SELECT id_comment FROM comments WHERE id_post = :id_post');
+        $stmt->bindValue(':id_post', $post);
+        $stmt->execute();
+        $count = $stmt->fetchAll();
+        return count($count);
+    }
+
+    /*
+    public function getPostViews($post) {
+        $stmt = $this->pdo->prepare('SELECT id_like FROM likes WHERE id_post = :id_post');
+        $stmt->bindValue(':id_post', $post);
+        $stmt->execute();
+        $like = $stmt->fetch();
+        return $like;
+    }*/
+
     public function getExamplePost($i) {
         $post = array();
         

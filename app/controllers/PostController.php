@@ -59,8 +59,8 @@ class PostController {
                 if (!in_array($ext, $allowed))
                     $errors['format'] = 'Uploaded file is not an image.';
                 //check filesize limit
-                else if ($_FILES['fileAjax']['size'] > 2*MB)
-                    $errors['size'] = 'Size limit for uploads is 2MB.';
+                else if ($_FILES['fileAjax']['size'] > 4*MB)
+                    $errors['size'] = 'Size limit for uploads is 4MB.';
                 //error check
                 if (!empty($errors)) {
                     $data['code'] = 400;
@@ -237,11 +237,46 @@ class PostController {
         $post = array();
 
         $post = $this->model->getPostById($_POST['id']);
-        $author = $this->model->getAuthorById($post['id_user']);
-        $post['author'] = $author;
+        $post['author'] = $this->model->getAuthorById($post['id_user']);
+        $post['likes'] = $this->model->getPostLikes($post['id_post']);
+        $post['comments'] = $this->model->getPostComments($post['id_post']);
+        //$post['views'] = $this->model->getPostViews($post['id_post']);
+        $post['views'] = '0';
+        if (isset($_SESSION["id_user"])) {
+            $post['like'] = $this->model->getLike($_SESSION["id_user"], $post["id_post"]);
+        }
 
         echo json_encode($post);
         exit ;
+    }
+
+    //like button functionality; either create or delete like in PostModel
+    public function likePost() {
+        if ($this->isAjax()) {
+            if (isset($_POST["action"]) && $_POST["action"] === "likePost" && isset($_SESSION["id_user"])
+                && isset($_POST["id"])) {
+                
+                //post already liked; delete existing entry
+                if ($this->model->getLike($_SESSION["id_user"], $_POST["id"])) {
+                    $data['id_post'] = $_POST["id"];
+                    $data['id_user'] = $_SESSION['id_user'];
+            
+                    $this->model->deleteLike($data);
+                }
+                //create new like for post
+                else {
+                    $data['id_post'] = $_POST["id"];
+                    $data['id_user'] = $_SESSION['id_user'];
+                    $data['created_at'] = date('Y-m-d H:i:s');
+            
+                    $this->model->createLike($data);
+                }
+            }
+            exit ;
+        }
+        else {
+            $this->redirect('/index.php?auth=false');
+        }
     }
 
     //generate example posts for index.php?page=example
