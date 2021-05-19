@@ -71,9 +71,9 @@ switch ($page) {
         $ctrl->viewGallery();
         break ;
     }
-    case "infinite": {
-        $ctrl = new UserController();
-        $ctrl->viewInfinite();
+    case "example": {
+        $ctrl = new PostController();
+        $ctrl->viewExample();
         break ;
     }
     default: {

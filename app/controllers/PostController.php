@@ -162,8 +162,7 @@ class PostController {
 
         if ($this->isAjax()) {
             if (($dir && $file) && (isset($_POST["action"]) && $_POST["action"] === "createPost")) {
-                $src = $dir . $file;
-                if (!file_exists($src)) {
+                if (!file_exists($dir . $file)) {
                     $errors['file'] = 'Upload file is missing.';
                 }
                 else if (empty($_POST['title'])) {
@@ -174,8 +173,15 @@ class PostController {
                     $data['errors'] = $errors;
                 }
                 else {
+                    $hash = bin2hex(random_bytes(12));
+                    $ext = pathinfo($dir . $file, PATHINFO_EXTENSION);
+                    $hash .= '.';
+                    $hash .= $ext;
+
+                    rename($dir . $file, $dir . $hash);
+                    
                     $url = $this->getUserUrl();
-                    $url .= $file;
+                    $url .= $hash;
 
                     $data['id_user'] = $_SESSION['id_user'];
                     $data['title'] = $_POST['title'];
@@ -238,7 +244,7 @@ class PostController {
         exit ;
     }
 
-    //generate example posts for index.php?page=infinite
+    //generate example posts for index.php?page=example
     public function getExamplePosts() {
         $posts = array();
         $index = $_POST['index'];
@@ -249,6 +255,10 @@ class PostController {
         }
         echo json_encode($posts);
         exit ;
+    }
+
+    public function viewExample() {
+        require_once DIRPATH .  '/app/views/pages/example.php';
     }
 
     public function viewGallery() {

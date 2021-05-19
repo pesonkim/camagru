@@ -265,5 +265,5 @@ if (!defined('RESTRICTED')) {
 
 </div>
 
-<script type="text/javascript" src="<?=URL?>/app/assets/js/infinite.js"></script>
+<script type="text/javascript" src="<?=URL?>/app/assets/js/example.js"></script>
 
