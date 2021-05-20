@@ -1,5 +1,7 @@
 <?php
 
+require_once 'database.php';
+
 date_default_timezone_set('Europe/Helsinki');
 if (isset($_SERVER['HTTPS'])) {
     $url =  'https://';
@@ -15,3 +17,5 @@ define('DIRROOT', basename(dirname(dirname(__FILE__))));
 define('RESTRICTED', true);
 define('TITLE', 'Camagru');
 define('MB', 1000000);
+define('ADMIN', $DB_USER);
+define('PSWD', $DB_PASSWORD);

@@ -1414,6 +1414,21 @@ img {
     margin-left: 5px;
 }
 
+.delete-post {
+    margin: auto;
+    width: 50%;
+    --tw-bg-opacity:1;background-color:rgba(229,231,235,var(--tw-bg-opacity));
+    border-radius: 5px;
+    margin-left: 10px;
+}
+
+.delete-post:hover {
+    background-color: #d3272f;
+    color: #fff;
+    transition-duration:.3s;
+    transition-timing-function:cubic-bezier(0.4,0,0.2,1);
+}
+
 #editMenu {
     margin-top: 1rem;
 }

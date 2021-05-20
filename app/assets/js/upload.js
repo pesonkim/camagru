@@ -195,7 +195,8 @@ uploadWrapper.addEventListener('click', function(event) {
 
 //close webcam and clear video channels
 webcamCancel.addEventListener('click', function() {
-    videoPlayer.srcObject.getVideoTracks().forEach(track => track.stop());
+    if (videoPlayer.srcObject)
+        videoPlayer.srcObject.getVideoTracks().forEach(track => track.stop());
     fileName.style.display = 'block';
     videoPlayer.style.display = 'none';
     menu1.style.display = 'flex';
@@ -205,6 +206,9 @@ webcamCancel.addEventListener('click', function() {
 
 //capture image from webcam and save to canvas
 webcamCapture.addEventListener('click', function() {
+    if (!videoPlayer.srcObject) {
+        flash('Camera blocked', 'Please enable webcam access for captures.', 'index.php?page=upload');
+    }
     canvas.width = videoPlayer.srcObject.getVideoTracks()[0].getSettings().width;
     canvas.height = videoPlayer.srcObject.getVideoTracks()[0].getSettings().height;
 
@@ -226,6 +230,9 @@ webcamBtn.addEventListener('click', function() {
         };
         navigator.mediaDevices.getUserMedia(constraints).then(function (stream) {
             videoPlayer.srcObject = stream;
+        })
+        .catch(function (err) {
+            flash('Camera blocked', 'Please enable webcam access for captures.', 'index.php?page=upload');
         });
         menu1.style.display = 'none';
         menu2.style.display = 'flex';
@@ -317,3 +324,16 @@ window.addEventListener('DOMContentLoaded', function() {
     var event = new Event('change');
     uploadForm.dispatchEvent(event);
 });
+
+//delete user post after popup confirmation
+function deletePost(id) {
+    console.log(id);
+    const request = new XMLHttpRequest();
+
+    const requestData = 'action=deletePost&id='+id;
+
+    request.open('post', 'index.php?PostController&method=deletePost');
+    request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    request.send(requestData);
+}

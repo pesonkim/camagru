@@ -1,26 +1,86 @@
 const postsContainer = document.getElementById('postsContainer');
+const page = 5;
+var posts, index, limit, deleteTarget, auth = undefined;
 
 document.addEventListener("DOMContentLoaded", function(){
-    loadPosts();
+    authUser();
 });
 
-function loadPosts() {
+function authUser() {
     const request = new XMLHttpRequest();
 
     request.onreadystatechange = function() {
         if (request.readyState == 4) {
             const json = JSON.parse(request.responseText);
-            for (var i = 0; i < json.length; i++) {
-                console.log(json[i]);
-                drawPost(json[i]);
+            console.log(json);
+            if (json.user === '1') {
+                auth = true;
             }
+            else if (json.user === '0') {
+                auth = false;
+            }
+            getPostIds();
+        }
+    }
+    const requestData = 'action=authUser';
+
+    request.open('post', 'index.php?UserController&method=authUser');
+    request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    request.send(requestData);
+}
+
+function getPostIds() {
+    const request = new XMLHttpRequest();
+
+    request.onreadystatechange = function() {
+        if (request.readyState == 4) {
+            posts = JSON.parse(request.responseText);
+            index = 0;
+            limit = posts.length;
+            loadPosts();
         }
     }
 
-    request.open('post', 'index.php?PostController&method=getUserPosts');
+    if (auth)
+        request.open('post', 'index.php?PostController&method=getPosts');
+    else
+        request.open('post', 'index.php?PostController&method=getUserPosts');
     request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     request.send();
+}
+
+function loadPosts() {
+    for (var i = 0; i < page; i++) {
+        getPostData(i);
+    }
+}
+
+function getPostData(j) {
+    setTimeout(function() {
+        if (index >= limit) {
+            return ;
+        }
+    
+        const request = new XMLHttpRequest();
+    
+        request.onreadystatechange = function() {
+            if (request.readyState == 4) {
+                const json = JSON.parse(request.responseText);
+                console.log(json);
+                drawPost(json);
+            }
+        }
+    
+        const requestData = 'id='+posts[index]['id_post'];
+    
+        request.open('post', 'index.php?PostController&method=getPostById');
+        request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        request.send(requestData);
+        index++;
+    }, 20 * j);
 }
 
 function nFormatter(num) {
@@ -80,7 +140,6 @@ function comment(count) {
 }
 
 function drawPost(postData) {
-    
     var newDiv = document.createElement('div');
     var imgDiv = document.createElement('div');
     var img = document.createElement('img');
@@ -95,6 +154,7 @@ function drawPost(postData) {
     var buttonDiv = document.createElement('div');
     var buttonLike = document.createElement('div');
     var buttonComment = document.createElement('div');
+    var buttonDelete = document.createElement('div');
     var commentDiv = document.createElement('div');
     var comments = document.createElement('div');
     var modalContainer = document.createElement('div');
@@ -105,10 +165,21 @@ function drawPost(postData) {
     var commentList = document.createElement('div');
 
     newDiv.setAttribute('class', 'flex flex-col justify-center shadow bg-white lg:rounded md:rounded slideUp post');
+    newDiv.setAttribute('id', postData.id_post);
     imgDiv.setAttribute('class', 'post-media');
     img.setAttribute('class', 'post-img');
     img.setAttribute('src', postData.post_src);
-    imgDiv.appendChild(img);
+
+    function loaded() {
+        imgDiv.appendChild(img);
+    }
+    if (img.complete) {
+        loaded();
+    }
+    else {
+        img.addEventListener('load', loaded);
+        //alert(postData.id_post+' img not ready');
+    }
     
     metaDiv.setAttribute('class', 'post-meta bg-white');
     titleDiv.setAttribute('class', 'post-title');
@@ -119,36 +190,55 @@ function drawPost(postData) {
     commentDiv.setAttribute('class', 'flex');
     viewDiv.setAttribute('class', 'flex');
 
-    likes.setAttribute('class', 'post-likes');
+    if (postData.like) {
+        likes.setAttribute('class', 'post-heart');
+    }
+    else {
+        likes.setAttribute('class', 'post-likes');
+    }
     likeDiv.appendChild(likes);
     likes = document.createElement('span');
-    likes.appendChild(document.createTextNode(nFormatter(Math.floor(Math.random() * 1000))));
+    //likes.appendChild(document.createTextNode(nFormatter(Math.floor(Math.random() * 1000))));
+    likes.appendChild(document.createTextNode(nFormatter(postData.likes)));
     likeDiv.appendChild(likes);
     
     comments.setAttribute('class', 'post-comments');
     commentDiv.appendChild(comments);
     comments = document.createElement('span');
-    comments.appendChild(document.createTextNode(nFormatter(Math.floor(Math.random() * 1000))));
+    //comments.appendChild(document.createTextNode(nFormatter(Math.floor(Math.random() * 1000))));
+    comments.appendChild(document.createTextNode(nFormatter(postData.comments)));
     commentDiv.appendChild(comments);
     
     views.setAttribute('class', 'post-views');
     viewDiv.appendChild(views);
     views = document.createElement('span');
-    views.appendChild(document.createTextNode(nFormatter(Math.floor(Math.random() * 10000))));
+    //views.appendChild(document.createTextNode(nFormatter(Math.floor(Math.random() * 10000))));
+    views.appendChild(document.createTextNode(nFormatter(postData.views)));
     viewDiv.appendChild(views);
 
     buttonDiv.setAttribute('class', 'like-comment flex');
-    buttonLike.setAttribute('class', 'like-post shadow-md');
+
+    if (postData.like) {
+        buttonLike.setAttribute('class', 'like-post shadow-md selected');
+    }
+    else {
+        buttonLike.setAttribute('class', 'like-post shadow-md');
+    }
     buttonLike.setAttribute('type', 'checkbox');
     buttonComment.setAttribute('class', 'comment-post shadow-md');
+    buttonDelete.setAttribute('class', 'delete-post shadow-md');
     likes = document.createElement('span');
     likes.appendChild(document.createTextNode('like'));
     comments = document.createElement('span');
     comments.appendChild(document.createTextNode('comment'));
+    var deleteSpan = document.createElement('span');
+    deleteSpan.appendChild(document.createTextNode('delete'));
     buttonLike.appendChild(likes);
     buttonComment.appendChild(comments);
+    buttonDelete.appendChild(deleteSpan);
     buttonDiv.appendChild(buttonLike);
     buttonDiv.appendChild(buttonComment);
+    buttonDiv.appendChild(buttonDelete);
 
     actionDiv.appendChild(likeDiv);
     actionDiv.appendChild(commentDiv);
@@ -171,6 +261,7 @@ function drawPost(postData) {
     input.setAttribute('class', 'form-input rounded');
     input.setAttribute('name', 'commentField');
     input.setAttribute('placeholder', 'Leave a comment.');
+
     //character counter
     var div = document.createElement('div');
     var count = document.createElement('div');
@@ -218,12 +309,14 @@ function drawPost(postData) {
             var icon = event.currentTarget.querySelector('.post-actions').querySelectorAll('.flex')[0];
 
             if (icon.querySelector('div').classList.contains('post-likes')) {
+                likePost(event.currentTarget.id);
                 event.target.classList.toggle('selected');
                 icon.querySelectorAll('span')[0].textContent = parseInt(icon.querySelectorAll('span')[0].textContent) + 1;
                 icon.querySelector('div').classList.toggle('post-heart');
                 icon.querySelector('div').classList.toggle('post-likes');
             }
             else if (icon.querySelector('div').classList.contains('post-heart')) {
+                likePost(event.currentTarget.id);
                 event.target.classList.toggle('selected');
                 icon.querySelectorAll('span')[0].textContent = parseInt(icon.querySelectorAll('span')[0].textContent) - 1;
                 icon.querySelector('div').classList.toggle('post-heart');
@@ -232,7 +325,11 @@ function drawPost(postData) {
         }
         //comment button
         else if (event.target.classList.contains('comment-post')) {
+
+            commentPost(event.currentTarget.id);
+
             //small screens
+            /*
             if (window.matchMedia('(max-width: 767px)').matches) {
                 if (event.currentTarget.nextElementSibling.style.display=='none') {
                     event.currentTarget.nextElementSibling.style.display='flex';
@@ -257,6 +354,11 @@ function drawPost(postData) {
                 else
                     flash('Login required', 'Please login to leave a comment.');
             }
+            */
+        }
+        else if (event.target.classList.contains('delete-post')) {
+            deleteTarget = event.currentTarget;
+            deleteConf.style.display = 'block';
         }
         //lightbox zoom in
         else if (event.currentTarget.classList.contains('post-expanded') || window.matchMedia('(max-width: 767px)').matches) {
@@ -294,6 +396,39 @@ function drawPost(postData) {
     postsContainer.appendChild(newDiv);
     postsContainer.appendChild(commentContainer);
 }
+
+function likePost(id) {
+    console.log(id);
+    const request = new XMLHttpRequest();
+
+    const requestData = 'action=likePost&id='+id;
+
+    request.open('post', 'index.php?PostController&method=likePost');
+    request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    request.send(requestData);
+}
+
+function commentPost(id) {
+    console.log(id);
+}
+
+
+window.onload = function() {
+    var timer = setInterval(function() {
+        if (document.body.scrollHeight <= window.innerHeight)
+            loadPosts();
+        else
+            clearInterval(timer);
+    }, 1000);
+};
+
+
+window.onscroll = function() {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+        loadPosts();
+    }
+};
 
 window.matchMedia('(min-width: 1024px)').addEventListener('change', function(event) {
     if (event.matches) {
@@ -336,5 +471,52 @@ window.matchMedia('(max-width: 767px)').addEventListener('change', function(even
         for (var i = 0; i < comments.length; i++) {
             comments[i].style.display='none';
         }
+    }
+});
+
+var deleteConf = document.getElementById('delete-container');
+var closeConf = document.getElementById('close-delete');
+var confirmDelete = document.getElementById('confirm-delete');
+
+confirmDelete.addEventListener('click', function() {
+    deletePost(deleteTarget.id);
+    deleteConf.classList.add('fadeOut');
+    setTimeout(function() {
+        deleteConf.style.display = 'none';
+        deleteConf.classList.remove('fadeOut');
+    }, 200);
+    deleteTarget.parentNode.removeChild(deleteTarget);
+    deleteTarget = '';
+    flash('Success','Your post was deleted.');
+});
+
+closeConf.addEventListener('click', function() {
+    deleteTarget = '';
+    deleteConf.classList.add('fadeOut');
+    setTimeout(function() {
+        deleteConf.style.display = 'none';
+        deleteConf.classList.remove('fadeOut');
+    }, 200);
+});
+
+window.addEventListener('click', function(event) {
+    if (event.target == deleteConf) {
+        deleteTarget = '';
+        deleteConf.classList.add('fadeOut');
+        setTimeout(function() {
+            deleteConf.style.display = 'none';
+            deleteConf.classList.remove('fadeOut');
+        }, 200)
+    }
+});
+
+window.addEventListener('keyup', function(event) {
+    if (window.event.keyCode == 27 && deleteConf.style.display == 'block') {
+        deleteTarget = '';
+        deleteConf.classList.add('fadeOut');
+        setTimeout(function() {
+            deleteConf.style.display = 'none';
+            deleteConf.classList.remove('fadeOut');
+        }, 200)
     }
 });

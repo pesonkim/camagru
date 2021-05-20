@@ -26,6 +26,18 @@ try {
     $db->exec($sql);
     echo "Created table 'users'" . PHP_EOL;
 
+    $stmt = $db->prepare('INSERT INTO users (username, email, passwd, token, created_at, notify_pref, is_verified)
+        VALUES (:username, :email, :passwd, :token, :created_at, :notify_pref, :is_verified)');
+    $stmt->bindValue(':username', ADMIN);
+    $stmt->bindValue(':email', $_ENV['USER'].'@localhost');
+    $stmt->bindValue(':passwd', password_hash($DB_PASSWORD, PASSWORD_DEFAULT));
+    $stmt->bindValue(':token', bin2hex(random_bytes(32)));
+    $stmt->bindValue(':created_at', date('Y-m-d H:i:s'));
+    $stmt->bindValue(':notify_pref', '0');
+    $stmt->bindValue(':is_verified', '1');
+    $stmt->execute();
+    echo "Created admin user '". $DB_USER ."'" . PHP_EOL;
+
     $sql = "CREATE TABLE posts(
         id_post int NOT NULL PRIMARY KEY AUTO_INCREMENT,
         post_title varchar(255),

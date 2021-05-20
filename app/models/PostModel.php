@@ -86,6 +86,24 @@ class PostModel {
         $stmt->execute();
     }
 
+    public function deletePostLikes($data) {
+        $stmt = $this->pdo->prepare('DELETE FROM likes WHERE id_post = :id_post');
+        $stmt->bindValue(':id_post', $data['id_post']);
+        $stmt->execute();
+    }
+
+    public function deletePostComments($data) {
+        $stmt = $this->pdo->prepare('DELETE FROM comments WHERE id_post = :id_post');
+        $stmt->bindValue(':id_post', $data['id_post']);
+        $stmt->execute();
+    }
+
+    public function deletePost($data) {
+        $stmt = $this->pdo->prepare('DELETE FROM posts WHERE id_post = :id_post');
+        $stmt->bindValue(':id_post', $data['id_post']);
+        $stmt->execute();
+    }
+
     public function getPostLikes($post) {
         $stmt = $this->pdo->prepare('SELECT id_like FROM likes WHERE id_post = :id_post');
         $stmt->bindValue(':id_post', $post);

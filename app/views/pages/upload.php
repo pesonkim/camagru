@@ -122,6 +122,16 @@ if (!defined('RESTRICTED')) {
         <div class="post-modal-container" name="modal">
             <img class="post-modal-content" src="">
         </div>
+        <div id="delete-container" class="delete-container fadeIn">
+            <div id="delete-content" class="delete-content flex flex-col justify-center mx-auto my-2 p-4 px-6 bg-white rounded shadow slideDown">
+                <h1 class="text-3xl text-center mb-4" id="flash-title">Are you sure?</h1>
+                <p class="delete-message text-center" id="flash-text">This will delete your post.</p>
+                <div class="flex flex-row">
+                    <button id="confirm-delete" class="mx-auto rounded">Delete post</button>
+                    <button id="close-delete" class="mx-auto rounded">Cancel</button>
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>

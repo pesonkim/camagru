@@ -222,6 +222,27 @@ class PostController {
         exit ;
     }
 
+    //delete a user post
+    public function deletePost() {
+        $data = array();
+
+        if ($this->isAjax()) {
+            if (isset($_POST["action"]) && $_POST["action"] === "deletePost" && isset($_SESSION["id_user"])
+                && isset($_POST["id"])) {
+
+                    $data['id_post'] = $_POST["id"];
+
+                    $this->model->deletePostLikes($data);
+                    $this->model->deletePostComments($data);
+                    $this->model->deletePost($data);
+            }
+            exit ;
+        }
+        else {
+            $this->redirect('/index.php?auth=false');
+        }
+    }
+
     //fetch all post ids in database
     public function getPosts() {
         $posts = array();
@@ -252,6 +273,8 @@ class PostController {
 
     //like button functionality; either create or delete like in PostModel
     public function likePost() {
+        $data = array();
+
         if ($this->isAjax()) {
             if (isset($_POST["action"]) && $_POST["action"] === "likePost" && isset($_SESSION["id_user"])
                 && isset($_POST["id"])) {
