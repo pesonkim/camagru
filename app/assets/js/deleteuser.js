@@ -126,6 +126,33 @@ function validateForm() {
     request.send(requestData);
 }
 
+function deleteUserPosts() {
+    const request = new XMLHttpRequest();
+
+    const requestData = 'action=deleteUserPosts'
+
+    request.open('post', 'index.php?PostController&method=deleteUserPosts');
+    request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    request.send(requestData);
+}
+
+function deleteUserData() {
+    const request = new XMLHttpRequest();
+
+    if (request.readyState == 4) {
+        console.log('user deleted');
+        flash('Account deleted','All data related to your account has been deleted');
+    }
+
+    const requestData = 'action=deleteUserData'
+
+    request.open('post', 'index.php?UserController&method=deleteUserData');
+    request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    request.send(requestData);
+}
+
 var deleteConf = document.getElementById('delete-container');
 var closeConf = document.getElementById('close-delete');
 var confirmDelete = document.getElementById('confirm-delete');
@@ -136,7 +163,9 @@ confirmDelete.addEventListener('click', function() {
         deleteConf.style.display = 'none';
         deleteConf.classList.remove('fadeOut');
     }, 200);
-    flash('Rip','This would have totally deleted you');
+    deleteUserPosts();
+    deleteUserData();
+    flash('Account deleted','All data related to your account has been deleted', 'index.php?delete=success');
 });
 
 closeConf.addEventListener('click', function() {

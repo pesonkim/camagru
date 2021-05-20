@@ -243,6 +243,29 @@ class PostController {
         }
     }
 
+    //delete all posts linked to a user
+    public function deleteUserPosts() {
+        if ($this->isAjax()) {
+            if (isset($_POST["action"]) && $_POST["action"] === "deleteUserPosts" && isset($_SESSION["id_user"])) {
+
+                $posts = array();
+                $posts = $this->model->getUserPosts($_SESSION['id_user']);
+        
+                for ($x = 0; $x < count($posts); $x++) {
+                    $this->model->deletePostLikes($posts[$x]);
+                    $this->model->deletePostComments($posts[$x]);
+                    $this->model->deletePost($posts[$x]);
+                }
+                $this->model->deleteUserLikes($_SESSION);
+                $this->model->deleteUserComments($_SESSION);
+            }
+            exit ;
+        }
+        else {
+            $this->redirect('/index.php?auth=false');
+        }
+    }
+
     //fetch all post ids in database
     public function getPosts() {
         $posts = array();

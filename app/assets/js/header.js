@@ -115,6 +115,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
     if (url.searchParams.get('verify') === 'success') {
         flash('Success!','Thank you for verifying your account. You are now ready to log in and enjoy Camagru!', 'index.php');
     }
+    if (url.searchParams.get('delete') === 'success') {
+        flash('Account deleted','All data related to your account has been deleted', 'index.php');
+    }
     if (url.searchParams.get('login') === 'false') {
         flash('Login required','Please login to see this resource.', 'index.php');
     }

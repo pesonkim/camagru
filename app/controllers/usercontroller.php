@@ -644,6 +644,36 @@ class UserController {
         }
     }
 
+    public function deleteUserData() {
+        $data = array();
+        
+        if ($this->isAjax()) {
+            if (isset($_POST["action"]) && $_POST["action"] === "deleteUserData" && isset($_SESSION["id_user"])) {
+
+                $this->model->deleteUser($_SESSION);
+
+                if (isset($_SESSION['id_user'])) {
+                    unset($_SESSION['id_user']);
+                }
+                if (isset($_SESSION['username'])) {
+                    unset($_SESSION['username']);
+                }
+                if (isset($_SESSION['email'])) {
+                    unset($_SESSION['email']);
+                }
+                if (isset($_SESSION['notify_pref'])) {
+                    unset($_SESSION['notify_pref']);
+                }
+                session_destroy();
+            }
+            exit ;
+        }
+        else {
+            $this->redirect('/index.php?auth=false');
+        }
+    }
+
+
     public function viewLogin() {
         if (!isset($_SESSION['username']))
             require_once DIRPATH .  '/app/views/pages/login.php';

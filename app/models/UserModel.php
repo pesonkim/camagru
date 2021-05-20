@@ -39,6 +39,13 @@ class UserModel {
             return false;
     }
 
+    //delete a user from database
+    public function deleteUser($data) {
+        $stmt = $this->pdo->prepare('DELETE FROM users WHERE id_user = :id_user');
+        $stmt->bindValue(':id_user', $data['id_user']);
+        $stmt->execute();
+    }
+
     //get user data by username
     public function getUserData($username) {
         $stmt = $this->pdo->prepare('SELECT id_user, username, email, is_verified, notify_pref, token
