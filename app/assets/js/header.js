@@ -36,18 +36,7 @@ var flashtitle = document.getElementById('flash-title');
 var flashtext = document.getElementById('flash-text');
 var redirect = '';
 
-var btn = document.getElementById('open-modal');
-
 var close = document.getElementById('close-modal');
-
-btn.addEventListener('click', function() {
-    if (modal.classList.contains('fadeOut')) {
-        modal.classList.remove('fadeOut');
-    }
-    flashtitle.innerHTML = 'This is a popup';
-    flashtext.innerHTML = 'Totally left here on purpose';
-    modal.style.display = 'block';
-});
 
 function flash(title, text, header) {
     if (modal.classList.contains('fadeOut')) {
@@ -105,6 +94,17 @@ window.addEventListener('keyup', function(event) {
 });
 
 window.addEventListener('DOMContentLoaded', (event) => {
+    if (document.getElementById('profileLg')) {
+        if (window.matchMedia('(max-width: 767px)').matches) {
+            document.getElementById('profileLg').style.display = 'none';
+            document.getElementById('profileSm').style.display = 'block';
+        }
+        else {
+            document.getElementById('profileSm').style.display = 'none';
+            document.getElementById('profileLg').style.display = 'block';
+        }
+    }
+
     var url = new URL(window.location.href);
     if (url.searchParams.get('logout') === 'success') {
         flash('Logged out','See you again!', 'index.php');
@@ -123,5 +123,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
     if (url.searchParams.get('token') === 'false') {
         flash('Error','The link you followed was either invalid or expired. Please request a new one.', 'index.php');
+    }
+});
+
+window.matchMedia('(max-width: 767px)').addEventListener('change', function(event) {
+    if (event.matches) {
+        document.getElementById('profileLg').style.display = 'none';
+        document.getElementById('profileSm').style.display = 'block';
+    } else {
+        document.getElementById('profileSm').style.display = 'none';
+        document.getElementById('profileLg').style.display = 'block';
     }
 });

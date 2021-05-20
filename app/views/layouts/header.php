@@ -29,7 +29,7 @@ if (!defined('RESTRICTED')) {
                         <a href="<?=URL?>/index.php" class="flex flex-row items-center text-2xl">
                             <h3 class="m-0">Camagru</h3>
                         </a>
-                        <button id="open-modal" class="animatedCursor"></button>
+                        <a href="<?=URL?>/index.php?page=example" class="animatedCursor"></a>
                     </section>
                     <?php if (isset($_SESSION['username'])) { ?>
                     <section class="flex items-center">
@@ -37,7 +37,8 @@ if (!defined('RESTRICTED')) {
                             <button class="mr-2">My posts</button>
                         </a>
                         <a class="verticalLine" href="<?=URL?>/index.php?page=profile">
-                            <button class="mx-2">Profile</button>
+                            <button id="profileSm" class="mx-2">Profile</button>
+                            <button id="profileLg" class="mx-2">Profile (<?=$_SESSION['username']?>)</button>
                         </a>
                         <a href="<?=URL?>/index.php?page=logout">
                             <button class="ml-2">Logout</button>

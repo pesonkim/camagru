@@ -36,7 +36,7 @@ function getPostIds() {
 
     request.onreadystatechange = function() {
         if (request.readyState == 4) {
-            console.log(request.responseText);
+            //console.log(request.responseText);
             posts = JSON.parse(request.responseText);
             index = 0;
             limit = posts.length;
@@ -67,7 +67,7 @@ function getPostData(j) {
         request.onreadystatechange = function() {
             if (request.readyState == 4) {
                 const json = JSON.parse(request.responseText);
-                console.log(json);
+                //console.log(json);
                 drawPost(json);
             }
         }
@@ -99,7 +99,49 @@ function updateCount(count) {
     count.textContent = getCount(count.parentElement.parentElement.parentElement.querySelector('textarea'));
 }
 
-function comment(count) {
+function createComment(id, body, list) {
+    const request = new XMLHttpRequest();
+
+    request.onreadystatechange = function() {
+        if (request.readyState == 4) {
+            const json = JSON.parse(request.responseText);
+            //console.log(json);
+
+            var entry = document.createElement('div');
+            var authorDate = document.createElement('div');
+            var author = document.createElement('span');
+            var date = document.createElement('span');
+            var comment = json.comment;
+
+            entry.setAttribute('class', 'commentEntry slideDown');
+            authorDate.setAttribute('class', 'authorDate');
+            author.appendChild(document.createTextNode(json.author+' - '));
+            date.appendChild(document.createTextNode(json.created_at));
+            authorDate.appendChild(author);
+            authorDate.appendChild(date);
+
+            entry.appendChild(authorDate);
+            entry.appendChild(document.createTextNode(comment));
+
+            list.insertBefore(entry, list.firstChild);
+            list.firstChild.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            });
+            var count = document.getElementById(id).querySelector('.post-meta').querySelector('.post-actions').querySelectorAll('.flex')[1].querySelector('span');
+            count.innerText = parseInt(count.innerText) + 1;
+        }
+    }
+
+    const requestData = 'action=commentPost&id='+id+'&body='+body;
+
+    request.open('post', 'index.php?PostController&method=commentPost');
+    request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    request.send(requestData);
+}
+
+function commentPost(count, id) {
     var len = getCount(count.parentElement.parentElement.parentElement.querySelector('textarea'));
 
     if (len == 280) {
@@ -109,42 +151,11 @@ function comment(count) {
         flash('Oops', 'Comment character limit exceeded.');
     }
     else {
-        //find commentList and create new entry
         var list = count.parentElement.parentElement.parentElement.parentElement.querySelector('.commentList');
-        var entry = document.createElement('div');
-        var authorDate = document.createElement('div');
-        var author = document.createElement('span');
-        var date = document.createElement('span');
         var comment = count.parentElement.parentElement.parentElement.querySelector('textarea').value;
-
-        entry.setAttribute('class', 'commentEntry slideDown');
-        authorDate.setAttribute('class', 'authorDate');
-        author.appendChild(document.createTextNode('Author'));
-        date.appendChild(document.createTextNode('Date'));
-        authorDate.appendChild(author);
-        authorDate.appendChild(date);
-
-        entry.appendChild(authorDate);
-        entry.appendChild(document.createTextNode(comment));
-
-        console.log(comment);
-        list.insertBefore(entry, list.firstChild);
+        createComment(id, comment, list);
         count.parentElement.parentElement.parentElement.querySelector('textarea').value = '';
         updateCount(count);
-        list.firstChild.scrollIntoView({
-            behavior: 'smooth',
-            block: 'center'
-        });
-        //flash('Comment:', count.parentElement.parentElement.parentElement.querySelector('textarea').value);
-
-        //<div class="commentEntry">
-        //    <div class="authorDate">
-        //        <span>Author</span>
-        //        <span> - </span>
-        //        <span>Time of posting</span>
-        //    </div>
-        //    <span>This is the comment body.</span>
-        //</div>
     }
 }
 
@@ -214,7 +225,7 @@ function drawPost(postData) {
     commentDiv.appendChild(comments);
     comments = document.createElement('span');
     //comments.appendChild(document.createTextNode(nFormatter(Math.floor(Math.random() * 1000))));
-    comments.appendChild(document.createTextNode(nFormatter(postData.comments)));
+    comments.appendChild(document.createTextNode(nFormatter(postData.comments.length)));
     commentDiv.appendChild(comments);
     
     views.setAttribute('class', 'post-views');
@@ -315,10 +326,32 @@ function drawPost(postData) {
             updateCount(counter);
         }, false);
         button.addEventListener('click', function() {
-            comment(counter);
+            var id = counter.parentElement.parentElement.parentElement.parentElement.previousSibling.id;
+            commentPost(counter, id);
         }, false);
     }
     commentList.setAttribute('class', 'commentList');
+
+    for (var i = 0; i < postData.comments.length; i++) {
+        var entry = document.createElement('div');
+        var authorDate = document.createElement('div');
+        var author = document.createElement('span');
+        var date = document.createElement('span');
+        var comment = postData.comments[i].comment;
+
+        entry.setAttribute('class', 'commentEntry slideDown');
+        authorDate.setAttribute('class', 'authorDate');
+        author.appendChild(document.createTextNode(postData.comments[i].author+' - '));
+        date.appendChild(document.createTextNode(postData.comments[i].created_at));
+        authorDate.appendChild(author);
+        authorDate.appendChild(date);
+
+        entry.appendChild(authorDate);
+        entry.appendChild(document.createTextNode(comment));
+
+        commentList.insertBefore(entry, commentList.firstChild);
+    }
+
     commentContainer.appendChild(commentCreate);
     commentContainer.appendChild(commentList);
 
@@ -356,10 +389,6 @@ function drawPost(postData) {
         //comment button
         else if (event.target.classList.contains('comment-post')) {
 
-            commentPost(event.currentTarget.id);
-
-            //small screens
-            /*
             if (window.matchMedia('(max-width: 767px)').matches) {
                 if (event.currentTarget.nextElementSibling.style.display=='none') {
                     event.currentTarget.nextElementSibling.style.display='flex';
@@ -384,7 +413,6 @@ function drawPost(postData) {
                 else
                     flash('Login required', 'Please login to leave a comment.');
             }
-            */
         }
         //lightbox zoom in
         else if (event.currentTarget.classList.contains('post-expanded') || window.matchMedia('(max-width: 767px)').matches) {
@@ -424,7 +452,7 @@ function drawPost(postData) {
 }
 
 function likePost(id) {
-    console.log(id);
+    //console.log(id);
     const request = new XMLHttpRequest();
 
     const requestData = 'action=likePost&id='+id;
@@ -434,11 +462,6 @@ function likePost(id) {
     request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     request.send(requestData);
 }
-
-function commentPost(id) {
-    console.log(id);
-}
-
 
 window.onload = function() {
     var timer = setInterval(function() {

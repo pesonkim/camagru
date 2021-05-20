@@ -184,7 +184,7 @@ class PostController {
                     $url .= $hash;
 
                     $data['id_user'] = $_SESSION['id_user'];
-                    $data['title'] = $_POST['title'];
+                    $data['title'] = substr($_POST['title'], 0,70);
                     $data['src'] = $url;
                     $data['created_at'] = date('Y-m-d H:i:s');
             
@@ -261,6 +261,10 @@ class PostController {
         $post['author'] = $this->model->getAuthorById($post['id_user']);
         $post['likes'] = $this->model->getPostLikes($post['id_post']);
         $post['comments'] = $this->model->getPostComments($post['id_post']);
+
+        foreach($post['comments'] as $key => $value) {
+            $post['comments'][$key]['author'] = $this->model->getAuthorById($value['id_user']);
+        }
         //$post['views'] = $this->model->getPostViews($post['id_post']);
         $post['views'] = '0';
         if (isset($_SESSION["id_user"])) {
@@ -294,6 +298,31 @@ class PostController {
             
                     $this->model->createLike($data);
                 }
+            }
+            exit ;
+        }
+        else {
+            $this->redirect('/index.php?auth=false');
+        }
+    }
+
+    //like button functionality; either create or delete like in PostModel
+    public function commentPost() {
+        $data = array();
+
+        if ($this->isAjax()) {
+            if (isset($_POST["action"]) && $_POST["action"] === "commentPost" && isset($_SESSION["id_user"])
+                && (isset($_POST["id"]) && isset($_POST["body"]))) {
+                
+                $data['comment'] = $_POST["body"];
+                $data['id_post'] = $_POST["id"];
+                $data['id_user'] = $_SESSION['id_user'];
+                $data['created_at'] = date('Y-m-d H:i:s');
+        
+                $this->model->createComment($data);
+
+                $data['author'] = $this->model->getAuthorById($data['id_user']);
+                echo json_encode($data);
             }
             exit ;
         }

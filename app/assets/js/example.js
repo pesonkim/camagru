@@ -4,6 +4,7 @@ var limit = 5;
 var loggedIn = undefined;
 
 document.addEventListener("DOMContentLoaded", function(){
+    flash('Hello!', 'This is an example page with randomly generated posts 🤠');
     isLoggedIn();
     loadPosts();
 });
@@ -100,7 +101,7 @@ function comment(count) {
         entry.appendChild(authorDate);
         entry.appendChild(document.createTextNode(comment));
 
-        console.log(comment);
+        //console.log(comment);
         list.insertBefore(entry, list.firstChild);
         count.parentElement.parentElement.parentElement.querySelector('textarea').value = '';
         updateCount(count);

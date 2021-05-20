@@ -12,7 +12,7 @@ function getNotifPref() {
     request.onreadystatechange = function() {
         if (request.readyState == 4) {
             const json = JSON.parse(request.responseText);
-            console.log(json);
+            //console.log(json);
             if (json.pref === '1') {
                 notifPref = true;
             }

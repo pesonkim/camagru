@@ -28,7 +28,7 @@ try {
 
     $stmt = $db->prepare('INSERT INTO users (username, email, passwd, token, created_at, notify_pref, is_verified)
         VALUES (:username, :email, :passwd, :token, :created_at, :notify_pref, :is_verified)');
-    $stmt->bindValue(':username', ADMIN);
+    $stmt->bindValue(':username', $DB_USER);
     $stmt->bindValue(':email', $_ENV['USER'].'@localhost');
     $stmt->bindValue(':passwd', password_hash($DB_PASSWORD, PASSWORD_DEFAULT));
     $stmt->bindValue(':token', bin2hex(random_bytes(32)));

@@ -79,7 +79,7 @@ function validateForm() {
     request.onreadystatechange = function() {
         if (request.readyState == 4) {
             const json = JSON.parse(request.responseText);
-            console.log(json);
+            //console.log(json);
             if (json.code == 200) {
                 drawConfirm();
                 flash('Success!','Your account password was reset.', 'index.php?page=login');

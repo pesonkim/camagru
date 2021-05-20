@@ -136,7 +136,7 @@ function validateForm() {
     request.onreadystatechange = function() {
         if (request.readyState == 4) {
             const json = JSON.parse(request.responseText);
-            console.log(json);
+            //console.log(json);
             if (json.code == 200) {
                 flash('Success!','Your user info was updated.', 'index.php?page=profile&tab=info');
             }

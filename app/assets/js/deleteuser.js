@@ -82,9 +82,8 @@ function validateForm() {
 
     request.onreadystatechange = function() {
         if (request.readyState == 4) {
-            console.log(request.responseText);
             const json = JSON.parse(request.responseText);
-            console.log(json);
+            //console.log(json);
             if (json.code == 200) {
                 deleteConf.style.display = 'block';
             }

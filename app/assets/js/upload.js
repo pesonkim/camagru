@@ -73,7 +73,7 @@ function createPost() {
     request.onreadystatechange = function() {
         if (request.readyState == 4) {
             const json = JSON.parse(request.responseText);
-            console.log(json);
+            //console.log(json);
             if (json.code == 200) {
                 flash('Success','Your post was created.', 'index.php?page=upload');
             }
@@ -104,7 +104,7 @@ function cancelUpload() {
     request.onreadystatechange = function() {
         if (request.readyState == 4) {
             const json = JSON.parse(request.responseText);
-            console.log(json);
+            //console.log(json);
         }
     }
 
@@ -124,7 +124,7 @@ function uploadImage() {
     request.onreadystatechange = function() {
         if (request.readyState == 4) {
             const json = JSON.parse(request.responseText);
-            console.log(json);
+            //console.log(json);
             if (json.code == 200) {
                 preview.src = json.path+'?'+performance.now();
                 uploadFile = json.path;
@@ -327,7 +327,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
 //delete user post after popup confirmation
 function deletePost(id) {
-    console.log(id);
+    //console.log(id);
     const request = new XMLHttpRequest();
 
     const requestData = 'action=deletePost&id='+id;

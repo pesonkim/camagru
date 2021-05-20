@@ -86,6 +86,16 @@ class PostModel {
         $stmt->execute();
     }
 
+    public function createComment($data) {
+        $stmt = $this->pdo->prepare('INSERT INTO comments (comment, id_post, id_user, created_at)
+                                    VALUES (:comment, :id_post, :id_user, :created_at)');
+        $stmt->bindValue(':comment', $data['comment']);
+        $stmt->bindValue(':id_post', $data['id_post']);
+        $stmt->bindValue(':id_user', $data['id_user']);
+        $stmt->bindValue(':created_at', $data['created_at']);
+        $stmt->execute();
+    }
+
     public function deletePostLikes($data) {
         $stmt = $this->pdo->prepare('DELETE FROM likes WHERE id_post = :id_post');
         $stmt->bindValue(':id_post', $data['id_post']);
@@ -113,11 +123,11 @@ class PostModel {
     }
 
     public function getPostComments($post) {
-        $stmt = $this->pdo->prepare('SELECT id_comment FROM comments WHERE id_post = :id_post');
+        $stmt = $this->pdo->prepare('SELECT id_comment, comment, id_user, created_at FROM comments WHERE id_post = :id_post');
         $stmt->bindValue(':id_post', $post);
         $stmt->execute();
         $count = $stmt->fetchAll();
-        return count($count);
+        return $count;
     }
 
     /*
