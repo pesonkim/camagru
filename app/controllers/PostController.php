@@ -32,6 +32,17 @@ class PostController {
         }
     }
 
+    public function deleteUserDir() {
+        if (isset($_SESSION['id_user'])) {
+            $uploadDir = DIRPATH . '/app/assets/img/uploads/';
+            $userDir = $uploadDir . $_SESSION['id_user'] . '/';
+            if (file_exists($userDir) && is_dir($userDir)) {
+                array_map('unlink', glob($userDir.'/*'));
+                rmdir($userDir);
+            }
+        }
+    }
+
     //get url path for user upload dir
     public function getUserUrl() {
         if (isset($_SESSION['id_user'])) {
@@ -260,6 +271,7 @@ class PostController {
                 $data['id_user'] = $_SESSION['id_user'];
                 $this->model->deleteUserLikes($data);
                 $this->model->deleteUserComments($data);
+                $this->deleteUserDir();
             }
             exit ;
         }
@@ -290,8 +302,8 @@ class PostController {
         foreach($post['comments'] as $key => $value) {
             $post['comments'][$key]['author'] = $this->model->getAuthorById($value['id_user']);
         }
-        //$post['views'] = $this->model->getPostViews($post['id_post']);
-        $post['views'] = '0';
+        $post['views'] = $this->model->getPostViews($post['id_post']);
+        $this->model->updateViewCount($post['id_post']);
         if (isset($_SESSION["id_user"])) {
             $post['like'] = $this->model->getLike($_SESSION["id_user"], $post["id_post"]);
         }

@@ -15,12 +15,13 @@ class PostModel {
 
     //insert a new post into database
     public function createPost($data) {
-        $stmt = $this->pdo->prepare('INSERT INTO posts (post_title, post_src, id_user, created_at)
-                                    VALUES (:post_title, :post_src, :id_user, :created_at)');
+        $stmt = $this->pdo->prepare('INSERT INTO posts (post_title, post_src, id_user, created_at, view_count)
+                                    VALUES (:post_title, :post_src, :id_user, :created_at, :view_count)');
         $stmt->bindValue(':post_title', $data['title']);
         $stmt->bindValue(':post_src', $data['src']);
         $stmt->bindValue(':id_user', $data['id_user']);
         $stmt->bindValue(':created_at', $data['created_at']);
+        $stmt->bindValue(':view_count', '0');
         $stmt->execute();
     }
 
@@ -32,8 +33,14 @@ class PostModel {
         return $posts;
     }
 
+    public function updateViewCount($post) {
+        $stmt = $this->pdo->prepare('UPDATE posts SET view_count = view_count + 1 WHERE id_post = :id_post');
+        $stmt->bindValue(':id_post', $post);
+        $stmt->execute();
+    }
+
     public function getPostById($id) {
-        $stmt = $this->pdo->prepare('SELECT id_post, post_title, post_src, id_user, created_at
+        $stmt = $this->pdo->prepare('SELECT id_post, post_title, post_src, id_user, created_at, view_count
                 FROM posts WHERE id_post = :id_post');
         $stmt->bindValue(':id_post', $id);
         $stmt->execute();
@@ -142,14 +149,13 @@ class PostModel {
         return $count;
     }
 
-    /*
     public function getPostViews($post) {
-        $stmt = $this->pdo->prepare('SELECT id_like FROM likes WHERE id_post = :id_post');
+        $stmt = $this->pdo->prepare('SELECT view_count FROM posts WHERE id_post = :id_post');
         $stmt->bindValue(':id_post', $post);
         $stmt->execute();
-        $like = $stmt->fetch();
-        return $like;
-    }*/
+        $count = $stmt->fetch();
+        return $count['view_count'];
+    }
 
     public function getNotifyPref($post) {
         $stmt = $this->pdo->prepare('SELECT id_user, post_title FROM posts WHERE id_post = :id_post');

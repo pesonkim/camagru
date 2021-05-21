@@ -72,6 +72,7 @@ function createPost() {
 
     request.onreadystatechange = function() {
         if (request.readyState == 4) {
+            //console.log(request.responseText);
             const json = JSON.parse(request.responseText);
             //console.log(json);
             if (json.code == 200) {

@@ -44,6 +44,7 @@ try {
         post_src varchar(5000) NOT NULL,
         id_user int NOT NULL,
         created_at datetime NOT NULL,
+        view_count int DEFAULT 0,
         FOREIGN KEY (id_user) REFERENCES users(id_user)
     )";
     $db->exec($sql);
