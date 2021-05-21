@@ -137,7 +137,7 @@ function createComment(id, body, list) {
 
             entry.setAttribute('class', 'commentEntry slideDown');
             authorDate.setAttribute('class', 'authorDate');
-            author.appendChild(document.createTextNode(json.author+' - '));
+            author.appendChild(document.createTextNode(json.author+' • '));
             date.setAttribute('id', json.created_at);
             date.appendChild(document.createTextNode(getRelativeTime(Date.parse(date.id))));
             authorDate.appendChild(author);
@@ -416,7 +416,8 @@ function drawPost(postData) {
             if (window.matchMedia('(max-width: 767px)').matches) {
                 if (event.currentTarget.nextElementSibling.style.display=='none') {
                     event.currentTarget.nextElementSibling.style.display='flex';
-                    event.currentTarget.nextElementSibling.getElementsByClassName('commentCreate')[0].getElementsByTagName('textarea')[0].focus();
+                    if (loggedIn)
+                        event.currentTarget.nextElementSibling.getElementsByClassName('commentCreate')[0].getElementsByTagName('textarea')[0].focus();
                 }
                 else {
                     event.currentTarget.nextElementSibling.style.display='none';
@@ -425,6 +426,8 @@ function drawPost(postData) {
             else if (!event.currentTarget.classList.contains('post-expanded')) {
                 event.currentTarget.classList.toggle('post-expanded');
                 event.currentTarget.nextElementSibling.style.display='flex';
+                if (loggedIn)
+                    event.currentTarget.nextElementSibling.getElementsByClassName('commentCreate')[0].getElementsByTagName('textarea')[0].focus();
                 event.currentTarget.nextElementSibling.getElementsByClassName('commentCreate')[0].scrollIntoView({
                     behavior: 'smooth',
                     block: 'center'

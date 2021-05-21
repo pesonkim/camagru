@@ -140,11 +140,6 @@ function deleteUserPosts() {
 function deleteUserData() {
     const request = new XMLHttpRequest();
 
-    if (request.readyState == 4) {
-        console.log('user deleted');
-        flash('Account deleted','All data related to your account has been deleted');
-    }
-
     const requestData = 'action=deleteUserData'
 
     request.open('post', 'index.php?UserController&method=deleteUserData');

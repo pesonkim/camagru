@@ -249,15 +249,17 @@ class PostController {
             if (isset($_POST["action"]) && $_POST["action"] === "deleteUserPosts" && isset($_SESSION["id_user"])) {
 
                 $posts = array();
-                $posts = $this->model->getUserPosts($_SESSION['id_user']);
+                $user = $_SESSION['id_user'];
+                $posts = $this->model->getUserPosts($user);
         
                 for ($x = 0; $x < count($posts); $x++) {
                     $this->model->deletePostLikes($posts[$x]);
                     $this->model->deletePostComments($posts[$x]);
                     $this->model->deletePost($posts[$x]);
                 }
-                $this->model->deleteUserLikes($_SESSION);
-                $this->model->deleteUserComments($_SESSION);
+                $data['id_user'] = $_SESSION['id_user'];
+                $this->model->deleteUserLikes($data);
+                $this->model->deleteUserComments($data);
             }
             exit ;
         }

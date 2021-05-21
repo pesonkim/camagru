@@ -83,6 +83,27 @@ function getPostData(j) {
     }, 20 * j);
 }
 
+// in miliseconds
+var units = {
+    year  : 24 * 60 * 60 * 1000 * 365,
+    month : 24 * 60 * 60 * 1000 * 365/12,
+    day   : 24 * 60 * 60 * 1000,
+    hour  : 60 * 60 * 1000,
+    minute: 60 * 1000,
+    second: 1000
+}
+
+var rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' })
+
+var getRelativeTime = (d1, d2 = new Date()) => {
+    var elapsed = d1 - d2
+
+    // "Math.abs" accounts for both "past" & "future" scenarios
+    for (var u in units) 
+        if (Math.abs(elapsed) > units[u] || u == 'second') 
+        return rtf.format(Math.round(elapsed/units[u]), u)
+}
+
 function nFormatter(num) {
     if (num >= 1000) {
        return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
@@ -116,8 +137,9 @@ function createComment(id, body, list) {
 
             entry.setAttribute('class', 'commentEntry slideDown');
             authorDate.setAttribute('class', 'authorDate');
-            author.appendChild(document.createTextNode(json.author+' - '));
-            date.appendChild(document.createTextNode(json.created_at));
+            author.appendChild(document.createTextNode(json.author+' • '));
+            date.setAttribute('id', json.created_at);
+            date.appendChild(document.createTextNode(getRelativeTime(Date.parse(date.id))));
             authorDate.appendChild(author);
             authorDate.appendChild(date);
 
@@ -323,10 +345,12 @@ function drawPost(postData) {
 
         entry.setAttribute('class', 'commentEntry slideDown');
         authorDate.setAttribute('class', 'authorDate');
-        author.appendChild(document.createTextNode(postData.comments[i].author+' - '));
-        date.appendChild(document.createTextNode(postData.comments[i].created_at));
+        author.appendChild(document.createTextNode(postData.comments[i].author+' • '));
+        date.setAttribute('id', postData.comments[i].created_at);
+        date.appendChild(document.createTextNode(getRelativeTime(Date.parse(date.id))));
         authorDate.appendChild(author);
         authorDate.appendChild(date);
+
 
         entry.appendChild(authorDate);
         entry.appendChild(document.createTextNode(comment));
@@ -381,6 +405,7 @@ function drawPost(postData) {
             else if (!event.currentTarget.classList.contains('post-expanded')) {
                 event.currentTarget.classList.toggle('post-expanded');
                 event.currentTarget.nextElementSibling.style.display='flex';
+                event.currentTarget.nextElementSibling.getElementsByClassName('commentCreate')[0].getElementsByTagName('textarea')[0].focus();
                 event.currentTarget.nextElementSibling.getElementsByClassName('commentCreate')[0].scrollIntoView({
                     behavior: 'smooth',
                     block: 'center'
@@ -388,10 +413,7 @@ function drawPost(postData) {
                 
             }
             else {
-                if (loggedIn)
-                    event.currentTarget.nextElementSibling.getElementsByClassName('commentCreate')[0].getElementsByTagName('textarea')[0].focus();
-                else
-                    flash('Login required', 'Please login to leave a comment.');
+                event.currentTarget.nextElementSibling.getElementsByClassName('commentCreate')[0].getElementsByTagName('textarea')[0].focus();
             }
         }
         else if (event.target.classList.contains('delete-post')) {
@@ -518,6 +540,7 @@ confirmDelete.addEventListener('click', function() {
         deleteConf.style.display = 'none';
         deleteConf.classList.remove('fadeOut');
     }, 200);
+    deleteTarget.parentNode.removeChild(deleteTarget.nextElementSibling);
     deleteTarget.parentNode.removeChild(deleteTarget);
     deleteTarget = '';
     flash('Success','Your post was deleted.');

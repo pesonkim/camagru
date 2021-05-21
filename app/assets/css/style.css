@@ -1834,6 +1834,23 @@ img {
     max-height: 100vh !important;
     margin: auto !important;
     cursor: zoom-out !important;
+    position: relative;
+    z-index: 1;
+}
+
+.boom-container {
+    position: fixed;
+    z-index: -1;
+    top: 25vh;
+    left: 25vw;
+    height: 50vh;
+    width: 50vw;
+    display: block;
+}
+
+.boom-content {
+    width: 100% !important;
+    margin: auto !important;
 }
 
 .header-visible {

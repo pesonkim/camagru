@@ -116,6 +116,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
         flash('Success!','Thank you for verifying your account. You are now ready to log in and enjoy Camagru!', 'index.php');
     }
     if (url.searchParams.get('delete') === 'success') {
+        var modalContainer = document.createElement('div');
+        var modalContent = document.createElement('img');
+        modalContainer.setAttribute('class', 'boom-container');
+        modalContainer.setAttribute('name', 'modal');
+        modalContent.setAttribute('class', 'boom-content');
+        modalContent.setAttribute('src', 'app/assets/img/resources/delete.gif');
+        modalContainer.appendChild(modalContent);
+        modal.insertBefore(modalContainer, modal.firstChild);
         flash('Account deleted','All data related to your account has been deleted', 'index.php');
     }
     if (url.searchParams.get('login') === 'false') {
@@ -130,11 +138,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
 });
 
 window.matchMedia('(max-width: 767px)').addEventListener('change', function(event) {
-    if (event.matches) {
-        document.getElementById('profileLg').style.display = 'none';
-        document.getElementById('profileSm').style.display = 'block';
-    } else {
-        document.getElementById('profileSm').style.display = 'none';
-        document.getElementById('profileLg').style.display = 'block';
+    if (document.getElementById('profileLg')) {
+        if (event.matches) {
+            document.getElementById('profileLg').style.display = 'none';
+            document.getElementById('profileSm').style.display = 'block';
+        } else {
+            document.getElementById('profileSm').style.display = 'none';
+            document.getElementById('profileLg').style.display = 'block';
+        }
     }
 });
