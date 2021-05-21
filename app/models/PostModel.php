@@ -151,6 +151,28 @@ class PostModel {
         return $like;
     }*/
 
+    public function getNotifyPref($post) {
+        $stmt = $this->pdo->prepare('SELECT id_user, post_title FROM posts WHERE id_post = :id_post');
+        $stmt->bindValue(':id_post', $post);
+        $stmt->execute();
+        $user = $stmt->fetch();
+
+        if ($user['id_user']) {
+            $stmt = $this->pdo->prepare('SELECT notify_pref, email FROM users WHERE id_user = :id_user');
+            $stmt->bindValue(':id_user', $user['id_user']);
+            $stmt->execute();
+            $pref = $stmt->fetch();
+
+            if ($pref['notify_pref'] === '1') {
+                $data = array();
+                $data['post_title'] = $user['post_title'];
+                $data['email'] = $pref['email'];
+                return $data;
+            }
+        }
+        return false;
+    }
+
     public function getExamplePost($i) {
         $post = array();
         
@@ -160,5 +182,4 @@ class PostModel {
 
         return ($post);
     }
-
 }

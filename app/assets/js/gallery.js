@@ -126,6 +126,7 @@ function createComment(id, body, list) {
 
     request.onreadystatechange = function() {
         if (request.readyState == 4) {
+            //console.log(request.responseText);
             const json = JSON.parse(request.responseText);
             //console.log(json);
 
@@ -156,7 +157,7 @@ function createComment(id, body, list) {
         }
     }
 
-    const requestData = 'action=commentPost&id='+id+'&body='+body;
+    const requestData = 'action=commentPost&id='+id+'&body='+encodeURIComponent(body);
 
     request.open('post', 'index.php?PostController&method=commentPost');
     request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');

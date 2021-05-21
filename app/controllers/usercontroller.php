@@ -182,19 +182,18 @@ class UserController {
             $subject = 'Welcome to Camagru!';
             $verifylink = URL . '/index.php?page=verify&id='.$user['id_user'].'&token='.$user['token'];
             $body = "
+Welcome to Camagru!
 
-            Welcome to Camagru!
-            
-            Your account '".$user['username']."' was successfully created and almost ready to use.
-            Before you can log in, we still ask that you verify your email address:
-            ".$user['email']."
-            
-            This will let you receive notifications and password resets from Camagru.
-            
-            Please follow this link or paste it in your browser to verify your email address:
-            ".$verifylink."
+Your account '".$user['username']."' was successfully created and almost ready to use.
+Before you can log in, we still ask that you verify your email address:
+".$user['email']."
 
-            -Camagru
+This will let you receive notifications and password resets from Camagru.
+
+Please follow this link or paste it in your browser to verify your email address:
+".$verifylink."
+
+-Camagru
             ";
             mail($user['email'], $subject, $body);
             $data['code'] = 200;
@@ -329,17 +328,16 @@ class UserController {
                         $subject = 'Reset your Camagru password';
                         $verifylink = URL . '/index.php?page=resetpassword&id='.$user['id_user'].'&token='.$user['token'];
                         $body = "
-            
-                        Hello,
-                        
-                        Your account '".$user['username']."' recently requested to reset your Camagru password.
-                        Please follow this link or paste it in your browser to set a new password:
-                    
-                        ".$verifylink."
-                        
-                        If you didn't request a password reset, you can ignore this email.
-    
-                        -Camagru
+Hello,
+
+Your account '".$user['username']."' recently requested to reset your Camagru password.
+Please follow this link or paste it in your browser to set a new password:
+
+".$verifylink."
+
+If you didn't request a password reset, you can ignore this email.
+
+-Camagru
                         ";
                         mail($user['email'], $subject, $body);
                         $data['code'] = 200;

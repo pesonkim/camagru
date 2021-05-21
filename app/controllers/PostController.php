@@ -347,6 +347,8 @@ class PostController {
                 $this->model->createComment($data);
 
                 $data['author'] = $this->model->getAuthorById($data['id_user']);
+                $data['notif'] = $this->emailNotif($data);
+
                 echo json_encode($data);
             }
             exit ;
@@ -354,6 +356,32 @@ class PostController {
         else {
             $this->redirect('/index.php?auth=false');
         }
+    }
+
+    //check if post author has email notifactions enabled, send email if yes
+    public function emailNotif($data) {
+        $pref = $this->model->getNotifyPref($data['id_post']);
+
+        if ($pref) {
+            $subject = 'New comment on your Camagru post';
+            $profilelink = URL . '/index.php?page=profile&tab=notif';
+            $body = "
+Hello,
+
+User '".$data['author']."' just left you a comment on your Camagru post '".$pref['post_title']."':
+
+'".$data['comment']."'
+
+If you don't wish to receive these notifactions, you can update your preferences on your profile page:
+".$profilelink."
+
+-Camagru
+";
+            mail($pref['email'], $subject, $body);
+            return true;
+        }
+        else
+            return false;
     }
 
     //generate example posts for index.php?page=example

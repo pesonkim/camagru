@@ -156,7 +156,7 @@ function createComment(id, body, list) {
         }
     }
 
-    const requestData = 'action=commentPost&id='+id+'&body='+body;
+    const requestData = 'action=commentPost&id='+id+'&body='+encodeURIComponent(body);
 
     request.open('post', 'index.php?PostController&method=commentPost');
     request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');

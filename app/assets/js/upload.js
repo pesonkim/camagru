@@ -88,7 +88,7 @@ function createPost() {
             }
         }
     }
-    const requestData = 'action=createPost&file='+file+'&title='+title;
+    const requestData = 'action=createPost&file='+file+'&title='+encodeURIComponent(title);
 
     request.open('post', 'index.php?PostController&method=createPost');
     request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
