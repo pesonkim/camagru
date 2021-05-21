@@ -162,9 +162,3 @@ class PostModel {
     }
 
 }
-
-//id_post int NOT NULL PRIMARY KEY AUTO_INCREMENT,
-//post_title varchar(255),
-//post_src varchar(5000) NOT NULL,
-//id_user int NOT NULL,
-//created_at datetime NOT NULL,

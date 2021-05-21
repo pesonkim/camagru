@@ -1293,7 +1293,7 @@ img {
 
 .commentEntry {
     margin-top: .5rem;
-    font-size: 15px;
+
     line-height: 150%;
     overflow-wrap: break-word;
     background-color: rgba(248,247,251,255);
@@ -1308,6 +1308,7 @@ img {
 .authorDate span {
     margin-right: .5rem;
     padding-bottom: .5rem;
+    font-weight: bold;
 }
 
 .commentEntry:after {
