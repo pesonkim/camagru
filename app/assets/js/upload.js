@@ -83,9 +83,9 @@ function createPost() {
 
     request.onreadystatechange = function() {
         if (request.readyState == 4) {
-            //console.log(request.responseText);
+            console.log(request.responseText);
             const json = JSON.parse(request.responseText);
-            //console.log(json);
+            console.log(json);
             if (json.code == 200) {
                 flash('Success','Your post was created.', 'index.php?page=upload');
             }
@@ -100,7 +100,20 @@ function createPost() {
             }
         }
     }
-    const requestData = 'action=createPost&file='+file+'&title='+encodeURIComponent(title);
+
+    //stickerList.getElementsByTagName('div')[0].querySelector('img').src;
+    var stickers = stickerList.getElementsByTagName('div');
+    if (stickers.length > 0) {
+        var sticker = {};
+        for (var i = 0; i < stickers.length; i++) {
+            sticker[i] = getRelativePos(stickers[i]);
+        }
+        sticker = JSON.stringify(sticker);
+        console.log(sticker);
+        var requestData = 'action=createPost&file='+file+'&title='+encodeURIComponent(title)+'&sticker='+sticker;
+    }
+    else
+        var requestData = 'action=createPost&file='+file+'&title='+encodeURIComponent(title);
 
     request.open('post', 'index.php?PostController&method=createPost');
     request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
@@ -260,7 +273,7 @@ uploadForm.addEventListener('change', function() {
         menu1.style.display = 'none';
         menu2.style.display = 'none';
         menu3.style.display = 'flex';
-        //menu4.style.display = 'none';
+        menu4.style.display = 'none';
     }
     else {
         fileName.innerHTML = 'No file selected.'
@@ -268,7 +281,7 @@ uploadForm.addEventListener('change', function() {
         menu1.style.display = 'flex';
         menu2.style.display = 'none';
         menu3.style.display = 'none';
-        //menu4.style.display = 'none';
+        menu4.style.display = 'none';
     }
 })
 
@@ -291,17 +304,7 @@ postCancel.addEventListener('click', function() {
 })
 
 postCreate.addEventListener('click', function() {
-    //createPost();
-
-
-    //stickerList.getElementsByTagName('div')[0].querySelector('img').src;
-    var stickers = stickerList.getElementsByTagName('div');
-    for (var i = 0; i < stickers.length; i++) {
-        //console.log(stickers[i].querySelector('img');
-        console.log(stickers[i].querySelector('img').src);
-        getRelativePos(stickers[i]);
-    }
-
+    createPost();
 })
 
 function getRelativePos(sticker) {
@@ -309,12 +312,15 @@ function getRelativePos(sticker) {
     childPos = document.getElementById(sticker.id).getBoundingClientRect(),
     relativePos = {};
 
-    relativePos.top = childPos.top - parentPos.top,
-    relativePos.left = childPos.left - parentPos.left,
-    relativePos.width = childPos.width,
-    relativePos.height = childPos.height;
+    relativePos['src'] = encodeURIComponent(sticker.querySelector('img').src);
+    relativePos['left'] = childPos.left - parentPos.left;
+    relativePos['top'] = childPos.top - parentPos.top;
+    relativePos['width'] = childPos.width;
+    relativePos['height'] = childPos.height;
+    relativePos['editwidth'] = parentPos.width;
+    relativePos['editheight'] = parentPos.height;
 
-    console.log(relativePos);
+    return relativePos;
 }
 
 const slider = document.getElementById('stickers');
@@ -383,6 +389,19 @@ for (var i = 0; i < stickers.length; i++) {
                     }, false);
                 }, false);
 
+                stickerModal.addEventListener('touchstart', function(event) {
+                    initX = this.offsetLeft;
+                    initY = this.offsetTop;
+                    mousePressX = event.touches[0].pageX;
+                    mousePressY = event.touches[0].pageY;
+
+                    this.addEventListener('touchmove', touchSticker, false);
+
+                    window.addEventListener('touchend', function() {
+                        stickerModal.removeEventListener('touchmove', moveSticker, false);
+                    }, false);
+                }, false);
+
                 stickerList.appendChild(stickerModal);
 
                 event.currentTarget.classList.toggle('selected');
@@ -403,6 +422,11 @@ function moveSticker(event) {
     this.style.top = initY + event.clientY - mousePressY + 'px';
 }
 
+function touchSticker(event) {
+    event.preventDefault();
+    this.style.left = initX + event.touches[0].pageX - mousePressX + 'px';
+    this.style.top = initY + event.touches[0].pageY - mousePressY + 'px';
+}
 
 window.addEventListener('DOMContentLoaded', function() {
     var event = new Event('change');

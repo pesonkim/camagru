@@ -55,6 +55,20 @@ class PostController {
         }
     }
 
+    public function imagecopymerge_alpha($dst_im, $src_im, $dst_x, $dst_y, $src_x, $src_y, $src_w, $src_h, $pct) {
+        // creating a cut resource
+        $cut = imagecreatetruecolor($src_w, $src_h);
+    
+        // copying relevant section from background to the cut resource
+        imagecopy($cut, $dst_im, 0, 0, $dst_x, $dst_y, $src_w, $src_h);
+       
+        // copying relevant section from watermark to the cut resource
+        imagecopy($cut, $src_im, 0, 0, $src_x, $src_y, $src_w, $src_h);
+       
+        // insert cut resource to destination image
+        imagecopymerge($dst_im, $cut, $dst_x, $dst_y, 0, 0, $src_w, $src_h, $pct);
+    }
+
     //upload user image before editing
     public function uploadUserImage() {
         $dir = $this->getUserDir();
@@ -184,6 +198,18 @@ class PostController {
                     $data['errors'] = $errors;
                 }
                 else {
+                    if (isset($_POST['sticker'])) {
+                        $stickerDir = DIRPATH . '/app/assets/img/stickers/';
+                        $json = json_decode($_POST['sticker'], true);
+                        $dest = imagecreatefrompng($dir . $file);
+
+                        for ($i = 0; $i < count($json); $i++) {
+                            $src = imagecreatefrompng($stickerDir . basename(urldecode($json[$i]['src'])));
+                            $this->imagecopymerge_alpha($dest, $src, $json[$i]['left'], $json[$i]['top'], 0, 0, $json[$i]['width'], $json[$i]['height'], 100);
+                        }
+                        imagepng($dest, $dir . $file);
+                        imagedestroy($dest);
+                    }
                     $hash = bin2hex(random_bytes(12));
                     $ext = pathinfo($dir . $file, PATHINFO_EXTENSION);
                     $hash .= '.';
@@ -200,7 +226,7 @@ class PostController {
                     $data['created_at'] = date('Y-m-d H:i:s');
             
                     $this->model->createPost($data);
-        
+
                     $data['code'] = 200;
                 }
             }
