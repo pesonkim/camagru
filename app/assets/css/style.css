@@ -1039,6 +1039,8 @@ img {
     text-align: center;
     display: flex;
     justify-content: center;
+    position: relative;
+    z-index: 1;
 }
 
 .uploadMedia span {
@@ -1469,9 +1471,27 @@ img {
     border-color: #38c172;
 }
 
-.sticker1 {
+.sticker img {
+    padding: 5px;
     height: 100%;
     width: auto;
+}
+
+.sticker-modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: auto;
+    width: auto;
+}
+
+.sticker-modal img{
+    display: block;
+}
+
+.draggable {
+    cursor: move;
 }
 
 .blur {

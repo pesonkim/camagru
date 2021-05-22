@@ -12,7 +12,8 @@ if (!defined('RESTRICTED')) {
             <span id="fileName" style="display: none"></span>
             <video autoplay="true" id="videoPlayer" style="display: none"></video>
             <canvas id="canvas" height="" width="" style="display: none"></canvas>
-            <img id="preview" class="shutter" src="" alt="capture" style="display: none">
+            <img id="preview" class="shutter" src="" alt="capture" draggable="false" style="display: none">
+            <div id="stickerList"></div>
         </div>
         <form id="uploadForm" enctype="multipart/form-data" method="POST" hidden>
             <input
@@ -81,17 +82,32 @@ if (!defined('RESTRICTED')) {
             <label>Add stickers (optional)</label>
             <div id="stickers" class="rounded">
                 <div class="sticker">
-                    <img class="sticker1" src="<?=URL?>/app/assets/img/stickers/emoji2.png" alt="sticker1">
+                    <img class="sticker1" src="<?=URL?>/app/assets/img/stickers/forager.png">
                 </div>
-                <div class="sticker">2</div>
-                <div class="sticker">3</div>
-                <div class="sticker">4</div>
-                <div class="sticker">5</div>
-                <div class="sticker">6</div>
-                <div class="sticker">7</div>
-                <div class="sticker">8</div>
-                <div class="sticker">9</div>
-                <div class="sticker">10</div>
+                <div class="sticker">
+                    <img class="sticker2" src="<?=URL?>/app/assets/img/stickers/guard.png">
+                </div>
+                <div class="sticker">
+                    <img class="sticker3" src="<?=URL?>/app/assets/img/stickers/builder.png">
+                </div>
+                <div class="sticker">
+                    <img class="sticker4" src="<?=URL?>/app/assets/img/stickers/h.png">
+                </div>
+                <div class="sticker">
+                    <img class="sticker5" src="<?=URL?>/app/assets/img/stickers/i.png">
+                </div>
+                <div class="sticker">
+                    <img class="sticker6" src="<?=URL?>/app/assets/img/stickers/v.png">
+                </div>
+                <div class="sticker">
+                    <img class="sticker7" src="<?=URL?>/app/assets/img/stickers/e.png">
+                </div>
+                <div class="sticker">
+                    <img class="sticker8" src="<?=URL?>/app/assets/img/stickers/42.png">
+                </div>
+                <div class="sticker">
+                    <img class="sticker9" src="<?=URL?>/app/assets/img/stickers/0.png">
+                </div>
             </div>
             <label>Post title</label>
             <input

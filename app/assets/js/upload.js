@@ -29,6 +29,8 @@ const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
 const preview = document.getElementById('preview');
 
+const stickerList = document.getElementById('stickerList');
+
 function noEnter() {
     return !(window.event && window.event.keyCode == 13);
 }
@@ -57,9 +59,18 @@ function resetFields() {
     context.clearRect(0, 0, context.canvas.width, context.canvas.height);
     preview.src = '';
     preview.style.display = 'none';
+    preview.style.cursor = 'zoom-in';
     fileName.style.display = 'block';
     var modal = preview.parentElement.parentElement.querySelector('.post-modal-container');
     modal.querySelector('.post-modal-content').src = '';
+    while (stickerList.firstChild) {
+        stickerList.removeChild(stickerList.lastChild);
+    }
+    var toggles = (document.getElementById('stickers')).getElementsByTagName('div');
+    for (var j = 0; j < toggles.length; j++) {
+        if (toggles[j].classList.contains('selected'))
+            toggles[j].classList.toggle('selected');
+    }
     var event = new Event('change');
     uploadForm.dispatchEvent(event);
 }
@@ -173,7 +184,7 @@ function uploadImage() {
 
 preview.addEventListener('click', function(event) {
     //open lightbox
-    if (preview.src !== '') {
+    if (preview.src !== '' && menu4.style.display !== 'flex') {
         var modal = preview.parentElement.parentElement.querySelector('.post-modal-container');
         modal.querySelector('.post-modal-content').src = preview.src;
         modal.style.display = 'grid';
@@ -249,7 +260,7 @@ uploadForm.addEventListener('change', function() {
         menu1.style.display = 'none';
         menu2.style.display = 'none';
         menu3.style.display = 'flex';
-        menu4.style.display = 'none';
+        //menu4.style.display = 'none';
     }
     else {
         fileName.innerHTML = 'No file selected.'
@@ -257,7 +268,7 @@ uploadForm.addEventListener('change', function() {
         menu1.style.display = 'flex';
         menu2.style.display = 'none';
         menu3.style.display = 'none';
-        menu4.style.display = 'none';
+        //menu4.style.display = 'none';
     }
 })
 
@@ -272,6 +283,7 @@ fileCancel.addEventListener('click', function() {
 fileContinue.addEventListener('click', function() {
     menu3.style.display = 'none';
     menu4.style.display = 'flex';
+    preview.style.cursor = 'default';
 })
 
 postCancel.addEventListener('click', function() {
@@ -279,8 +291,31 @@ postCancel.addEventListener('click', function() {
 })
 
 postCreate.addEventListener('click', function() {
-    createPost();
+    //createPost();
+
+
+    //stickerList.getElementsByTagName('div')[0].querySelector('img').src;
+    var stickers = stickerList.getElementsByTagName('div');
+    for (var i = 0; i < stickers.length; i++) {
+        //console.log(stickers[i].querySelector('img');
+        console.log(stickers[i].querySelector('img').src);
+        getRelativePos(stickers[i]);
+    }
+
 })
+
+function getRelativePos(sticker) {
+    var parentPos = document.getElementById('preview').getBoundingClientRect(),
+    childPos = document.getElementById(sticker.id).getBoundingClientRect(),
+    relativePos = {};
+
+    relativePos.top = childPos.top - parentPos.top,
+    relativePos.left = childPos.left - parentPos.left,
+    relativePos.width = childPos.width,
+    relativePos.height = childPos.height;
+
+    console.log(relativePos);
+}
 
 const slider = document.getElementById('stickers');
 var isDown = false;
@@ -313,13 +348,61 @@ slider.addEventListener('mousemove', function(event) {
     slider.scrollLeft = scrollLeft - walk;
 });
 
+var initX;
+var initY;
+var mousePressX;
+var mousePressY;
+
 var stickers = document.querySelectorAll('.sticker');
 for (var i = 0; i < stickers.length; i++) {
     stickers[i].addEventListener('mouseup', function(event) {
-        if (!event.target.parentElement.classList.contains('grabbing'))
-            event.target.classList.toggle('selected');
+        //console.log(event.currentTarget.querySelector('img').src);
+        if (!event.currentTarget.parentElement.classList.contains('grabbing')) {
+            //create sticker
+            if (!event.currentTarget.classList.contains('selected')) {
+                var stickerModal = document.createElement('div');
+                stickerModal.setAttribute('class', 'sticker-modal');
+                var stickerImg = document.createElement('img');
+                stickerImg.src = event.currentTarget.querySelector('img').src;
+                stickerImg.setAttribute('class', 'draggable');
+                stickerImg.setAttribute('draggable', false);
+
+                stickerModal.setAttribute('id', event.currentTarget.querySelector('img').src);
+                stickerModal.appendChild(stickerImg);
+
+                stickerModal.addEventListener('mousedown', function(event) {
+                    initX = this.offsetLeft;
+                    initY = this.offsetTop;
+                    mousePressX = event.clientX;
+                    mousePressY = event.clientY;
+
+                    this.addEventListener('mousemove', moveSticker, false);
+
+                    window.addEventListener('mouseup', function() {
+                        stickerModal.removeEventListener('mousemove', moveSticker, false);
+                    }, false);
+                }, false);
+
+                stickerList.appendChild(stickerModal);
+
+                event.currentTarget.classList.toggle('selected');
+            }
+            //delete sticker
+            else {
+                var stickerModal = document.getElementById(event.currentTarget.querySelector('img').src);
+                stickerList.removeChild(stickerModal);
+
+                event.currentTarget.classList.toggle('selected');
+            }
+        }
     });
 }
+
+function moveSticker(event) {
+    this.style.left = initX + event.clientX - mousePressX + 'px';
+    this.style.top = initY + event.clientY - mousePressY + 'px';
+}
+
 
 window.addEventListener('DOMContentLoaded', function() {
     var event = new Event('change');
