@@ -309,7 +309,7 @@ postCreate.addEventListener('click', function() {
 
 function getRelativePos(sticker) {
     var parentPos = document.getElementById('preview').getBoundingClientRect(),
-    childPos = document.getElementById(sticker.id).getBoundingClientRect(),
+    childPos = document.getElementById(sticker.id).querySelector('img').getBoundingClientRect(),
     relativePos = {};
 
     relativePos['src'] = encodeURIComponent(sticker.querySelector('img').src);
@@ -317,8 +317,7 @@ function getRelativePos(sticker) {
     relativePos['top'] = childPos.top - parentPos.top;
     relativePos['width'] = childPos.width;
     relativePos['height'] = childPos.height;
-    relativePos['editwidth'] = parentPos.width;
-    relativePos['editheight'] = parentPos.height;
+    relativePos['scale'] = document.getElementById('preview').naturalWidth / document.getElementById('preview').width;
 
     return relativePos;
 }

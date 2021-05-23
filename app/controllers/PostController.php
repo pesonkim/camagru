@@ -198,22 +198,76 @@ class PostController {
                     $data['errors'] = $errors;
                 }
                 else {
-                    if (isset($_POST['sticker'])) {
-                        $stickerDir = DIRPATH . '/app/assets/img/stickers/';
-                        $json = json_decode($_POST['sticker'], true);
-                        $dest = imagecreatefrompng($dir . $file);
-
-                        for ($i = 0; $i < count($json); $i++) {
-                            $src = imagecreatefrompng($stickerDir . basename(urldecode($json[$i]['src'])));
-                            $this->imagecopymerge_alpha($dest, $src, $json[$i]['left'], $json[$i]['top'], 0, 0, $json[$i]['width'], $json[$i]['height'], 100);
-                        }
-                        imagepng($dest, $dir . $file);
-                        imagedestroy($dest);
-                    }
                     $hash = bin2hex(random_bytes(12));
                     $ext = pathinfo($dir . $file, PATHINFO_EXTENSION);
                     $hash .= '.';
                     $hash .= $ext;
+
+                    if (isset($_POST['sticker'])) {
+                        switch ($ext) {
+                            case "jpg":
+                            case "jpeg": {
+                                $dest = imagecreatefromjpeg($dir . $file);
+                                $stickerDir = DIRPATH . '/app/assets/img/stickers/';
+                                $json = json_decode($_POST['sticker'], true);    
+        
+                                for ($i = 0; $i < count($json); $i++) {
+                                    $src = imagecreatefrompng($stickerDir . basename(urldecode($json[$i]['src'])));
+                                    $scale = $json[$i]['scale'];
+                                    $top = $scale*$json[$i]['top'];
+                                    $left = $scale*$json[$i]['left'];
+                                    $width = $scale*$json[$i]['width'];
+                                    $height = $scale*$json[$i]['height'];
+                                    $src = imagescale($src, $width, $height);
+                                    $this->imagecopymerge_alpha($dest, $src, $left, $top, 0, 0, $width, $height, 100);
+                                }
+
+                                imagejpeg($dest, $dir . $file);
+                                imagedestroy($dest);
+                                break ;
+                            }
+                            case "png": {
+                                $dest = imagecreatefrompng($dir . $file);
+                                $stickerDir = DIRPATH . '/app/assets/img/stickers/';
+                                $json = json_decode($_POST['sticker'], true);    
+        
+                                for ($i = 0; $i < count($json); $i++) {
+                                    $src = imagecreatefrompng($stickerDir . basename(urldecode($json[$i]['src'])));
+                                    $scale = $json[$i]['scale'];
+                                    $top = $scale*$json[$i]['top'];
+                                    $left = $scale*$json[$i]['left'];
+                                    $width = $scale*$json[$i]['width'];
+                                    $height = $scale*$json[$i]['height'];
+                                    $src = imagescale($src, $width, $height);
+                                    $this->imagecopymerge_alpha($dest, $src, $left, $top, 0, 0, $width, $height, 100);
+                                }
+
+                                imagepng($dest, $dir . $file);
+                                imagedestroy($dest);
+                                break ;
+                            }
+                            case "gif": {
+                                $dest = $dir . $file;
+                                $stickerDir = 'app/assets/img/stickers/';
+                                $json = json_decode($_POST['sticker'], true);    
+
+                                for ($i = 0; $i < count($json); $i++) {
+                                    $src = $stickerDir . basename(urldecode($json[$i]['src']));
+                                    $scale = $json[$i]['scale'];
+                                    $top = $scale*$json[$i]['top'];
+                                    $left = $scale*$json[$i]['left'];
+                                    $width = $scale*$json[$i]['width'];
+                                    $height = $scale*$json[$i]['height'];
+
+                                    $cmd = " $dest -coalesce -gravity NorthWest ". 
+                                    " -geometry +$left+$top null: $src -layers composite "; 
+                                    
+                                    exec("convert $cmd $dest ");
+                                }
+                                break ;
+                            }
+                        }
+                    }
 
                     rename($dir . $file, $dir . $hash);
                     
