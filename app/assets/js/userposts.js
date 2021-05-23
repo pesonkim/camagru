@@ -129,6 +129,11 @@ function createComment(id, body, list) {
             const json = JSON.parse(request.responseText);
             //console.log(json);
 
+            if (json.error) {
+                flash('Unauthorized','The request was unauthorized', 'index.php?login=false');
+                return ;
+            }
+
             var entry = document.createElement('div');
             var authorDate = document.createElement('div');
             var author = document.createElement('span');
@@ -460,6 +465,18 @@ function drawPost(postData) {
 function likePost(id) {
     //console.log(id);
     const request = new XMLHttpRequest();
+
+    request.onreadystatechange = function() {
+        if (request.readyState == 4) {
+            //console.log(request.responseText);
+            const json = JSON.parse(request.responseText);
+            //console.log(json);
+            if (json.error) {
+                flash('Unauthorized','The request was unauthorized', 'index.php?login=false');
+                return ;
+            }
+        }
+    }
 
     const requestData = 'action=likePost&id='+id;
 

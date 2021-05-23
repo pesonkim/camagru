@@ -84,8 +84,8 @@ class PostController {
                 if (!in_array($ext, $allowed))
                     $errors['format'] = 'Uploaded file is not an image.';
                 //check filesize limit
-                else if ($_FILES['fileAjax']['size'] > 4*MB)
-                    $errors['size'] = 'Size limit for uploads is 4MB.';
+                else if ($_FILES['fileAjax']['size'] > 5*MB)
+                    $errors['size'] = 'Size limit for uploads is 5MB.';
                 //error check
                 if (!empty($errors)) {
                     $data['code'] = 400;
@@ -157,20 +157,13 @@ class PostController {
     public function cancelUpload() {
         $dir = $this->getUserDir();
         $file = basename($_POST['file']);
-        $data = array();
 
         if ($this->isAjax()) {
             if (($dir && $file) && (isset($_POST["action"]) && $_POST["action"] === "cancelUpload")) {
                 if (file_exists($dir . $file)) {
                     unlink($dir . $file);
-                    $data['status'] = 'unlinked';
-                }
-                else {
-                    $data['status'] = 'nope';
-                }      
+                }  
             }
-
-            echo json_encode($data);
             exit ;
         }
         else {
@@ -327,6 +320,10 @@ class PostController {
                     $this->model->deletePostComments($data);
                     $this->model->deletePost($data);
             }
+            else {
+                $data['error'] = 400;
+            }
+            echo json_encode($data);
             exit ;
         }
         else {
@@ -416,6 +413,10 @@ class PostController {
                     $this->model->createLike($data);
                 }
             }
+            else {
+                $data['error'] = 400;
+            }
+            echo json_encode($data);
             exit ;
         }
         else {
@@ -440,9 +441,11 @@ class PostController {
 
                 $data['author'] = $this->model->getAuthorById($data['id_user']);
                 $data['notif'] = $this->emailNotif($data);
-
-                echo json_encode($data);
             }
+            else {
+                $data['error'] = 400;
+            }
+            echo json_encode($data);
             exit ;
         }
         else {

@@ -82,31 +82,31 @@ if (!defined('RESTRICTED')) {
             <label>Add stickers (optional)</label>
             <div id="stickers" class="rounded">
                 <div class="sticker">
-                    <img class="sticker1" src="<?=URL?>/app/assets/img/stickers/forager.png">
+                    <img src="<?=URL?>/app/assets/img/stickers/forager.png">
                 </div>
                 <div class="sticker">
-                    <img class="sticker2" src="<?=URL?>/app/assets/img/stickers/guard.png">
+                    <img src="<?=URL?>/app/assets/img/stickers/guard.png">
                 </div>
                 <div class="sticker">
-                    <img class="sticker3" src="<?=URL?>/app/assets/img/stickers/builder.png">
+                    <img src="<?=URL?>/app/assets/img/stickers/builder.png">
                 </div>
                 <div class="sticker">
-                    <img class="sticker4" src="<?=URL?>/app/assets/img/stickers/h.png">
+                    <img src="<?=URL?>/app/assets/img/stickers/h.png">
                 </div>
                 <div class="sticker">
-                    <img class="sticker5" src="<?=URL?>/app/assets/img/stickers/i.png">
+                    <img src="<?=URL?>/app/assets/img/stickers/i.png">
                 </div>
                 <div class="sticker">
-                    <img class="sticker6" src="<?=URL?>/app/assets/img/stickers/v.png">
+                    <img src="<?=URL?>/app/assets/img/stickers/v.png">
                 </div>
                 <div class="sticker">
-                    <img class="sticker7" src="<?=URL?>/app/assets/img/stickers/e.png">
+                    <img src="<?=URL?>/app/assets/img/stickers/e.png">
                 </div>
                 <div class="sticker">
-                    <img class="sticker8" src="<?=URL?>/app/assets/img/stickers/42.png">
+                    <img src="<?=URL?>/app/assets/img/stickers/42.png">
                 </div>
                 <div class="sticker">
-                    <img class="sticker9" src="<?=URL?>/app/assets/img/stickers/0.png">
+                    <img src="<?=URL?>/app/assets/img/stickers/0.png">
                 </div>
             </div>
             <label>Post title</label>

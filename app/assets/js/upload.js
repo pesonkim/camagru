@@ -83,9 +83,9 @@ function createPost() {
 
     request.onreadystatechange = function() {
         if (request.readyState == 4) {
-            console.log(request.responseText);
+            //console.log(request.responseText);
             const json = JSON.parse(request.responseText);
-            console.log(json);
+            //console.log(json);
             if (json.code == 200) {
                 flash('Success','Your post was created.', 'index.php?page=upload');
             }
@@ -109,7 +109,7 @@ function createPost() {
             sticker[i] = getRelativePos(stickers[i]);
         }
         sticker = JSON.stringify(sticker);
-        console.log(sticker);
+        //console.log(sticker);
         var requestData = 'action=createPost&file='+file+'&title='+encodeURIComponent(title)+'&sticker='+sticker;
     }
     else
@@ -125,13 +125,6 @@ function createPost() {
 function cancelUpload() {
     const request = new XMLHttpRequest();
     const file = uploadFile;
-
-    request.onreadystatechange = function() {
-        if (request.readyState == 4) {
-            const json = JSON.parse(request.responseText);
-            //console.log(json);
-        }
-    }
 
     const requestData = 'action=cancelUpload&file='+file;
 
@@ -167,7 +160,7 @@ function uploadImage() {
                 if (json.errors.format)
                     flash('Oops','Uploaded file is not an image.');
                 else if (json.errors.size)
-                    flash('Oops','Size limit for uploads is 4MB.');
+                    flash('Oops','Size limit for uploads is 5MB.');
                 resetFields();
             }
             if (json.code == 500) {
@@ -375,26 +368,26 @@ for (var i = 0; i < stickers.length; i++) {
                 stickerModal.setAttribute('id', event.currentTarget.querySelector('img').src);
                 stickerModal.appendChild(stickerImg);
 
-                stickerModal.addEventListener('mousedown', function(event) {
-                    initX = this.offsetLeft;
-                    initY = this.offsetTop;
+                stickerModal.querySelector('img').addEventListener('mousedown', function(event) {
+                    initX = this.parentElement.offsetLeft;
+                    initY = this.parentElement.offsetTop;
                     mousePressX = event.clientX;
                     mousePressY = event.clientY;
 
-                    this.addEventListener('mousemove', moveSticker, false);
+                    this.parentElement.addEventListener('mousemove', moveSticker, false);
 
                     window.addEventListener('mouseup', function() {
                         stickerModal.removeEventListener('mousemove', moveSticker, false);
                     }, false);
                 }, false);
 
-                stickerModal.addEventListener('touchstart', function(event) {
-                    initX = this.offsetLeft;
-                    initY = this.offsetTop;
+                stickerModal.querySelector('img').addEventListener('touchstart', function(event) {
+                    initX = this.parentElement.offsetLeft;
+                    initY = this.parentElement.offsetTop;
                     mousePressX = event.touches[0].pageX;
                     mousePressY = event.touches[0].pageY;
 
-                    this.addEventListener('touchmove', touchSticker, false);
+                    this.parentElement.addEventListener('touchmove', touchSticker, false);
 
                     window.addEventListener('touchend', function() {
                         stickerModal.removeEventListener('touchmove', moveSticker, false);
@@ -436,6 +429,18 @@ window.addEventListener('DOMContentLoaded', function() {
 function deletePost(id) {
     //console.log(id);
     const request = new XMLHttpRequest();
+
+    request.onreadystatechange = function() {
+        if (request.readyState == 4) {
+            //console.log(request.responseText);
+            const json = JSON.parse(request.responseText);
+            //console.log(json);
+            if (json.error) {
+                flash('Unauthorized','The request was unauthorized', 'index.php?login=false');
+                return ;
+            }
+        }
+    }
 
     const requestData = 'action=deletePost&id='+id;
 
