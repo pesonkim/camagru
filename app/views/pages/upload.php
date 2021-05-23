@@ -108,6 +108,25 @@ if (!defined('RESTRICTED')) {
                 <div class="sticker">
                     <img src="<?=URL?>/app/assets/img/stickers/0.png">
                 </div>
+
+                <div class="sticker">
+                    <img src="<?=URL?>/app/assets/img/stickers/100.png">
+                </div>
+                <div class="sticker">
+                    <img src="<?=URL?>/app/assets/img/stickers/thumb.png">
+                </div>
+                <div class="sticker">
+                    <img src="<?=URL?>/app/assets/img/stickers/smile.png">
+                </div>
+                <div class="sticker">
+                    <img src="<?=URL?>/app/assets/img/stickers/joy.png">
+                </div>
+                <div class="sticker">
+                    <img src="<?=URL?>/app/assets/img/stickers/sun.png">
+                </div>
+                <div class="sticker">
+                    <img src="<?=URL?>/app/assets/img/stickers/heart.png">
+                </div>
             </div>
             <label>Post title</label>
             <input

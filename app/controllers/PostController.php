@@ -23,7 +23,7 @@ class PostController {
             $uploadDir = DIRPATH . '/app/assets/img/uploads/';
             $userDir = $uploadDir . $_SESSION['id_user'] . '/';
             if (!file_exists($userDir) && !is_dir($userDir)) {
-                mkdir($userDir);
+                mkdir($userDir, 0777, true);
             }
             return $userDir;
         }
@@ -81,7 +81,7 @@ class PostController {
             (isset($_POST["action"]) && $_POST["action"] === "uploadImage")) {
                 //check file extension for images
                 $ext = pathinfo($_FILES['fileAjax']['name'], PATHINFO_EXTENSION);
-                if (!in_array($ext, $allowed))
+                if (!in_array($ext, $allowed) || !exif_imagetype($_FILES['fileAjax']['tmp_name']))
                     $errors['format'] = 'Uploaded file is not an image.';
                 //check filesize limit
                 else if ($_FILES['fileAjax']['size'] > 5*MB)
