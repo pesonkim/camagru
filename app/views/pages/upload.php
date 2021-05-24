@@ -12,7 +12,7 @@ if (!defined('RESTRICTED')) {
             <span id="fileName" style="display: none"></span>
             <video autoplay="true" id="videoPlayer" style="display: none"></video>
             <canvas id="canvas" height="" width="" style="display: none"></canvas>
-            <img id="preview" class="shutter" src="" alt="capture" draggable="false" style="display: none">
+            <img id="preview" class="shutter" src="" alt="capture" draggable="false" ondragstart="return false;" style="display: none">
             <div id="stickerList"></div>
         </div>
         <form id="uploadForm" enctype="multipart/form-data" method="POST" hidden>
@@ -82,50 +82,49 @@ if (!defined('RESTRICTED')) {
             <label>Add stickers (optional)</label>
             <div id="stickers" class="rounded">
                 <div class="sticker">
-                    <img src="<?=URL?>/app/assets/img/stickers/forager.png">
+                    <img draggable="false" ondragstart="return false;" src="<?=URL?>/app/assets/img/stickers/forager.png">
                 </div>
                 <div class="sticker">
-                    <img src="<?=URL?>/app/assets/img/stickers/guard.png">
+                    <img draggable="false" ondragstart="return false;" src="<?=URL?>/app/assets/img/stickers/guard.png">
                 </div>
                 <div class="sticker">
-                    <img src="<?=URL?>/app/assets/img/stickers/builder.png">
+                    <img draggable="false" ondragstart="return false;" src="<?=URL?>/app/assets/img/stickers/builder.png">
                 </div>
                 <div class="sticker">
-                    <img src="<?=URL?>/app/assets/img/stickers/h.png">
+                    <img draggable="false" ondragstart="return false;" src="<?=URL?>/app/assets/img/stickers/h.png">
                 </div>
                 <div class="sticker">
-                    <img src="<?=URL?>/app/assets/img/stickers/i.png">
+                    <img draggable="false" ondragstart="return false;" src="<?=URL?>/app/assets/img/stickers/i.png">
                 </div>
                 <div class="sticker">
-                    <img src="<?=URL?>/app/assets/img/stickers/v.png">
+                    <img draggable="false" ondragstart="return false;" src="<?=URL?>/app/assets/img/stickers/v.png">
                 </div>
                 <div class="sticker">
-                    <img src="<?=URL?>/app/assets/img/stickers/e.png">
+                    <img draggable="false" ondragstart="return false;" src="<?=URL?>/app/assets/img/stickers/e.png">
                 </div>
                 <div class="sticker">
-                    <img src="<?=URL?>/app/assets/img/stickers/42.png">
+                    <img draggable="false" ondragstart="return false;" src="<?=URL?>/app/assets/img/stickers/42.png">
                 </div>
                 <div class="sticker">
-                    <img src="<?=URL?>/app/assets/img/stickers/0.png">
-                </div>
-
-                <div class="sticker">
-                    <img src="<?=URL?>/app/assets/img/stickers/100.png">
+                    <img draggable="false" ondragstart="return false;" src="<?=URL?>/app/assets/img/stickers/0.png">
                 </div>
                 <div class="sticker">
-                    <img src="<?=URL?>/app/assets/img/stickers/thumb.png">
+                    <img draggable="false" ondragstart="return false;" src="<?=URL?>/app/assets/img/stickers/100.png">
                 </div>
                 <div class="sticker">
-                    <img src="<?=URL?>/app/assets/img/stickers/smile.png">
+                    <img draggable="false" ondragstart="return false;" src="<?=URL?>/app/assets/img/stickers/thumb.png">
                 </div>
                 <div class="sticker">
-                    <img src="<?=URL?>/app/assets/img/stickers/joy.png">
+                    <img draggable="false" ondragstart="return false;" src="<?=URL?>/app/assets/img/stickers/smile.png">
                 </div>
                 <div class="sticker">
-                    <img src="<?=URL?>/app/assets/img/stickers/sun.png">
+                    <img draggable="false" ondragstart="return false;" src="<?=URL?>/app/assets/img/stickers/joy.png">
                 </div>
                 <div class="sticker">
-                    <img src="<?=URL?>/app/assets/img/stickers/heart.png">
+                    <img draggable="false" ondragstart="return false;" src="<?=URL?>/app/assets/img/stickers/sun.png">
+                </div>
+                <div class="sticker">
+                    <img draggable="false" ondragstart="return false;" src="<?=URL?>/app/assets/img/stickers/heart.png">
                 </div>
             </div>
             <label>Post title</label>

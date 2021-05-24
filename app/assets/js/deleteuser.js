@@ -140,6 +140,12 @@ function deleteUserPosts() {
 function deleteUserData() {
     const request = new XMLHttpRequest();
 
+    request.onreadystatechange = function() {
+        if (request.readyState == 4) {
+            window.location = 'index.php?delete=success';
+        }
+    }
+
     const requestData = 'action=deleteUserData'
 
     request.open('post', 'index.php?UserController&method=deleteUserData');
@@ -160,7 +166,6 @@ confirmDelete.addEventListener('click', function() {
     }, 200);
     deleteUserPosts();
     deleteUserData();
-    flash('Account deleted','All data related to your account has been deleted', 'index.php?delete=success');
 });
 
 closeConf.addEventListener('click', function() {

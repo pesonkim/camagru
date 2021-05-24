@@ -364,6 +364,7 @@ for (var i = 0; i < stickers.length; i++) {
                 stickerImg.src = event.currentTarget.querySelector('img').src;
                 stickerImg.setAttribute('class', 'draggable');
                 stickerImg.setAttribute('draggable', false);
+                stickerImg.setAttribute('ondragstart', 'return false;');
 
                 stickerModal.setAttribute('id', event.currentTarget.querySelector('img').src);
                 stickerModal.appendChild(stickerImg);
