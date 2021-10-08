@@ -2,6 +2,10 @@
 
 Instagram-like image sharing app - a web branch project and my first full stack web app for [Hive Helsinki](https://www.hive.fi/en/) coding school.
 
+<p align="center">
+  <img src="https://github.com/pesonkim/camagru/blob/master/app/assets/img/Screen%20Shot%202021-10-08%20at%205.55.39%20PM.png">
+</p>
+
 ## Task
 
 The aim of this project was to build a **Instagram-like web app**, where the users can create their profile, browse through a list of recommended profiles or conduct a search by age, distance, fame rating, commong tags. Users can like, report and block other users and chat with users that liked them back.
@@ -17,10 +21,6 @@ The aim of this project was to build an **Instagram-like web app**, that allows 
 - No security breaches (e.g. no SQL, HTML injections, plain passwords in the database)
 - Compatible at least with Firefox (>=41) and Chrome (>= 46)
 - Responsive design
-
-<p align="center">
-  <img src="https://github.com/pesonkim/camagru/blob/master/app/assets/img/Screen%20Shot%202021-10-08%20at%205.55.39%20PM.png">
-</p>
 
 ## Stack
 
@@ -55,3 +55,11 @@ Backend:
 * Editing features:
 	* Create custom images using webcam or upladed images and combine them with various stickers.
 	* Live preview of the edited result, directly on the webcam preview.
+
+## Run locally
+* Download and install a local webserver, e.g. MAMP from [bitnami](https://bitnami.com/stack/mamp)
+* Make sure you can send email from your terminal
+* Git clone the repository inside document root folder of your server, e.g. `htdocs` in Apache
+* Update `config/database.php` to match your database credentials
+* Run `php config/setup.php` to create the database
+* Open http://localhost/folder_name in your preferred browser
