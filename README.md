@@ -8,8 +8,6 @@ Instagram-like image sharing app - a web branch project and my first full stack 
 
 ## Task
 
-The aim of this project was to build a **Instagram-like web app**, where the users can create their profile, browse through a list of recommended profiles or conduct a search by age, distance, fame rating, commong tags. Users can like, report and block other users and chat with users that liked them back.
-
 The aim of this project was to build an **Instagram-like web app**, that allows to make basic photo editing using webcam captures or uploaded images and predefined 'sticker' images, that are superimposed on top of the original files, creating a final image that mixes both.
 
 **Project constraints:**
